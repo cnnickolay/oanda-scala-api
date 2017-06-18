@@ -7,7 +7,7 @@ import scala.collection.JavaConverters._
 
 object ApiModelGenerator extends App {
 
-  case class JsonObjectField(description: String, name: String, `type`: String)
+  case class JsonObjectField(description: String = "", name: String = "", `type`: String = "", default: String = "")
 
   val client = new WebClient()
   client.getOptions.setJavaScriptEnabled(false)
@@ -19,7 +19,7 @@ object ApiModelGenerator extends App {
   val definitionBody = apiSection.getByXPath[HtmlDivision](".//div[contains(@class, 'definition_body')]").asScala.toList
 
   (endpointHeaders, definitionBody).zipped.map { case (headerElt, definitionElt) =>
-//    println(header)
+    //    println(header)
 
     val title = headerElt.getFirstByXPath[HtmlSpan](".//span[@class='method']").asText()
     val definition = headerElt.getFirstByXPath[HtmlSpan](".//span[@class='definition']").asText()
@@ -32,15 +32,46 @@ object ApiModelGenerator extends App {
     (parameterTableOption, jsonSchemaOption) match {
       case (Some(parameterTableElt), None) =>
         val parameterTable = parameterTableElt.asXml()
-        parameterTable.lines.toList.init.tail
-        println(parameterTable)
-
-      case (None, Some(jsonSchema)) => println(jsonSchema.asXml())
+        parameterTable.lines.toList //.init.tail
+      //        println(parameterTable)
+      case (None, Some(jsonSchemaElt)) => parseJsonElementField(jsonSchemaElt.asXml())
       case _ => throw new RuntimeException("woiejfaiuerhf")
     }
 
     println("-------------")
   }
 
+  def parseJsonElementField(jsonElement: String): Seq[JsonObjectField] = {
+    val simpleTypeRegex = """^(\w+) : \((\w+), default=(\w+)\),$""".r
+
+    def augmentField: (String, JsonObjectField) => JsonObjectField = {
+      case (line, field) if line == "#" => field
+      case (line, field) if line.startsWith("#") => field.copy(field.description + " " + line.drop(2))
+      case (simpleTypeRegex(fieldName, fieldType, defaultValue), field) => field.copy(name = fieldName, `type` = fieldType, default = defaultValue)
+      case (_, field) => field
+    }
+
+    def initializeField: (Seq[JsonObjectField], String) => Seq[JsonObjectField] = {
+      case (Nil, line) => Seq(augmentField(line, JsonObjectField()))
+      case (fields @ head +: tail, line) if line.endsWith(",") => JsonObjectField() +: augmentField(line, head) +: tail
+      case (fields @ head +: tail, line) => augmentField(line, head) +: tail
+    }
+
+    def normalizeLines: (Seq[String], String) => Seq[String] = {
+      case (Seq(), line) => Seq(line)
+      case (head +: tail, line) if line.endsWith(">") => (head + line)
+    }
+
+    val lines = jsonElement.lines.toList
+      .map(_.trim)
+      .filterNot { line =>
+        line.isEmpty || line.startsWith("{") || line.startsWith("}")
+      }.init.tail
+      .foleLeft(Seq.empty[String]) { ()}
+      .foldLeft(Seq.empty[JsonObjectField]) (initializeField)
+    lines.foreach(println)
+
+    lines
+  }
 
 }
