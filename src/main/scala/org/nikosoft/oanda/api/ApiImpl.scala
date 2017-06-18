@@ -6,6 +6,7 @@ import org.apache.http.client.fluent.Request
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.read
+import org.nikosoft.oanda.api.ApiModel.AccountCall.ClientExtension
 import org.nikosoft.oanda.api.ApiModel.CandlesCall.CandlesResponse
 
 import scala.util.{Failure, Success, Try}
@@ -75,4 +76,5 @@ object ApiImpl extends Api {
     read[CandlesResponse](content.toString)
   }
 
+  override def openMarketOrder(accountID: String, instrument: String, units: Double, timeInForce: String, priceBound: Double, positionFill: String, clientExtensions: Option[ClientExtension], takeProfitOnFill: TakeProfitDetails, stopLossOnFill: StopLossDetails, trailingStopLossOnFill: TrailingStopLossDetails, tradeClientExtensions: Option[ClientExtension]): Unit = ???
 }
