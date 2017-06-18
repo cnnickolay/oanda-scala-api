@@ -62,10 +62,10 @@ object ApiModelGenerator extends App {
     }
 
     def normalizeLines: (Seq[String], String) => Seq[String] = {
-      case (normalizedLines, "#") => normalizedLines
+      case (_normalized, "#") => _normalized
       case (head +: tail, line) if head.startsWith("#") && line.startsWith("#") => (head + line.drop(1)) +: tail
       case (head +: tail, line) if line.endsWith(">") || head.endsWith(">") => (head + line) +: tail
-      case (normalizedLines, line) => line +: normalizedLines
+      case (_normalized, line) => line +: _normalized
     }
 
     val normalizedLines = jsonElement.lines.toList
