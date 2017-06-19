@@ -1,19 +1,23 @@
 package org.nikosoft.oanda.api.generator
 
 object ApiModelGeneratorParsers {
-  case class JsonObjectField(description: String = "", name: String = "", `type`: String = "", default: Option[String] = None)
+  case class JsonObjectField(description: String = "", name: String = "", `type`: String = "", array: Boolean = false, default: Option[String] = None)
   case class ParameterTable(headerLeft: String = "", headerRight: String = "", values: Map[String, String] = Map.empty)
 
   def parseJsonElementField(jsonElement: String): Seq[JsonObjectField] = {
     val simpleTypeWithDefaultRegex = """^(\w+) : \((\w+), default=(\w+)\),?$""".r
     val simpleTypeRegex = """^(\w+) : \((\w+)\),?$""".r
+    val arrayTypeRegex = """^(\w+) : \(Array.*>(\w+)<.*\),?$""".r
     val complexTypeRegex = """^(\w+) : \(.*>(\w+)<.*\),?$""".r
+
+//    println(jsonElement)
 
     def augmentField: (String, JsonObjectField) => JsonObjectField = {
       case (line, field) if line == "#" => field
       case (line, field) if line.startsWith("#") => field.copy(description = (field.description + " " + line.drop(2)).trim)
       case (simpleTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType)
       case (simpleTypeWithDefaultRegex(fieldName, fieldType, defaultValue), field) => field.copy(name = fieldName, `type` = fieldType, default = Option(defaultValue))
+      case (arrayTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType, array = true)
       case (complexTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType)
       case (_, field) => field
     }
