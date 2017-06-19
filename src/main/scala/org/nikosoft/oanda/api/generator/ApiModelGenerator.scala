@@ -7,7 +7,7 @@ import scala.collection.JavaConverters._
 
 object ApiModelGenerator {
 
-  def generateScalaModel(): Unit = {
+  def generateScalaModel(): String = {
     val client = new WebClient()
     client.getOptions.setJavaScriptEnabled(false)
     val htmlPage = client.getPage[HtmlPage]("http://developer.oanda.com/rest-live-v20/transaction-df/")
@@ -24,22 +24,17 @@ object ApiModelGenerator {
       val definition = headerElt.getFirstByXPath[HtmlSpan](".//span[@class='definition']").asText()
 
       val parameterTableOption = Option(definitionElt.getFirstByXPath[HtmlElement]("./table[@class='parameter_table']"))
-      val jsonSchemaOption = Option(definitionElt.getFirstByXPath[HtmlElement]("./pre[@class='json_schema']"))
 
-      println(title)
-      println(definition)
-      (parameterTableOption, jsonSchemaOption) match {
-        case (Some(parameterTableElt), None) =>
-          val parameterTable = parameterTableElt.asXml()
-          println(parameterTable)
-        case (None, Some(jsonSchemaElt)) =>
-          val jsonFields = ApiModelGeneratorParsers.parseJsonElementField(jsonSchemaElt.asXml())
-        //        jsonFields.foreach(println)
-        case _ => throw new RuntimeException("woiejfaiuerhf")
-      }
+      val generatedJsonSchema = Option(definitionElt.getFirstByXPath[HtmlElement]("./pre[@class='json_schema']"))
+        .fold("") (elt => {
+          s"""
+             |// $definition
+             |case class $title()
+           """.stripMargin
+        })
 
-      println("-------------")
-    }
+      generatedJsonSchema
+    }.mkString("\n")
   }
 
 }
