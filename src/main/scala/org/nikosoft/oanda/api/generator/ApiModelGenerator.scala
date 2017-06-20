@@ -94,6 +94,10 @@ object ApiModelGenerator {
          | * $description$formatValue$exampleValue
          | */
          |case class $typeValue(value: ${predefinedClasses(parameterTable.headerRight)}) extends AnyVal""".stripMargin
+    case unknown => throw new RuntimeException(
+      s"""Unknown basic type $unknown
+         |ParameterTable: $parameterTable
+       """.stripMargin)
   }
 
 }

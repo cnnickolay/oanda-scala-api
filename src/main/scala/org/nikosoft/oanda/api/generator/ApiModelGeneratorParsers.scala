@@ -51,6 +51,9 @@ object ApiModelGeneratorParsers {
   }
 
   def parseParameterTable(text: String): ParameterTable = {
+    println(text.lines.toList.take(20).map(_.trim)
+      .filterNot(line => line.startsWith("<") || line.isEmpty))
+
     val grouped = text.lines.toList
       .map(_.trim)
       .filterNot(line => line.startsWith("<") || line.isEmpty)
