@@ -18,7 +18,7 @@ object RequestGenerator {
     val paths = page.getByXPath[HtmlElement]("//div[contains(@class, 'endpoint_header')]//span[contains(@class, 'path')]").asScala.toList.map(_.asXml())
     val bodies = page.getByXPath[HtmlElement]("//div[contains(@class, 'endpoint_body')]").asScala.toList
 
-    bodies.foreach(println)
+    paths.foreach(println)
   }
 
 }
