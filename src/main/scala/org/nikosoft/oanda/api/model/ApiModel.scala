@@ -31,12 +31,50 @@ import ApiModel.TransactionModel.TransactionType.TransactionType
 import ApiModel.TransactionModel._
 
 object ApiModel {
+
   object TransactionModel {
-  
+
+    def transactionMappings = List(
+      ("CREATE", classOf[CreateTransaction]),
+      ("CLOSE", classOf[CloseTransaction]),
+      ("REOPEN", classOf[ReopenTransaction]),
+      ("CLIENT_CONFIGURE", classOf[ClientConfigureTransaction]),
+      ("CLIENT_CONFIGURE_REJECT", classOf[ClientConfigureRejectTransaction]),
+      ("TRANSFER_FUNDS", classOf[TransferFundsTransaction]),
+      ("TRANSFER_FUNDS_REJECT", classOf[TransferFundsRejectTransaction]),
+      ("MARKET_ORDER", classOf[MarketOrderTransaction]),
+      ("MARKET_ORDER_REJECT", classOf[MarketOrderRejectTransaction]),
+      ("LIMIT_ORDER", classOf[LimitOrderTransaction]),
+      ("LIMIT_ORDER_REJECT", classOf[LimitOrderRejectTransaction]),
+      ("STOP_ORDER", classOf[StopOrderTransaction]),
+      ("STOP_ORDER_REJECT", classOf[StopOrderRejectTransaction]),
+      ("MARKET_IF_TOUCHED_ORDER", classOf[MarketIfTouchedOrderTransaction]),
+      ("MARKET_IF_TOUCHED_ORDER_REJECT", classOf[MarketIfTouchedOrderRejectTransaction]),
+      ("TAKE_PROFIT_ORDER", classOf[TakeProfitOrderTransaction]),
+      ("TAKE_PROFIT_ORDER_REJECT", classOf[TakeProfitOrderRejectTransaction]),
+      ("STOP_LOSS_ORDER", classOf[StopLossOrderTransaction]),
+      ("STOP_LOSS_ORDER_REJECT", classOf[StopLossOrderRejectTransaction]),
+      ("TRAILING_STOP_LOSS_ORDER", classOf[TrailingStopLossOrderTransaction]),
+      ("TRAILING_STOP_LOSS_ORDER_REJECT", classOf[TrailingStopLossOrderRejectTransaction]),
+      ("ORDER_FILL", classOf[OrderFillTransaction]),
+      ("ORDER_CANCEL", classOf[OrderCancelTransaction]),
+      ("ORDER_CANCEL_REJECT", classOf[OrderCancelRejectTransaction]),
+      ("ORDER_CLIENT_EXTENSIONS_MODIFY", classOf[OrderClientExtensionsModifyTransaction]),
+      ("ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT", classOf[OrderClientExtensionsModifyRejectTransaction]),
+      ("TRADE_CLIENT_EXTENSIONS_MODIFY", classOf[TradeClientExtensionsModifyTransaction]),
+      ("TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT", classOf[TradeClientExtensionsModifyRejectTransaction]),
+      ("MARGIN_CALL_ENTER", classOf[MarginCallEnterTransaction]),
+      ("MARGIN_CALL_EXTEND", classOf[MarginCallExtendTransaction]),
+      ("MARGIN_CALL_EXIT", classOf[MarginCallExitTransaction]),
+      ("DELAYED_TRADE_CLOSURE", classOf[DelayedTradeClosureTransaction]),
+      ("DAILY_FINANCING", classOf[DailyFinancingTransaction]),
+      ("RESET_RESETTABLE_PL", classOf[ResetResettablePLTransaction])
+    )
+
     /**
      * The base Transaction specification. Specifies properties that are common between all Transaction.
      */
-    case class Transaction(
+    abstract class Transaction(
       /** The Transaction’s Identifier. */
       id: TransactionID,
       /** The date/time when the Transaction was created. */
@@ -45,7 +83,7 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID
@@ -63,12 +101,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “CREATE” in a CreateTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "CREATE" in a CreateTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Division that the Account is in */
       divisionID: Int,
       /** The ID of the Site that the Account was created at */
@@ -79,7 +117,7 @@ object ApiModel {
       accountNumber: Int,
       /** The home currency of the Account */
       homeCurrency: Currency
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A CloseTransaction represents the closing of an Account.
@@ -93,13 +131,13 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “CLOSE” in a CloseTransaction. */
-      `type`: TransactionType
-    )
+      /** The Type of the Transaction. Always set to "CLOSE" in a CloseTransaction. */
+      // `type`: TransactionType
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A ReopenTransaction represents the re-opening of a closed Account.
@@ -113,13 +151,13 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “REOPEN” in a ReopenTransaction. */
-      `type`: TransactionType
-    )
+      /** The Type of the Transaction. Always set to "REOPEN" in a ReopenTransaction. */
+      // `type`: TransactionType
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A ClientConfigureTransaction represents the configuration of an Account by a client.
@@ -133,17 +171,17 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “CLIENT_CONFIGURE” in a ClientConfigureTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "CLIENT_CONFIGURE" in a ClientConfigureTransaction. */
+      // `type`: TransactionType,
       /** The client-provided alias for the Account. */
       alias: String,
       /** The margin rate override for the Account. */
       marginRate: Double
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A ClientConfigureRejectTransaction represents the reject of configuration of an Account by a client.
@@ -157,19 +195,19 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “CLIENT_CONFIGURE_REJECT” in a ClientConfigureRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "CLIENT_CONFIGURE_REJECT" in a ClientConfigureRejectTransaction. */
+      // `type`: TransactionType,
       /** The client-provided alias for the Account. */
       alias: String,
       /** The margin rate override for the Account. */
       marginRate: Double,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A TransferFundsTransaction represents the transfer of funds in/out of an Account.
@@ -183,19 +221,19 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TRANSFER_FUNDS” in a TransferFundsTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TRANSFER_FUNDS" in a TransferFundsTransaction. */
+      // `type`: TransactionType,
       /** The amount to deposit/withdraw from the Account in the Account’s home currency. A positive value indicates a deposit, a negative value indicates a withdrawal. */
       amount: AccountUnits,
       /** The reason that an Account is being funded. */
       fundingReason: FundingReason,
       /** The Account’s balance after funds are transferred. */
       accountBalance: AccountUnits
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A TransferFundsRejectTransaction represents the rejection of the transfer of funds in/out of an Account.
@@ -209,19 +247,19 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TRANSFER_FUNDS_REJECT” in a TransferFundsRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TRANSFER_FUNDS_REJECT" in a TransferFundsRejectTransaction. */
+      // `type`: TransactionType,
       /** The amount to deposit/withdraw from the Account in the Account’s home currency. A positive value indicates a deposit, a negative value indicates a withdrawal. */
       amount: AccountUnits,
       /** The reason that an Account is being funded. */
       fundingReason: FundingReason,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A MarketOrderTransaction represents the creation of a Market Order in the user’s account. A Market Order is an Order that is filled immediately at the current market price. Market Orders can be specialized when they are created to accomplish a specific task: to close a Trade, to closeout a Position or to particiate in in a Margin closeout.
@@ -235,12 +273,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “MARKET_ORDER” in a MarketOrderTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "MARKET_ORDER" in a MarketOrderTransaction. */
+      // `type`: TransactionType,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -273,7 +311,7 @@ object ApiModel {
       trailingStopLossOnFill: TrailingStopLossDetails,
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeClientExtensions: ClientExtensions
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A MarketOrderRejectTransaction represents the rejection of the creation of a Market Order.
@@ -287,12 +325,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “MARKET_ORDER_REJECT” in a MarketOrderRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "MARKET_ORDER_REJECT" in a MarketOrderRejectTransaction. */
+      // `type`: TransactionType,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -327,7 +365,7 @@ object ApiModel {
       tradeClientExtensions: ClientExtensions,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A LimitOrderTransaction represents the creation of a Limit Order in the user’s Account.
@@ -341,12 +379,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “LIMIT_ORDER” in a LimitOrderTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "LIMIT_ORDER" in a LimitOrderTransaction. */
+      // `type`: TransactionType,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -355,7 +393,7 @@ object ApiModel {
       price: PriceValue,
       /** The time-in-force requested for the Limit Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Limit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -377,7 +415,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: TransactionID
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A LimitOrderRejectTransaction represents the rejection of the creation of a Limit Order.
@@ -391,12 +429,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “LIMIT_ORDER_REJECT” in a LimitOrderRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "LIMIT_ORDER_REJECT" in a LimitOrderRejectTransaction. */
+      // `type`: TransactionType,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -405,7 +443,7 @@ object ApiModel {
       price: PriceValue,
       /** The time-in-force requested for the Limit Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Limit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -427,7 +465,7 @@ object ApiModel {
       intendedReplacesOrderID: OrderID,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A StopOrderTransaction represents the creation of a Stop Order in the user’s Account.
@@ -441,12 +479,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “STOP_ORDER” in a StopOrderTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "STOP_ORDER" in a StopOrderTransaction. */
+      // `type`: TransactionType,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -457,7 +495,7 @@ object ApiModel {
       priceBound: PriceValue,
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Stop Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -479,7 +517,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: TransactionID
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A StopOrderRejectTransaction represents the rejection of the creation of a Stop Order.
@@ -493,12 +531,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “STOP_ORDER_REJECT” in a StopOrderRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "STOP_ORDER_REJECT" in a StopOrderRejectTransaction. */
+      // `type`: TransactionType,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -509,7 +547,7 @@ object ApiModel {
       priceBound: PriceValue,
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Stop Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -531,7 +569,7 @@ object ApiModel {
       intendedReplacesOrderID: OrderID,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A MarketIfTouchedOrderTransaction represents the creation of a MarketIfTouched Order in the user’s Account.
@@ -545,12 +583,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “MARKET_IF_TOUCHED_ORDER” in a MarketIfTouchedOrderTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER" in a MarketIfTouchedOrderTransaction. */
+      // `type`: TransactionType,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -559,9 +597,9 @@ object ApiModel {
       price: PriceValue,
       /** The worst market price that may be used to fill this MarketIfTouched Order. */
       priceBound: PriceValue,
-      /** The time-in-force requested for the MarketIfTouched Order. Restricted to “GTC”, “GFD” and “GTD” for MarketIfTouched Orders. */
+      /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -583,7 +621,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: TransactionID
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A MarketIfTouchedOrderRejectTransaction represents the rejection of the creation of a MarketIfTouched Order.
@@ -597,12 +635,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “MARKET_IF_TOUCHED_ORDER_REJECT” in a MarketIfTouchedOrderRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER_REJECT" in a MarketIfTouchedOrderRejectTransaction. */
+      // `type`: TransactionType,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -611,9 +649,9 @@ object ApiModel {
       price: PriceValue,
       /** The worst market price that may be used to fill this MarketIfTouched Order. */
       priceBound: PriceValue,
-      /** The time-in-force requested for the MarketIfTouched Order. Restricted to “GTC”, “GFD” and “GTD” for MarketIfTouched Orders. */
+      /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -635,7 +673,7 @@ object ApiModel {
       intendedReplacesOrderID: OrderID,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A TakeProfitOrderTransaction represents the creation of a TakeProfit Order in the user’s Account.
@@ -649,21 +687,21 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TAKE_PROFIT_ORDER” in a TakeProfitOrderTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER" in a TakeProfitOrderTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
       clientTradeID: ClientID,
       /** The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the TakeProfit Order. Restricted to “GTC”, “GFD” and “GTD” for TakeProfit Orders. */
+      /** The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -677,7 +715,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: TransactionID
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A TakeProfitOrderRejectTransaction represents the rejection of the creation of a TakeProfit Order.
@@ -691,21 +729,21 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TAKE_PROFIT_ORDER_REJECT” in a TakeProfitOrderRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER_REJECT" in a TakeProfitOrderRejectTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
       clientTradeID: ClientID,
       /** The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the TakeProfit Order. Restricted to “GTC”, “GFD” and “GTD” for TakeProfit Orders. */
+      /** The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -719,7 +757,7 @@ object ApiModel {
       intendedReplacesOrderID: OrderID,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A StopLossOrderTransaction represents the creation of a StopLoss Order in the user’s Account.
@@ -733,21 +771,21 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “STOP_LOSS_ORDER” in a StopLossOrderTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "STOP_LOSS_ORDER" in a StopLossOrderTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
       clientTradeID: ClientID,
       /** The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the StopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for StopLoss Orders. */
+      /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -761,7 +799,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: TransactionID
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A StopLossOrderRejectTransaction represents the rejection of the creation of a StopLoss Order.
@@ -775,21 +813,21 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “STOP_LOSS_ORDER_REJECT” in a StopLossOrderRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "STOP_LOSS_ORDER_REJECT" in a StopLossOrderRejectTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
       clientTradeID: ClientID,
       /** The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the StopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for StopLoss Orders. */
+      /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -803,7 +841,7 @@ object ApiModel {
       intendedReplacesOrderID: OrderID,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A TrailingStopLossOrderTransaction represents the creation of a TrailingStopLoss Order in the user’s Account.
@@ -817,21 +855,21 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TRAILING_STOP_LOSS_ORDER” in a TrailingStopLossOrderTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER" in a TrailingStopLossOrderTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
       clientTradeID: ClientID,
       /** The price distance specified for the TrailingStopLoss Order. */
       distance: PriceValue,
-      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for TrailingStopLoss Orders. */
+      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -845,8 +883,8 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: TransactionID
-    )
-  
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+
     /**
      * A TrailingStopLossOrderRejectTransaction represents the rejection of the creation of a TrailingStopLoss Order.
      */
@@ -859,21 +897,21 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TRAILING_STOP_LOSS_ORDER_REJECT” in a TrailingStopLossOrderRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER_REJECT" in a TrailingStopLossOrderRejectTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
       clientTradeID: ClientID,
       /** The price distance specified for the TrailingStopLoss Order. */
       distance: PriceValue,
-      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for TrailingStopLoss Orders. */
+      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -887,7 +925,7 @@ object ApiModel {
       intendedReplacesOrderID: OrderID,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * An OrderFillTransaction represents the filling of an Order in the client’s Account.
@@ -901,12 +939,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “ORDER_FILL” for an OrderFillTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "ORDER_FILL" for an OrderFillTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Order filled. */
       orderID: OrderID,
       /** The client Order ID of the Order filled (only provided if the client has assigned one). */
@@ -931,7 +969,7 @@ object ApiModel {
       tradesClosed: Seq[TradeReduce],
       /** The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade). */
       tradeReduced: TradeReduce
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * An OrderCancelTransaction represents the cancellation of an Order in the client’s Account.
@@ -945,12 +983,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “ORDER_CANCEL” for an OrderCancelTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "ORDER_CANCEL" for an OrderCancelTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Order cancelled */
       orderID: OrderID,
       /** The client ID of the Order cancelled (only provided if the Order has a client Order ID). */
@@ -959,7 +997,7 @@ object ApiModel {
       reason: OrderCancelReason,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement). */
       replacedByOrderID: OrderID
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * An OrderCancelRejectTransaction represents the rejection of the cancellation of an Order in the client’s Account.
@@ -973,12 +1011,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “ORDER_CANCEL_REJECT” for an OrderCancelRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "ORDER_CANCEL_REJECT" for an OrderCancelRejectTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Order intended to be cancelled */
       orderID: OrderID,
       /** The client ID of the Order intended to be cancelled (only provided if the Order has a client Order ID). */
@@ -987,7 +1025,7 @@ object ApiModel {
       reason: OrderCancelReason,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A OrderClientExtensionsModifyTransaction represents the modification of an Order’s Client Extensions.
@@ -1001,12 +1039,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “ORDER_CLIENT_EXTENSIONS_MODIFY” for a OrderClienteExtensionsModifyTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY" for a OrderClienteExtensionsModifyTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Order who’s client extensions are to be modified. */
       orderID: OrderID,
       /** The original Client ID of the Order who’s client extensions are to be modified. */
@@ -1015,7 +1053,7 @@ object ApiModel {
       clientExtensionsModify: ClientExtensions,
       /** The new Client Extensions for the Order’s Trade on fill. */
       tradeClientExtensionsModify: ClientExtensions
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A OrderClientExtensionsModifyRejectTransaction represents the rejection of the modification of an Order’s Client Extensions.
@@ -1029,12 +1067,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT” for a OrderClientExtensionsModifyRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT" for a OrderClientExtensionsModifyRejectTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Order who’s client extensions are to be modified. */
       orderID: OrderID,
       /** The original Client ID of the Order who’s client extensions are to be modified. */
@@ -1045,7 +1083,7 @@ object ApiModel {
       tradeClientExtensionsModify: ClientExtensions,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A TradeClientExtensionsModifyTransaction represents the modification of a Trade’s Client Extensions.
@@ -1059,19 +1097,19 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TRADE_CLIENT_EXTENSIONS_MODIFY” for a TradeClientExtensionsModifyTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY" for a TradeClientExtensionsModifyTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade who’s client extensions are to be modified. */
       tradeID: TradeID,
       /** The original Client ID of the Trade who’s client extensions are to be modified. */
       clientTradeID: ClientID,
       /** The new Client Extensions for the Trade. */
       tradeClientExtensionsModify: ClientExtensions
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A TradeClientExtensionsModifyRejectTransaction represents the rejection of the modification of a Trade’s Client Extensions.
@@ -1085,12 +1123,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT” for a TradeClientExtensionsModifyRejectTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT" for a TradeClientExtensionsModifyRejectTransaction. */
+      // `type`: TransactionType,
       /** The ID of the Trade who’s client extensions are to be modified. */
       tradeID: TradeID,
       /** The original Client ID of the Trade who’s client extensions are to be modified. */
@@ -1099,7 +1137,7 @@ object ApiModel {
       tradeClientExtensionsModify: ClientExtensions,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A MarginCallEnterTransaction is created when an Account enters the margin call state.
@@ -1113,13 +1151,13 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “MARGIN_CALL_ENTER” for an MarginCallEnterTransaction. */
-      `type`: TransactionType
-    )
+      /** The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an MarginCallEnterTransaction. */
+      // `type`: TransactionType
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A MarginCallExtendTransaction is created when the margin call state for an Account has been extended.
@@ -1133,15 +1171,15 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “MARGIN_CALL_EXTEND” for an MarginCallExtendTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for an MarginCallExtendTransaction. */
+      // `type`: TransactionType,
       /** The number of the extensions to the Account’s current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction */
       extensionNumber: Int
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A MarginCallExitnterTransaction is created when an Account leaves the margin call state.
@@ -1155,13 +1193,13 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
-      /** The Type of the Transaction. Always set to “MARGIN_CALL_EXIT” for an MarginCallExitTransaction. */
-      `type`: TransactionType
-    )
+      requestID: RequestID
+      /** The Type of the Transaction. Always set to "MARGIN_CALL_EXIT" for an MarginCallExitTransaction. */
+      // `type`: TransactionType
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A DelayedTradeClosure Transaction is created administratively to indicate open trades that should have been closed but weren’t because the open trades’ instruments were untradeable at the time. Open trades listed in this transaction will be closed once their respective instruments become tradeable.
@@ -1175,17 +1213,17 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “DELAYED_TRADE_CLOSURE” for an DelayedTradeClosureTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "DELAYED_TRADE_CLOSURE" for an DelayedTradeClosureTransaction. */
+      // `type`: TransactionType,
       /** The reason for the delayed trade closure */
       reason: MarketOrderReason,
       /** List of Trade ID’s identifying the open trades that will be closed when their respective instruments become tradeable */
       tradeIDs: TradeID
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A DailyFinancingTransaction represents the daily payment/collection of financing for an Account.
@@ -1199,12 +1237,12 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
-      /** The Type of the Transaction. Always set to “DAILY_FINANCING” for a DailyFinancingTransaction. */
-      `type`: TransactionType,
+      /** The Type of the Transaction. Always set to "DAILY_FINANCING" for a DailyFinancingTransaction. */
+      // `type`: TransactionType,
       /** The amount of financing paid/collected for the Account. */
       financing: AccountUnits,
       /** The Account’s balance after daily financing. */
@@ -1213,7 +1251,7 @@ object ApiModel {
       accountFinancingMode: AccountFinancingMode,
       /** The financing paid/collected for each Position in the Account. */
       positionFinancings: Seq[PositionFinancing]
-    )
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
      * A ResetResettablePLTransaction represents the resetting of the Account’s resettable PL counters.
@@ -1227,13 +1265,14 @@ object ApiModel {
       userID: Int,
       /** The ID of the Account the Transaction was created for. */
       accountID: AccountID,
-      /** The ID of the “batch” that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
+      /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
-      /** The Type of the Transaction. Always set to “RESET_RESETTABLE_PL” for a ResetResettablePLTransaction. */
-      `type`: TransactionType
-    )
+      requestID: RequestID
+      /** The Type of the Transaction. Always set to "RESET_RESETTABLE_PL" for a ResetResettablePLTransaction. */
+      // `type`: TransactionType
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+
     /**
      * The unique Transaction identifier within each Account.
      * Format: String representation of the numerical OANDA-assigned TransactionID
@@ -1348,6 +1387,7 @@ object ApiModel {
       /** Trailing Stop Loss Order Transaction */
       val TRAILING_STOP_LOSS_ORDER = Value
     }
+
     /**
      * The reason that an Account is being funded.
      */
@@ -1369,6 +1409,7 @@ object ApiModel {
       /** Funds are being transfered as part of an Account adjustment */
       val ADJUSTMENT = Value
     }
+
     /**
      * The reason that the Market Order was created
      */
@@ -1390,6 +1431,7 @@ object ApiModel {
       /** The Market Order was created to close a Trade at the request of a client */
       val TRADE_CLOSE = Value
     }
+
     /**
      * The reason that the Limit Order was initiated
      */
@@ -1402,6 +1444,7 @@ object ApiModel {
       /** The Limit Order was initiated as a replacement for an existing Order */
       val REPLACEMENT = Value
     }
+
     /**
      * The reason that the Stop Order was initiated
      */
@@ -1414,6 +1457,7 @@ object ApiModel {
       /** The Stop Order was initiated as a replacement for an existing Order */
       val REPLACEMENT = Value
     }
+
     /**
      * The reason that the Market-if-touched Order was initiated
      */
@@ -1426,6 +1470,7 @@ object ApiModel {
       /** The Market-if-touched Order was initiated as a replacement for an existing Order */
       val REPLACEMENT = Value
     }
+
     /**
      * The reason that the Take Profit Order was initiated
      */
@@ -1441,6 +1486,7 @@ object ApiModel {
       /** The Take Profit Order was initiated automatically when an Order was filled that opened a new Trade requiring a Take Profit Order. */
       val ON_FILL = Value
     }
+
     /**
      * The reason that the Stop Loss Order was initiated
      */
@@ -1456,6 +1502,7 @@ object ApiModel {
       /** The Stop Loss Order was initiated automatically when an Order was filled that opened a new Trade requiring a Stop Loss Order. */
       val ON_FILL = Value
     }
+
     /**
      * The reason that the Trailing Stop Loss Order was initiated
      */
@@ -1471,6 +1518,7 @@ object ApiModel {
       /** The Trailing Stop Loss Order was initiated automatically when an Order was filled that opened a new Trade requiring a Trailing Stop Loss Order. */
       val ON_FILL = Value
     }
+
     /**
      * The reason that an Order was filled
      */
@@ -1510,6 +1558,7 @@ object ApiModel {
       /** The Order filled was a Trailing Stop Loss Order */
       val TRAILING_STOP_LOSS_ORDER = Value
     }
+
     /**
      * The reason that an Order was cancelled.
      */
@@ -1603,16 +1652,19 @@ object ApiModel {
       /** Filling the Order would result in the creation of a Take Profit Loss Order that would close the new Trade at a loss when filled. */
       val LOSING_TAKE_PROFIT = Value
     }
+
     /**
      * A client-provided identifier, used by clients to refer to their Orders or Trades with an identifier that they have provided.
      * Example: my_order_id
      */
     case class ClientID(value: String) extends AnyVal
+
     /**
      * A client-provided tag that can contain any data and may be assigned to their Orders or Trades. Tags are typically used to associate groups of Trades and/or Orders together.
      * Example: client_tag_1
      */
     case class ClientTag(value: String) extends AnyVal
+
     /**
      * A client-provided comment that can contain any data and may be assigned to their Orders or Trades. Comments are typically used to provide extra context or meaning to an Order or Trade.
      * Example: This is a client comment
@@ -1707,7 +1759,7 @@ object ApiModel {
       tradeID: TradeID,
       /** The client ID of the Trade requested to be closed */
       clientTradeID: String,
-      /** Indication of how much of the Trade to close. Either “ALL”, or a DecimalNumber reflection a partial close of the Trade. */
+      /** Indication of how much of the Trade to close. Either "ALL", or a DecimalNumber reflection a partial close of the Trade. */
       units: String
     )
   
@@ -1749,7 +1801,7 @@ object ApiModel {
     case class MarketOrderPositionCloseout(
       /** The instrument of the Position being closed out. */
       instrument: InstrumentName,
-      /** Indication of how much of the Position to close. Either “ALL”, or a DecimalNumber reflection a partial close of the Trade. The DecimalNumber must always be positive, and represent a number that doesn’t exceed the absolute size of the Position. */
+      /** Indication of how much of the Position to close. Either "ALL", or a DecimalNumber reflection a partial close of the Trade. The DecimalNumber must always be positive, and represent a number that doesn’t exceed the absolute size of the Position. */
       units: String
     )
   
@@ -1804,10 +1856,12 @@ object ApiModel {
       /** The financing paid/collecte for each open Trade within the Position. */
       openTradeFinancings: Seq[OpenTradeFinancing]
     )
+
     /**
      * The request identifier. Used by administrators to refer to a client’s request.
      */
     case class RequestID(value: String) extends AnyVal
+
     /**
      * The reason that a Transaction was rejected.
      */
@@ -2174,6 +2228,7 @@ object ApiModel {
       /** The client Order comment specified is invalid */
       val CLIENT_ORDER_COMMENT_INVALID = Value
     }
+
     /**
      * A filter that can be used when fetching Transactions
      */
@@ -2305,7 +2360,7 @@ object ApiModel {
      * A TransactionHeartbeat object is injected into the Transaction stream to ensure that the HTTP connection remains active.
      */
     case class TransactionHeartbeat(
-      /** The string “HEARTBEAT” */
+      /** The string "HEARTBEAT" */
       `type`: String = "HEARTBEAT",
       /** The ID of the most recent Transaction created for the Account */
       lastTransactionID: TransactionID,
@@ -2314,11 +2369,10 @@ object ApiModel {
     )
   }
        
-
   object AccountModel {
     /**
      * The string representation of an Account Identifier.
-     * Format: “-“-delimited string with format “{siteID}-{divisionID}-{userID}-{accountNumber}”
+     * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
      * Example: 001-011-5838423-001
      */
     case class AccountID(value: String) extends AnyVal
@@ -2570,7 +2624,6 @@ object ApiModel {
     }
   }
        
-
   object InstrumentModel {
     /**
      * The granularity of a candlestick
@@ -2702,7 +2755,6 @@ object ApiModel {
     )
   }
        
-
   object OrderModel {
   
     /**
@@ -2731,7 +2783,7 @@ object ApiModel {
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: ClientExtensions,
-      /** The type of the Order. Always set to “MARKET” for Market Orders. */
+      /** The type of the Order. Always set to "MARKET" for Market Orders. */
       `type`: OrderType,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
@@ -2789,7 +2841,7 @@ object ApiModel {
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: ClientExtensions,
-      /** The type of the Order. Always set to “LIMIT” for Limit Orders. */
+      /** The type of the Order. Always set to "LIMIT" for Limit Orders. */
       `type`: OrderType,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
@@ -2799,7 +2851,7 @@ object ApiModel {
       price: PriceValue,
       /** The time-in-force requested for the Limit Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Limit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -2845,7 +2897,7 @@ object ApiModel {
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: ClientExtensions,
-      /** The type of the Order. Always set to “STOP” for Stop Orders. */
+      /** The type of the Order. Always set to "STOP" for Stop Orders. */
       `type`: OrderType,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
@@ -2857,7 +2909,7 @@ object ApiModel {
       priceBound: PriceValue,
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Stop Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -2903,7 +2955,7 @@ object ApiModel {
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: ClientExtensions,
-      /** The type of the Order. Always set to “MARKET_IF_TOUCHED” for Market If Touched Orders. */
+      /** The type of the Order. Always set to "MARKET_IF_TOUCHED" for Market If Touched Orders. */
       `type`: OrderType,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
@@ -2913,9 +2965,9 @@ object ApiModel {
       price: PriceValue,
       /** The worst market price that may be used to fill this MarketIfTouched Order. */
       priceBound: PriceValue,
-      /** The time-in-force requested for the MarketIfTouched Order. Restricted to “GTC”, “GFD” and “GTD” for MarketIfTouched Orders. */
+      /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -2963,7 +3015,7 @@ object ApiModel {
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: ClientExtensions,
-      /** The type of the Order. Always set to “TAKE_PROFIT” for Take Profit Orders. */
+      /** The type of the Order. Always set to "TAKE_PROFIT" for Take Profit Orders. */
       `type`: OrderType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
@@ -2971,9 +3023,9 @@ object ApiModel {
       clientTradeID: ClientID,
       /** The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the TakeProfit Order. Restricted to “GTC”, “GFD” and “GTD” for TakeProfit Orders. */
+      /** The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -3009,7 +3061,7 @@ object ApiModel {
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: ClientExtensions,
-      /** The type of the Order. Always set to “STOP_LOSS” for Stop Loss Orders. */
+      /** The type of the Order. Always set to "STOP_LOSS" for Stop Loss Orders. */
       `type`: OrderType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
@@ -3017,9 +3069,9 @@ object ApiModel {
       clientTradeID: ClientID,
       /** The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the StopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for StopLoss Orders. */
+      /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -3055,7 +3107,7 @@ object ApiModel {
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: ClientExtensions,
-      /** The type of the Order. Always set to “TRAILING_STOP_LOSS” for Trailing Stop Loss Orders. */
+      /** The type of the Order. Always set to "TRAILING_STOP_LOSS" for Trailing Stop Loss Orders. */
       `type`: OrderType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
@@ -3063,13 +3115,13 @@ object ApiModel {
       clientTradeID: ClientID,
       /** The price distance specified for the TrailingStopLoss Order. */
       distance: PriceValue,
-      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for TrailingStopLoss Orders. */
+      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
-      /** The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order’s configured “distance” as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed. */
+      /** The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order’s configured "distance" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed. */
       trailingStopValue: PriceValue,
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
       fillingTransactionID: TransactionID,
@@ -3095,7 +3147,7 @@ object ApiModel {
      * A MarketOrderRequest specifies the parameters that may be set when creating a Market Order.
      */
     case class MarketOrderRequest(
-      /** The type of the Order to Create. Must be set to “MARKET” when creating a Market Order. */
+      /** The type of the Order to Create. Must be set to "MARKET" when creating a Market Order. */
       `type`: OrderType,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
@@ -3123,7 +3175,7 @@ object ApiModel {
      * A LimitOrderRequest specifies the parameters that may be set when creating a Limit Order.
      */
     case class LimitOrderRequest(
-      /** The type of the Order to Create. Must be set to “LIMIT” when creating a Market Order. */
+      /** The type of the Order to Create. Must be set to "LIMIT" when creating a Market Order. */
       `type`: OrderType,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
@@ -3133,7 +3185,7 @@ object ApiModel {
       price: PriceValue,
       /** The time-in-force requested for the Limit Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Limit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -3155,7 +3207,7 @@ object ApiModel {
      * A StopOrderRequest specifies the parameters that may be set when creating a Stop Order.
      */
     case class StopOrderRequest(
-      /** The type of the Order to Create. Must be set to “STOP” when creating a Stop Order. */
+      /** The type of the Order to Create. Must be set to "STOP" when creating a Stop Order. */
       `type`: OrderType,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
@@ -3167,7 +3219,7 @@ object ApiModel {
       priceBound: PriceValue,
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
-      /** The date/time when the Stop Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -3189,7 +3241,7 @@ object ApiModel {
      * A MarketIfTouchedOrderRequest specifies the parameters that may be set when creating a Market-if-Touched Order.
      */
     case class MarketIfTouchedOrderRequest(
-      /** The type of the Order to Create. Must be set to “MARKET_IF_TOUCHED” when creating a Market If Touched Order. */
+      /** The type of the Order to Create. Must be set to "MARKET_IF_TOUCHED" when creating a Market If Touched Order. */
       `type`: OrderType,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
@@ -3199,9 +3251,9 @@ object ApiModel {
       price: PriceValue,
       /** The worst market price that may be used to fill this MarketIfTouched Order. */
       priceBound: PriceValue,
-      /** The time-in-force requested for the MarketIfTouched Order. Restricted to “GTC”, “GFD” and “GTD” for MarketIfTouched Orders. */
+      /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
@@ -3223,7 +3275,7 @@ object ApiModel {
      * A TakeProfitOrderRequest specifies the parameters that may be set when creating a Take Profit Order.
      */
     case class TakeProfitOrderRequest(
-      /** The type of the Order to Create. Must be set to “TAKE_PROFIT” when creating a Take Profit Order. */
+      /** The type of the Order to Create. Must be set to "TAKE_PROFIT" when creating a Take Profit Order. */
       `type`: OrderType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
@@ -3231,9 +3283,9 @@ object ApiModel {
       clientTradeID: ClientID,
       /** The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the TakeProfit Order. Restricted to “GTC”, “GFD” and “GTD” for TakeProfit Orders. */
+      /** The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -3245,7 +3297,7 @@ object ApiModel {
      * A StopLossOrderRequest specifies the parameters that may be set when creating a Stop Loss Order.
      */
     case class StopLossOrderRequest(
-      /** The type of the Order to Create. Must be set to “STOP_LOSS” when creating a Stop Loss Order. */
+      /** The type of the Order to Create. Must be set to "STOP_LOSS" when creating a Stop Loss Order. */
       `type`: OrderType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
@@ -3253,9 +3305,9 @@ object ApiModel {
       clientTradeID: ClientID,
       /** The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold. */
       price: PriceValue,
-      /** The time-in-force requested for the StopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for StopLoss Orders. */
+      /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -3267,7 +3319,7 @@ object ApiModel {
      * A TrailingStopLossOrderRequest specifies the parameters that may be set when creating a Trailing Stop Loss Order.
      */
     case class TrailingStopLossOrderRequest(
-      /** The type of the Order to Create. Must be set to “TRAILING_STOP_LOSS” when creating a Trailng Stop Loss Order. */
+      /** The type of the Order to Create. Must be set to "TRAILING_STOP_LOSS" when creating a Trailng Stop Loss Order. */
       `type`: OrderType,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
@@ -3275,9 +3327,9 @@ object ApiModel {
       clientTradeID: ClientID,
       /** The price distance specified for the TrailingStopLoss Order. */
       distance: PriceValue,
-      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to “GTC”, “GFD” and “GTD” for TrailingStopLoss Orders. */
+      /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
-      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is “GTD”. */
+      /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
@@ -3347,7 +3399,7 @@ object ApiModel {
     )
     /**
      * The specification of an Order as referred to by clients
-     * Format: Either the Order’s OANDA-assigned OrderID or the Order’s client-provided ClientID prefixed by the “@” symbol
+     * Format: Either the Order’s OANDA-assigned OrderID or the Order’s client-provided ClientID prefixed by the "@" symbol
      * Example: 1523
      */
     case class OrderSpecifier(value: String) extends AnyVal
@@ -3357,19 +3409,19 @@ object ApiModel {
     object TimeInForce extends Enumeration {
       type TimeInForce = Value
     
-      /** The Order must be immediately “Filled Or Killed” */
+      /** The Order must be immediately "Filled Or Killed" */
       val FOK = Value
     
-      /** The Order must be “Immediatedly paritally filled Or Cancelled” */
+      /** The Order must be "Immediatedly paritally filled Or Cancelled" */
       val IOC = Value
     
-      /** The Order is “Good unTil Cancelled” */
+      /** The Order is "Good unTil Cancelled" */
       val GTC = Value
     
-      /** The Order is “Good unTil Date” and will be cancelled at the provided time */
+      /** The Order is "Good unTil Date" and will be cancelled at the provided time */
       val GTD = Value
     
-      /** The Order is “Good For Day” and will be cancelled at 5pm New York time */
+      /** The Order is "Good For Day" and will be cancelled at 5pm New York time */
       val GFD = Value
     }
     /**
@@ -3405,10 +3457,10 @@ object ApiModel {
       /** Trigger an Order by comparing its price to the midpoint regardless of whether it is long or short. */
       val MID = Value
     
-      /** Trigger an Order the “natural” way: compare its price to the ask for long Orders and bid for short Orders. */
+      /** Trigger an Order the "natural" way: compare its price to the ask for long Orders and bid for short Orders. */
       val DEFAULT = Value
     
-      /** Trigger an Order the opposite of the “natural” way: compare its price the bid for long Orders and ask for short Orders. */
+      /** Trigger an Order the opposite of the "natural" way: compare its price the bid for long Orders and ask for short Orders. */
       val INVERSE = Value
     }
   
@@ -3427,7 +3479,6 @@ object ApiModel {
     )
   }
        
-
   object TradeModel {
     /**
      * The Trade’s identifier, unique within the Trade’s Account.
@@ -3452,7 +3503,7 @@ object ApiModel {
     }
     /**
      * The identification of a Trade as referred to by clients
-     * Format: Either the Trade’s OANDA-assigned TradeID or the Trade’s client-provided ClientID prefixed by the “@” symbol
+     * Format: Either the Trade’s OANDA-assigned TradeID or the Trade’s client-provided ClientID prefixed by the "@" symbol
      * Example: @my_trade_id
      */
     case class TradeSpecifier(value: String) extends AnyVal
@@ -3548,7 +3599,6 @@ object ApiModel {
     )
   }
        
-
   object PositionModel {
   
     /**
@@ -3602,14 +3652,13 @@ object ApiModel {
     )
   }
        
-
   object PricingModel {
   
     /**
      * The specification of an Account-specific Price.
      */
     case class Price(
-      /** The string “PRICE”. Used to identify the a Price object when found in a stream. */
+      /** The string "PRICE". Used to identify the a Price object when found in a stream. */
       `type`: String = "PRICE",
       /** The Price’s Instrument. */
       instrument: InstrumentName,
@@ -3677,13 +3726,13 @@ object ApiModel {
      * Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.
      */
     case class UnitsAvailable(
-      /** The number of units that are available to be traded using an Order with a positionFill option of “DEFAULT”. For an Account with hedging enabled, this value will be the same as the “OPEN_ONLY” value. For an Account without hedging enabled, this value will be the same as the “REDUCE_FIRST” value. */
+      /** The number of units that are available to be traded using an Order with a positionFill option of "DEFAULT". For an Account with hedging enabled, this value will be the same as the "OPEN_ONLY" value. For an Account without hedging enabled, this value will be the same as the "REDUCE_FIRST" value. */
       default: UnitsAvailableDetails,
-      /** The number of units that may are available to be traded with an Order with a positionFill option of “REDUCE_FIRST”. */
+      /** The number of units that may are available to be traded with an Order with a positionFill option of "REDUCE_FIRST". */
       reduceFirst: UnitsAvailableDetails,
-      /** The number of units that may are available to be traded with an Order with a positionFill option of “REDUCE_ONLY”. */
+      /** The number of units that may are available to be traded with an Order with a positionFill option of "REDUCE_ONLY". */
       reduceOnly: UnitsAvailableDetails,
-      /** The number of units that may are available to be traded with an Order with a positionFill option of “OPEN_ONLY”. */
+      /** The number of units that may are available to be traded with an Order with a positionFill option of "OPEN_ONLY". */
       openOnly: UnitsAvailableDetails
     )
   
@@ -3701,14 +3750,13 @@ object ApiModel {
      * A PricingHeartbeat object is injected into the Pricing stream to ensure that the HTTP connection remains active.
      */
     case class PricingHeartbeat(
-      /** The string “HEARTBEAT” */
+      /** The string "HEARTBEAT" */
       `type`: String = "HEARTBEAT",
       /** The date/time when the Heartbeat was created. */
       time: DateTime
     )
   }
        
-
   object PrimitivesModel {
     /**
      * The string representation of a decimal number.
@@ -3727,7 +3775,7 @@ object ApiModel {
     case class Currency(value: String) extends AnyVal
     /**
      * Instrument name identifier. Used by clients to refer to an Instrument.
-     * Format: A string containing the base currency and quote currency delimited by a “_”.
+     * Format: A string containing the base currency and quote currency delimited by a "_".
      */
     case class InstrumentName(value: String) extends AnyVal
     /**
@@ -3756,9 +3804,9 @@ object ApiModel {
       `type`: InstrumentType,
       /** The display name of the Instrument */
       displayName: String,
-      /** The location of the “pip” for this instrument. The decimal position of the pip in this Instrument’s price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001). */
+      /** The location of the "pip" for this instrument. The decimal position of the pip in this Instrument’s price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001). */
       pipLocation: Int,
-      /** The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of “1” being displayed as “1.00000”) */
+      /** The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of "1" being displayed as "1.00000") */
       displayPrecision: Int,
       /** The amount of decimal places that may be provided when specifying the number of units traded for this instrument. */
       tradeUnitsPrecision: Int,
@@ -3786,10 +3834,10 @@ object ApiModel {
     object AcceptDatetimeFormat extends Enumeration {
       type AcceptDatetimeFormat = Value
     
-      /** If “UNIX” is specified DateTime fields will be specified or returned in the “12345678.000000123” format. */
+      /** If "UNIX" is specified DateTime fields will be specified or returned in the "12345678.000000123" format. */
       val UNIX = Value
     
-      /** If “RFC3339” is specified DateTime will be specified or returned in “YYYY-MM-DDTHH:MM:SS.nnnnnnnnnZ” format. */
+      /** If "RFC3339" is specified DateTime will be specified or returned in "YYYY-MM-DDTHH:MM:SS.nnnnnnnnnZ" format. */
       val RFC3339 = Value
     }
   }
