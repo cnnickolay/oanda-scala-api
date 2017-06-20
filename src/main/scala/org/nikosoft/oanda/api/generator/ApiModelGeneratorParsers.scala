@@ -7,7 +7,8 @@ object ApiModelGeneratorParsers {
   def parseJsonElementField(jsonElement: String): Seq[JsonObjectField] = {
     val simpleTypeWithDefaultRegex = """^(\w+) : \((\w+), default=(\w+)\),?$""".r
     val simpleTypeRegex = """^(\w+) : \((\w+)\),?$""".r
-    val arrayTypeRegex = """^(\w+) : \(Array.*>(\w+)<.*\),?$""".r
+    val arrayComplexTypeRegex = """^(\w+) : \(Array.*>(\w+)<.*\),?$""".r
+    val arraySimpleTypeRegex = """^(\w+) : \(Array\[(\w+)\].*\),?$""".r
     val complexTypeRegex = """^(\w+) : \(.*>(\w+)<.*\),?$""".r
 
 //    println(jsonElement)
@@ -17,7 +18,8 @@ object ApiModelGeneratorParsers {
       case (line, field) if line.startsWith("#") => field.copy(description = (field.description + " " + line.drop(2)).trim)
       case (simpleTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType)
       case (simpleTypeWithDefaultRegex(fieldName, fieldType, defaultValue), field) => field.copy(name = fieldName, `type` = fieldType, default = Option(defaultValue))
-      case (arrayTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType, array = true)
+      case (arrayComplexTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType, array = true)
+      case (arraySimpleTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType, array = true)
       case (complexTypeRegex(fieldName, fieldType), field) => field.copy(name = fieldName, `type` = fieldType)
       case (_, field) => field
     }
@@ -51,15 +53,12 @@ object ApiModelGeneratorParsers {
   }
 
   def parseParameterTable(text: String): ParameterTable = {
-    println(text.lines.toList.take(20).map(_.trim)
-      .filterNot(line => line.startsWith("<") || line.isEmpty))
-
     val grouped = text.lines.toList
       .map(_.trim)
       .filterNot(line => line.startsWith("<") || line.isEmpty)
       .grouped(2)
       .map{case List(first, second) => (first, second)}
-      .toMap
+      .toList
 
     grouped.foldLeft(ParameterTable()) {
       case (parameterTable, (left, right)) if parameterTable.headerLeft.isEmpty => parameterTable.copy(headerLeft = left, headerRight = right)

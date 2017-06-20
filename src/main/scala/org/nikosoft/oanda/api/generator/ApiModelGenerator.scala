@@ -31,8 +31,6 @@ object ApiModelGenerator {
     val definitionBody = apiSection.getByXPath[HtmlDivision](".//div[contains(@class, 'definition_body')]").asScala.toList
 
     val caseClasses = (endpointHeaders, definitionBody).zipped.map { case (headerElt, definitionElt) =>
-      //    println(header)
-
       val title = headerElt.getFirstByXPath[HtmlSpan](".//span[@class='method']").asText()
       val definition = headerElt.getFirstByXPath[HtmlSpan](".//span[@class='definition']").asText()
 
@@ -42,24 +40,8 @@ object ApiModelGenerator {
 
       val generatedJsonSchema = Option(definitionElt.getFirstByXPath[HtmlElement]("./pre[@class='json_schema']"))
         .map(elt => {
-          val jsonModel = ApiModelGeneratorParsers.parseJsonElementField(elt.asXml())
-          val gen =
-            s"""
-               |  /**
-               |   * $definition
-               |   */
-               |  case class $title(
-               |""".stripMargin
-
-          val content = jsonModel.map(jsonField => {
-            val _type = s"${predefinedClasses.getOrElse(jsonField.`type`, jsonField.`type`)}"
-            val defaultValue = jsonField.default.fold("")(value => if (jsonField.`type` == "string") s""" = "$value"""" else s" = $value")
-            val finalType = if (jsonField.array) s"Seq[${_type}]" else _type
-            s"    /** ${jsonField.description} */\n    ${normalizeValName(jsonField.name)}: $finalType$defaultValue"
-          })
-            .mkString(",\n")
-
-          s"$gen$content\n  )"
+          val source = elt.asXml()
+          parseModelFromJson(title, definition, source)
         })
       parameterTableOption.getOrElse(generatedJsonSchema.getOrElse(""))
     }
@@ -70,6 +52,27 @@ object ApiModelGenerator {
         |$caseClasses
         |}
      """.stripMargin
+  }
+
+  private[generator] def parseModelFromJson(title: String, definition: String, source: String): String = {
+    val jsonModel = ApiModelGeneratorParsers.parseJsonElementField(source)
+    val gen =
+      s"""
+         |  /**
+         |   * $definition
+         |   */
+         |  case class $title(
+         |""".stripMargin
+
+    val content = jsonModel.map(jsonField => {
+      val _type = predefinedClasses.getOrElse(jsonField.`type`, jsonField.`type`)
+      val defaultValue = jsonField.default.fold("")(value => if (jsonField.`type` == "string") s""" = "$value"""" else s" = $value")
+      val finalType = if (jsonField.array) s"Seq[${_type}]" else _type
+      s"    /** ${jsonField.description} */\n    ${normalizeValName(jsonField.name)}: $finalType$defaultValue"
+    })
+      .mkString(",\n")
+
+    s"$gen$content\n  )"
   }
 
   private[generator] def generateCaseClass(typeValue: String, description: String, parameterTable: ParameterTable): String = parameterTable.headerLeft match {
