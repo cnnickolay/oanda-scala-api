@@ -134,7 +134,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: RequestID
       /** The Type of the Transaction. Always set to "CLOSE" in a CloseTransaction. */
       // `type`: TransactionType
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -154,7 +154,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: RequestID
       /** The Type of the Transaction. Always set to "REOPEN" in a ReopenTransaction. */
       // `type`: TransactionType
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -1154,7 +1154,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: RequestID
       /** The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an MarginCallEnterTransaction. */
       // `type`: TransactionType
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -2760,7 +2760,7 @@ object ApiModel {
     /**
      * The base Order definition specifies the properties that are common to all Orders.
      */
-    case class Order(
+    abstract class Order(
       /** The Order’s identifier, unique within the Order’s Account. */
       id: OrderID,
       /** The time when the Order was created. */
@@ -2827,7 +2827,7 @@ object ApiModel {
       cancellingTransactionID: TransactionID,
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
       cancelledTime: DateTime
-    )
+    ) extends Order(id, createTime, state, clientExtensions)
   
     /**
      * A LimitOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or better than the threshold.
@@ -2883,7 +2883,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    )
+    ) extends Order(id, createTime, state, clientExtensions)
   
     /**
      * A StopOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or worse than the threshold.
@@ -2941,7 +2941,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    )
+    ) extends Order(id, createTime, state, clientExtensions)
   
     /**
      * A MarketIfTouchedOrder is an order that is created with a price threshold, and will only be filled by a market price that is touches or crosses the threshold.
@@ -3001,7 +3001,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    )
+    ) extends Order(id, createTime, state, clientExtensions)
   
     /**
      * A TakeProfitOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or better than the threshold. A TakeProfitOrder cannot be used to open a new Position.
@@ -3047,7 +3047,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    )
+    ) extends Order(id, createTime, state, clientExtensions)
   
     /**
      * A StopLossOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or worse than the threshold. A StopLossOrder cannot be used to open a new Position.
@@ -3093,7 +3093,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    )
+    ) extends Order(id, createTime, state, clientExtensions)
   
     /**
      * A TrailingStopLossOrder is an order that is linked to an open Trade and created with a price distance. The price distance is used to calculate a trailing stop value for the order that is in the losing direction from the market price at the time of the order’s creation. The trailing stop value will follow the market price as it moves in the winning direction, and the order will filled (closing the Trade) by the first price that is equal to or worse than the trailing stop value. A TrailingStopLossOrder cannot be used to open a new Position.
@@ -3141,14 +3141,16 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    )
-  
+    ) extends Order(id, createTime, state, clientExtensions)
+
+    abstract class OrderRequest()
+
     /**
      * A MarketOrderRequest specifies the parameters that may be set when creating a Market Order.
      */
     case class MarketOrderRequest(
       /** The type of the Order to Create. Must be set to "MARKET" when creating a Market Order. */
-      `type`: OrderType,
+//      `type`: OrderType,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -3342,6 +3344,7 @@ object ApiModel {
      * Example: 1523
      */
     case class OrderID(value: String) extends AnyVal
+
     /**
      * The type of the Order.
      */
@@ -3369,6 +3372,7 @@ object ApiModel {
       /** A Market-if-touched Order */
       val MARKET_IF_TOUCHED = Value
     }
+
     /**
      * The current state of the Order.
      */
@@ -3397,12 +3401,14 @@ object ApiModel {
       /** The client-provided client Order ID */
       clientOrderID: ClientID
     )
+
     /**
      * The specification of an Order as referred to by clients
      * Format: Either the Order’s OANDA-assigned OrderID or the Order’s client-provided ClientID prefixed by the "@" symbol
      * Example: 1523
      */
     case class OrderSpecifier(value: String) extends AnyVal
+
     /**
      * The time-in-force of an Order. TimeInForce describes how long an Order should remain pending before being automatically cancelled by the execution system.
      */
@@ -3424,6 +3430,7 @@ object ApiModel {
       /** The Order is "Good For Day" and will be cancelled at 5pm New York time */
       val GFD = Value
     }
+
     /**
      * Specification of how Positions in the Account are modified when the Order is filled.
      */
@@ -3442,6 +3449,7 @@ object ApiModel {
       /** When the Order is filled, use REDUCE_FIRST behaviour for non-client hedging Accounts, and OPEN_ONLY behaviour for client hedging Accounts. */
       val DEFAULT = Value
     }
+
     /**
      * Specification of what component of a price should be used for comparison when determining if the Order should be filled.
      */
@@ -3501,6 +3509,7 @@ object ApiModel {
       /** The Trade will be closed as soon as the trade’s instrument becomes tradeable */
       val CLOSE_WHEN_TRADEABLE = Value
     }
+
     /**
      * The identification of a Trade as referred to by clients
      * Format: Either the Trade’s OANDA-assigned TradeID or the Trade’s client-provided ClientID prefixed by the "@" symbol
@@ -3600,7 +3609,6 @@ object ApiModel {
   }
        
   object PositionModel {
-  
     /**
      * The specification of a Position within an Account.
      */
@@ -3653,7 +3661,6 @@ object ApiModel {
   }
        
   object PricingModel {
-  
     /**
      * The specification of an Account-specific Price.
      */
@@ -3696,6 +3703,7 @@ object ApiModel {
       /** The amount of liquidity offered by the PriceBucket */
       liquidity: Int
     )
+
     /**
      * The status of the Price.
      */
