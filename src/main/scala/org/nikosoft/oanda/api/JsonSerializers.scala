@@ -2,7 +2,10 @@ package org.nikosoft.oanda.api
 
 import org.joda.time.DateTime
 import org.json4s.JsonAST.{JInt, JString}
+import org.json4s.ext.EnumNameSerializer
 import org.json4s.{CustomSerializer, DefaultFormats, _}
+import org.nikosoft.oanda.api.model.ApiModel.InstrumentModel.CandlestickGranularity
+import org.nikosoft.oanda.api.model.ApiModel.PrimitivesModel.InstrumentType
 import org.nikosoft.oanda.api.remove.ApiModel._
 
 
@@ -68,6 +71,6 @@ object JsonSerializers {
     }
   }
 
-  private[api] def formats(classes: List[Class[_]]): Formats = formatsHints + StringToDouble + LongSerializer + DateTimeSerializer
+  private[api] def formats(classes: List[Class[_]]): Formats = formatsHints + StringToDouble + LongSerializer + DateTimeSerializer + new EnumNameSerializer(InstrumentType) + new EnumNameSerializer(CandlestickGranularity)
 
 }

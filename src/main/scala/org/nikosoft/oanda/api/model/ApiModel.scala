@@ -1,34 +1,33 @@
 package org.nikosoft.oanda.api.model
 
-import ApiModel.AccountModel.AccountFinancingMode.AccountFinancingMode
-import ApiModel.AccountModel._
-import ApiModel.OrderModel.OrderPositionFill.OrderPositionFill
-import ApiModel.OrderModel.OrderState.OrderState
-import ApiModel.OrderModel.OrderTriggerCondition.OrderTriggerCondition
-import ApiModel.OrderModel.OrderType.OrderType
-import ApiModel.OrderModel.TimeInForce.TimeInForce
-import ApiModel.OrderModel._
-import ApiModel.PositionModel._
-import ApiModel.PricingModel.PriceStatus.PriceStatus
-import ApiModel.PricingModel._
-import ApiModel.PrimitivesModel.InstrumentType.InstrumentType
-import ApiModel.PrimitivesModel._
-import ApiModel.TradeModel.TradeState.TradeState
-import ApiModel.TradeModel._
-import ApiModel.TransactionModel.FundingReason.FundingReason
-import ApiModel.TransactionModel.LimitOrderReason.LimitOrderReason
-import ApiModel.TransactionModel.MarketIfTouchedOrderReason.MarketIfTouchedOrderReason
-import ApiModel.TransactionModel.MarketOrderMarginCloseoutReason.MarketOrderMarginCloseoutReason
-import ApiModel.TransactionModel.MarketOrderReason.MarketOrderReason
-import ApiModel.TransactionModel.OrderCancelReason.OrderCancelReason
-import ApiModel.TransactionModel.OrderFillReason.OrderFillReason
-import ApiModel.TransactionModel.StopLossOrderReason.StopLossOrderReason
-import ApiModel.TransactionModel.StopOrderReason.StopOrderReason
-import ApiModel.TransactionModel.TakeProfitOrderReason.TakeProfitOrderReason
-import ApiModel.TransactionModel.TrailingStopLossOrderReason.TrailingStopLossOrderReason
-import ApiModel.TransactionModel.TransactionRejectReason.TransactionRejectReason
-import ApiModel.TransactionModel.TransactionType.TransactionType
-import ApiModel.TransactionModel._
+import org.nikosoft.oanda.api.model.ApiModel.AccountModel.AccountFinancingMode.AccountFinancingMode
+import org.nikosoft.oanda.api.model.ApiModel.AccountModel._
+import org.nikosoft.oanda.api.model.ApiModel.OrderModel.OrderPositionFill.OrderPositionFill
+import org.nikosoft.oanda.api.model.ApiModel.OrderModel.OrderState.OrderState
+import org.nikosoft.oanda.api.model.ApiModel.OrderModel.OrderTriggerCondition.OrderTriggerCondition
+import org.nikosoft.oanda.api.model.ApiModel.OrderModel.OrderType.OrderType
+import org.nikosoft.oanda.api.model.ApiModel.OrderModel.TimeInForce.TimeInForce
+import org.nikosoft.oanda.api.model.ApiModel.OrderModel._
+import org.nikosoft.oanda.api.model.ApiModel.PositionModel._
+import org.nikosoft.oanda.api.model.ApiModel.PricingModel.PriceStatus.PriceStatus
+import org.nikosoft.oanda.api.model.ApiModel.PricingModel._
+import org.nikosoft.oanda.api.model.ApiModel.PrimitivesModel.InstrumentType.InstrumentType
+import org.nikosoft.oanda.api.model.ApiModel.PrimitivesModel._
+import org.nikosoft.oanda.api.model.ApiModel.TradeModel.TradeState.TradeState
+import org.nikosoft.oanda.api.model.ApiModel.TradeModel._
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.FundingReason.FundingReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.LimitOrderReason.LimitOrderReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.MarketIfTouchedOrderReason.MarketIfTouchedOrderReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.MarketOrderMarginCloseoutReason.MarketOrderMarginCloseoutReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.MarketOrderReason.MarketOrderReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.OrderCancelReason.OrderCancelReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.OrderFillReason.OrderFillReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.StopLossOrderReason.StopLossOrderReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.StopOrderReason.StopOrderReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.TakeProfitOrderReason.TakeProfitOrderReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.TrailingStopLossOrderReason.TrailingStopLossOrderReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.TransactionRejectReason.TransactionRejectReason
+import org.nikosoft.oanda.api.model.ApiModel.TransactionModel._
 
 object ApiModel {
 
@@ -2398,15 +2397,15 @@ object ApiModel {
       /** The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account’s home currency. */
       resettablePL: AccountUnits,
       /** The date/time that the Account’s resettablePL was last reset. */
-      resettabledPLTime: DateTime,
+      resettabledPLTime: Option[DateTime],
       /** Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account’s division. This value is only provided if a margin rate override exists for the Account. */
       marginRate: Double,
       /** The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call. */
-      marginCallEnterTime: DateTime,
+      marginCallEnterTime: Option[DateTime],
       /** The number of times that the Account’s current margin call was extended. */
-      marginCallExtensionCount: Int,
+      marginCallExtensionCount: Option[Int],
       /** The date/time of the Account’s last margin call extension. */
-      lastMarginCallExtensionTime: DateTime,
+      lastMarginCallExtensionTime: Option[DateTime],
       /** The number of Trades currently open in the Account. */
       openTradeCount: Int,
       /** The number of Positions currently open in the Account. */
@@ -2496,7 +2495,7 @@ object ApiModel {
       /** The Account’s identifier */
       id: AccountID,
       /** The Account’s associated MT4 Account ID. This field will not be present if the Account is not an MT4 account. */
-      mt4AccountID: Int,
+      mt4AccountID: Option[Int],
       /** The Account’s tags */
       tags: Seq[String]
     )
@@ -2522,15 +2521,15 @@ object ApiModel {
       /** The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account’s home currency. */
       resettablePL: AccountUnits,
       /** The date/time that the Account’s resettablePL was last reset. */
-      resettabledPLTime: DateTime,
+      resettabledPLTime: Option[DateTime],
       /** Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account’s division. This value is only provided if a margin rate override exists for the Account. */
       marginRate: Double,
       /** The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call. */
-      marginCallEnterTime: DateTime,
+      marginCallEnterTime: Option[DateTime],
       /** The number of times that the Account’s current margin call was extended. */
-      marginCallExtensionCount: Int,
+      marginCallExtensionCount: Option[Int],
       /** The date/time of the Account’s last margin call extension. */
-      lastMarginCallExtensionTime: DateTime,
+      lastMarginCallExtensionTime: Option[DateTime],
       /** The number of Trades currently open in the Account. */
       openTradeCount: Int,
       /** The number of Positions currently open in the Account. */
@@ -2729,11 +2728,11 @@ object ApiModel {
       /** The start time of the candlestick */
       time: DateTime,
       /** The candlestick data based on bids. Only provided if bid-based candles were requested. */
-      bid: CandlestickData,
+      bid: Option[CandlestickData],
       /** The candlestick data based on asks. Only provided if ask-based candles were requested. */
-      ask: CandlestickData,
+      ask: Option[CandlestickData],
       /** The candlestick data based on midpoints. Only provided if midpoint-based candles were requested. */
-      mid: CandlestickData,
+      mid: Option[CandlestickData],
       /** The number of prices created during the time-range represented by the candlestick. */
       volume: Int,
       /** A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future. */
@@ -3634,7 +3633,7 @@ object ApiModel {
       /** Number of units in the position (negative value indicates short position, positive indicates long position). */
       units: Double,
       /** Volume-weighted average of the underlying Trade open prices for the Position. */
-      averagePrice: PriceValue,
+      averagePrice: Option[PriceValue],
       /** List of the open Trade IDs which contribute to the open Position. */
       tradeIDs: Seq[TradeID],
       /** Profit/loss realized by the PositionSide over the lifetime of the Account. */
