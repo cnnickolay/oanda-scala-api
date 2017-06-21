@@ -1,9 +1,9 @@
-package org.nikosoft.oanda.api
+package org.nikosoft.oanda.api.remove
 
-import org.nikosoft.oanda.api.ApiModel.AccountCall.{AccountResponse, ClientExtension}
-import org.nikosoft.oanda.api.ApiModel.AccountsCall.AccountsResponse
-import org.nikosoft.oanda.api.ApiModel.CandlesCall.CandlesResponse
-import org.nikosoft.oanda.api.ApiModel.{Error, StopLossDetails, TakeProfitDetails, TrailingStopLossDetails}
+import ApiModel.AccountCall.{AccountResponse, ClientExtension}
+import ApiModel.AccountsCall.AccountsResponse
+import ApiModel.CandlesCall.CandlesResponse
+import ApiModel.{Error, StopLossDetails, TakeProfitDetails, TrailingStopLossDetails}
 
 trait Api {
 

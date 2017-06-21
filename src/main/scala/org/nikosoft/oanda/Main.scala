@@ -1,8 +1,8 @@
 package org.nikosoft.oanda
 
 import org.joda.time.DateTime
-import org.nikosoft.oanda.api.ApiImpl
 import org.nikosoft.oanda.api.ApiImpl.CandleRange
+import org.nikosoft.oanda.api.remove.ApiImpl
 
 object Main extends App {
 

@@ -3,7 +3,7 @@ package org.nikosoft.oanda.api
 import org.joda.time.DateTime
 import org.json4s.JsonAST.{JInt, JString}
 import org.json4s.{CustomSerializer, DefaultFormats, _}
-import org.nikosoft.oanda.api.ApiModel._
+import org.nikosoft.oanda.api.remove.ApiModel._
 
 
 object JsonSerializers {

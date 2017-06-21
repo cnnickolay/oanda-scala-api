@@ -11,5 +11,6 @@ libraryDependencies ++= Seq(
   "org.json4s" % "json4s-jackson_2.12" % "3.5.2",
   "joda-time" % "joda-time" % "2.9.9",
   "org.scalatest" % "scalatest_2.12" % "3.0.3" % "test",
-  "net.sourceforge.htmlunit" % "htmlunit" % "2.27"
+  "net.sourceforge.htmlunit" % "htmlunit" % "2.27",
+  "org.scalaz" % "scalaz-core_2.12" % "7.2.13"
 )

@@ -1,4 +1,4 @@
-package org.nikosoft.oanda.api
+package org.nikosoft.oanda.api.remove
 
 import java.util.Properties
 
@@ -6,8 +6,9 @@ import org.apache.http.client.fluent.Request
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization.read
-import org.nikosoft.oanda.api.ApiModel.AccountCall.ClientExtension
-import org.nikosoft.oanda.api.ApiModel.CandlesCall.CandlesResponse
+import ApiModel.AccountCall.ClientExtension
+import ApiModel.CandlesCall.CandlesResponse
+import org.nikosoft.oanda.api.JsonSerializers
 
 import scala.util.{Failure, Success, Try}
 

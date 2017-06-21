@@ -1,8 +1,8 @@
-package org.nikosoft.oanda.api
+package org.nikosoft.oanda.api.remove
 
 import org.joda.time.DateTime
-import org.nikosoft.oanda.api.ApiModel.AccountCall.ClientExtension
-import org.nikosoft.oanda.api.ApiModel.OrderState.OrderState
+import org.nikosoft.oanda.api.remove.ApiModel.AccountCall.ClientExtension
+import org.nikosoft.oanda.api.remove.ApiModel.OrderState.OrderState
 
 object ApiModel {
 

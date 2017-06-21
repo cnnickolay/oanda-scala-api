@@ -1,9 +1,9 @@
-package org.nikosoft.oanda.api
+package org.nikosoft.oanda.api.remove
 
-import org.json4s.{DefaultFormats, Formats, ShortTypeHints, TypeHints}
+import org.json4s.Formats
 import org.json4s.jackson.JsonMethods._
-import org.json4s.jackson.Serialization
-import org.nikosoft.oanda.api.ApiModel.AccountCall.AccountResponse
+import ApiModel.AccountCall.AccountResponse
+import org.nikosoft.oanda.api.JsonSerializers
 import org.nikosoft.oanda.api.JsonSerializers.{Bear, Container, Fish}
 import org.scalatest.FunSuite
 
