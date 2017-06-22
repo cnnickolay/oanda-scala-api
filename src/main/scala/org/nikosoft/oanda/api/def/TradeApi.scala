@@ -1,12 +1,12 @@
-package org.nikosoft.oanda.api
+package org.nikosoft.oanda.api.`def`
 
+import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
+import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
+import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState._
+import org.nikosoft.oanda.api.ApiModel.TradeModel.{Trade, TradeID, TradeState}
+import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionID
 import org.nikosoft.oanda.api.Errors.Error
-import org.nikosoft.oanda.api.TradeApi.TradesResponse
-import ApiModel.AccountModel.AccountID
-import ApiModel.PrimitivesModel.InstrumentName
-import ApiModel.TradeModel.{Trade, TradeID, TradeState}
-import ApiModel.TradeModel.TradeState.TradeState
-import ApiModel.TransactionModel.TransactionID
+import org.nikosoft.oanda.api.`def`.TradeApi.TradesResponse
 
 import scalaz._
 

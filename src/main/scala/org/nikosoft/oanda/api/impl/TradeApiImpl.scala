@@ -6,8 +6,9 @@ import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
 import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeID
 import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState._
 import org.nikosoft.oanda.api.Errors.Error
-import org.nikosoft.oanda.api.TradeApi.TradesResponse
-import org.nikosoft.oanda.api.{ApiCommons, TradeApi}
+import org.nikosoft.oanda.api.`def`.TradeApi.TradesResponse
+import org.nikosoft.oanda.api.ApiCommons
+import org.nikosoft.oanda.api.`def`.TradeApi
 
 import scalaz.\/
 

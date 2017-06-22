@@ -1,11 +1,14 @@
 package org.nikosoft.oanda.api
 
+import org.joda.time
+import org.joda.time.DateTime
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountFinancingMode.AccountFinancingMode
 import org.nikosoft.oanda.api.ApiModel.TransactionModel._
 import org.nikosoft.oanda.api.ApiModel.AccountModel._
 import org.nikosoft.oanda.api.ApiModel.OrderModel.OrderPositionFill.OrderPositionFill
 import org.nikosoft.oanda.api.ApiModel.OrderModel.OrderState.OrderState
 import org.nikosoft.oanda.api.ApiModel.OrderModel.OrderTriggerCondition.OrderTriggerCondition
+import org.nikosoft.oanda.api.ApiModel.OrderModel.OrderType.OrderType
 import org.nikosoft.oanda.api.ApiModel.OrderModel.TimeInForce.TimeInForce
 import org.nikosoft.oanda.api.ApiModel.OrderModel._
 import org.nikosoft.oanda.api.ApiModel.TradeModel._
@@ -2766,7 +2769,9 @@ object ApiModel {
       /** The current state of the Order. */
       state: OrderState,
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
-      clientExtensions: Option[ClientExtensions]
+      clientExtensions: Option[ClientExtensions],
+      /** The type of the Order.*/
+      `type`: OrderType
     )
   
     /**
@@ -2782,7 +2787,7 @@ object ApiModel {
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** The type of the Order. Always set to "MARKET" for Market Orders. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.MARKET,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -2825,7 +2830,7 @@ object ApiModel {
       cancellingTransactionID: TransactionID,
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
       cancelledTime: DateTime
-    ) extends Order(id, createTime, state, clientExtensions)
+    ) extends Order(id, createTime, state, clientExtensions, `type`)
   
     /**
      * A LimitOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or better than the threshold.
@@ -2840,7 +2845,7 @@ object ApiModel {
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** The type of the Order. Always set to "LIMIT" for Limit Orders. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.LIMIT,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -2881,7 +2886,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    ) extends Order(id, createTime, state, clientExtensions)
+    ) extends Order(id, createTime, state, clientExtensions, `type`)
   
     /**
      * A StopOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or worse than the threshold.
@@ -2896,7 +2901,7 @@ object ApiModel {
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** The type of the Order. Always set to "STOP" for Stop Orders. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.STOP,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -2939,7 +2944,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    ) extends Order(id, createTime, state, clientExtensions)
+    ) extends Order(id, createTime, state, clientExtensions, `type`)
   
     /**
      * A MarketIfTouchedOrder is an order that is created with a price threshold, and will only be filled by a market price that is touches or crosses the threshold.
@@ -2954,7 +2959,7 @@ object ApiModel {
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** The type of the Order. Always set to "MARKET_IF_TOUCHED" for Market If Touched Orders. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.MARKET_IF_TOUCHED,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -2999,7 +3004,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    ) extends Order(id, createTime, state, clientExtensions)
+    ) extends Order(id, createTime, state, clientExtensions, `type`)
   
     /**
      * A TakeProfitOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or better than the threshold. A TakeProfitOrder cannot be used to open a new Position.
@@ -3014,7 +3019,7 @@ object ApiModel {
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** The type of the Order. Always set to "TAKE_PROFIT" for Take Profit Orders. */
-      //`type`: OrderType,
+      `type`: OrderType = OrderType.TAKE_PROFIT,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -3045,7 +3050,7 @@ object ApiModel {
       replacesOrderID: Option[OrderID],
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: Option[OrderID]
-    ) extends Order(id, createTime, state, clientExtensions)
+    ) extends Order(id, createTime, state, clientExtensions, `type`)
   
     /**
      * A StopLossOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or worse than the threshold. A StopLossOrder cannot be used to open a new Position.
@@ -3060,7 +3065,7 @@ object ApiModel {
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** The type of the Order. Always set to "STOP_LOSS" for Stop Loss Orders. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.STOP_LOSS,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -3091,7 +3096,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    ) extends Order(id, createTime, state, clientExtensions)
+    ) extends Order(id, createTime, state, clientExtensions, `type`)
   
     /**
      * A TrailingStopLossOrder is an order that is linked to an open Trade and created with a price distance. The price distance is used to calculate a trailing stop value for the order that is in the losing direction from the market price at the time of the order’s creation. The trailing stop value will follow the market price as it moves in the winning direction, and the order will filled (closing the Trade) by the first price that is equal to or worse than the trailing stop value. A TrailingStopLossOrder cannot be used to open a new Position.
@@ -3106,7 +3111,7 @@ object ApiModel {
       /** The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** The type of the Order. Always set to "TRAILING_STOP_LOSS" for Trailing Stop Loss Orders. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.TRAILING_STOP_LOSS,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -3139,7 +3144,7 @@ object ApiModel {
       replacesOrderID: OrderID,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: OrderID
-    ) extends Order(id, createTime, state, clientExtensions)
+    ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     abstract class OrderRequest()
 
@@ -3148,7 +3153,7 @@ object ApiModel {
      */
     case class MarketOrderRequest(
       /** The type of the Order to Create. Must be set to "MARKET" when creating a Market Order. */
-//     // `type`: OrderType,
+      `type`: OrderType = OrderType.MARKET,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -3176,7 +3181,7 @@ object ApiModel {
      */
     case class LimitOrderRequest(
       /** The type of the Order to Create. Must be set to "LIMIT" when creating a Market Order. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.LIMIT,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -3208,7 +3213,7 @@ object ApiModel {
      */
     case class StopOrderRequest(
       /** The type of the Order to Create. Must be set to "STOP" when creating a Stop Order. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.STOP,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -3242,7 +3247,7 @@ object ApiModel {
      */
     case class MarketIfTouchedOrderRequest(
       /** The type of the Order to Create. Must be set to "MARKET_IF_TOUCHED" when creating a Market If Touched Order. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.MARKET_IF_TOUCHED,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -3276,7 +3281,7 @@ object ApiModel {
      */
     case class TakeProfitOrderRequest(
       /** The type of the Order to Create. Must be set to "TAKE_PROFIT" when creating a Take Profit Order. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.TAKE_PROFIT,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -3298,7 +3303,7 @@ object ApiModel {
      */
     case class StopLossOrderRequest(
       /** The type of the Order to Create. Must be set to "STOP_LOSS" when creating a Stop Loss Order. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.STOP_LOSS,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -3320,7 +3325,7 @@ object ApiModel {
      */
     case class TrailingStopLossOrderRequest(
       /** The type of the Order to Create. Must be set to "TRAILING_STOP_LOSS" when creating a Trailng Stop Loss Order. */
-     // `type`: OrderType,
+      `type`: OrderType = OrderType.TRAILING_STOP_LOSS,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -3833,7 +3838,9 @@ object ApiModel {
      * A date and time value using either RFC3339 or UNIX time representation.
      * Format: The RFC 3339 representation is a string conforming to
      */
-    case class DateTime(value: String) extends AnyVal
+    case class DateTime(value: String) extends AnyVal {
+      def toJodaDateTime = time.DateTime.parse(value)
+    }
     /**
      * DateTime header
      */

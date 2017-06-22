@@ -5,8 +5,9 @@ import org.nikosoft.oanda.api.ApiModel.InstrumentModel.CandlestickGranularity._
 import org.nikosoft.oanda.api.ApiModel.InstrumentModel.WeeklyAlignment._
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.{DateTime, InstrumentName}
 import org.nikosoft.oanda.api.Errors.Error
-import org.nikosoft.oanda.api.InstrumentApi.CandlesResponse
-import org.nikosoft.oanda.api.{ApiCommons, InstrumentApi}
+import org.nikosoft.oanda.api.`def`.InstrumentApi.CandlesResponse
+import org.nikosoft.oanda.api.ApiCommons
+import org.nikosoft.oanda.api.`def`.InstrumentApi
 
 import scalaz.\/
 

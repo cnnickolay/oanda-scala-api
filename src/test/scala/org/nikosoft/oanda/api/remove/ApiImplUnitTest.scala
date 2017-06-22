@@ -2,7 +2,7 @@ package org.nikosoft.oanda.api.remove
 
 import org.json4s.Formats
 import org.json4s.jackson.JsonMethods._
-import org.nikosoft.oanda.api.AccountsApi.AccountsResponse
+import org.nikosoft.oanda.api.`def`.AccountsApi.AccountsResponse
 import org.nikosoft.oanda.api.JsonSerializers
 import org.nikosoft.oanda.api.JsonSerializers.{Bear, Container, Fish}
 import org.scalatest.FunSuite
