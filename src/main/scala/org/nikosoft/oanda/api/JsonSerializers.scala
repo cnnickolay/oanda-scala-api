@@ -4,9 +4,13 @@ import org.joda.time.DateTime
 import org.json4s.JsonAST.{JInt, JString}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.{CustomSerializer, DefaultFormats, _}
-import org.nikosoft.oanda.api.model.ApiModel.InstrumentModel.CandlestickGranularity
-import org.nikosoft.oanda.api.model.ApiModel.PrimitivesModel.InstrumentType
-import org.nikosoft.oanda.api.remove.ApiModel._
+import ApiModel.InstrumentModel.CandlestickGranularity
+import ApiModel.PrimitivesModel.InstrumentType
+import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountFinancingMode
+import org.nikosoft.oanda.api.ApiModel.OrderModel._
+import org.nikosoft.oanda.api.ApiModel.PricingModel.PriceStatus
+import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState
+import org.nikosoft.oanda.api.ApiModel.TransactionModel._
 
 
 object JsonSerializers {
@@ -25,15 +29,18 @@ object JsonSerializers {
     case x: Double => JDouble(x)
   }))
 
-  private object DateTimeSerializer extends CustomSerializer[DateTime](format => ({
+  private object DateTimeSerializer extends CustomSerializer[DateTime](format => ( {
     case JString(date) => DateTime.parse(date)
   }, {
     case date: DateTime => JString(date.toString)
   }))
 
   trait Base
+
   case class Fish(id: String) extends Base
+
   case class Bear(name: Int) extends Base
+
   case class Container(base: Seq[Base])
 
   def formatsHints: DefaultFormats = new DefaultFormats {
@@ -71,6 +78,29 @@ object JsonSerializers {
     }
   }
 
-  private[api] def formats(classes: List[Class[_]]): Formats = formatsHints + StringToDouble + LongSerializer + DateTimeSerializer + new EnumNameSerializer(InstrumentType) + new EnumNameSerializer(CandlestickGranularity)
-
+  private[api] def formats(classes: List[Class[_]]): Formats = formatsHints +
+    StringToDouble +
+    LongSerializer +
+    DateTimeSerializer +
+    new EnumNameSerializer(AccountFinancingMode) +
+    new EnumNameSerializer(OrderPositionFill) +
+    new EnumNameSerializer(OrderState) +
+    new EnumNameSerializer(OrderTriggerCondition) +
+    new EnumNameSerializer(OrderType) +
+    new EnumNameSerializer(TimeInForce) +
+    new EnumNameSerializer(PriceStatus) +
+    new EnumNameSerializer(InstrumentType) +
+    new EnumNameSerializer(TradeState) +
+    new EnumNameSerializer(FundingReason) +
+    new EnumNameSerializer(LimitOrderReason) +
+    new EnumNameSerializer(MarketIfTouchedOrderReason) +
+    new EnumNameSerializer(MarketOrderMarginCloseoutReason) +
+    new EnumNameSerializer(MarketOrderReason) +
+    new EnumNameSerializer(OrderCancelReason) +
+    new EnumNameSerializer(OrderFillReason) +
+    new EnumNameSerializer(StopLossOrderReason) +
+    new EnumNameSerializer(StopOrderReason) +
+    new EnumNameSerializer(TakeProfitOrderReason) +
+    new EnumNameSerializer(TrailingStopLossOrderReason) +
+    new EnumNameSerializer(TransactionRejectReason)
 }

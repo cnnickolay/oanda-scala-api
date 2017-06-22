@@ -2,10 +2,10 @@ package org.nikosoft.oanda.api
 
 import org.nikosoft.oanda.api.Errors.Error
 import org.nikosoft.oanda.api.InstrumentApi.CandlesResponse
-import org.nikosoft.oanda.api.model.ApiModel.InstrumentModel.Candlestick
-import org.nikosoft.oanda.api.model.ApiModel.InstrumentModel.CandlestickGranularity.{CandlestickGranularity, S5}
-import org.nikosoft.oanda.api.model.ApiModel.InstrumentModel.WeeklyAlignment.{Friday, WeeklyAlignment}
-import org.nikosoft.oanda.api.model.ApiModel.PrimitivesModel.{DateTime, InstrumentName}
+import ApiModel.InstrumentModel.Candlestick
+import ApiModel.InstrumentModel.CandlestickGranularity.{CandlestickGranularity, S5}
+import ApiModel.InstrumentModel.WeeklyAlignment.{Friday, WeeklyAlignment}
+import ApiModel.PrimitivesModel.{DateTime, InstrumentName}
 
 import scalaz.Scalaz._
 import scalaz.\/

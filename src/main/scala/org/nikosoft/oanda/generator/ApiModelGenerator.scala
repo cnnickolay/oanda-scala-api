@@ -1,8 +1,8 @@
-package org.nikosoft.oanda.api.generator
+package org.nikosoft.oanda.generator
 
 import com.gargoylesoftware.htmlunit.WebClient
 import com.gargoylesoftware.htmlunit.html.{HtmlDivision, HtmlElement, HtmlPage, HtmlSpan}
-import org.nikosoft.oanda.api.generator.ApiModelGeneratorParsers.ParameterTable
+import org.nikosoft.oanda.generator.ApiModelGeneratorParsers.ParameterTable
 
 import scala.collection.JavaConverters._
 

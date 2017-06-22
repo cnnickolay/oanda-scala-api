@@ -1,10 +1,11 @@
-package org.nikosoft.oanda.api
+package org.nikosoft.oanda.api.impl
 
 import org.apache.http.client.fluent.Request
 import org.nikosoft.oanda.api.AccountsApi.{AccountInstrumentsResponse, AccountSummaryResponse, AccountsDetailsResponse, AccountsResponse}
+import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
+import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
 import org.nikosoft.oanda.api.Errors.Error
-import org.nikosoft.oanda.api.model.ApiModel.AccountModel.AccountID
-import org.nikosoft.oanda.api.model.ApiModel.PrimitivesModel.InstrumentName
+import org.nikosoft.oanda.api.{AccountsApi, ApiCommons}
 
 import scalaz.\/
 

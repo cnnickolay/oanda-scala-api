@@ -2,9 +2,9 @@ package org.nikosoft.oanda.api
 
 import org.nikosoft.oanda.api.AccountsApi.{AccountInstrumentsResponse, AccountSummaryResponse, AccountsDetailsResponse, AccountsResponse}
 import org.nikosoft.oanda.api.Errors.Error
-import org.nikosoft.oanda.api.model.ApiModel.AccountModel.{Account, AccountID, AccountProperties, AccountSummary}
-import org.nikosoft.oanda.api.model.ApiModel.PrimitivesModel.{InstrumentName, Instrument}
-import org.nikosoft.oanda.api.model.ApiModel.TransactionModel.TransactionID
+import ApiModel.AccountModel.{Account, AccountID, AccountProperties, AccountSummary}
+import ApiModel.PrimitivesModel.{InstrumentName, Instrument}
+import ApiModel.TransactionModel.TransactionID
 
 import scalaz._
 

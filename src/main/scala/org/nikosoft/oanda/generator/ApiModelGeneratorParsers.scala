@@ -1,4 +1,4 @@
-package org.nikosoft.oanda.api.generator
+package org.nikosoft.oanda.generator
 
 object ApiModelGeneratorParsers {
   case class JsonObjectField(description: String = "", name: String = "", `type`: String = "", array: Boolean = false, default: Option[String] = None)

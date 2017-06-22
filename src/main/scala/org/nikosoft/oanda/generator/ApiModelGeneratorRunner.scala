@@ -1,4 +1,4 @@
-package org.nikosoft.oanda.api.generator
+package org.nikosoft.oanda.generator
 
 import java.nio.file.{Files, Paths}
 

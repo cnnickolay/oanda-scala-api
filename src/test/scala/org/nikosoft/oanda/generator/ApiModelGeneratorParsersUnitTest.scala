@@ -1,6 +1,6 @@
-package org.nikosoft.oanda.api.generator
+package org.nikosoft.oanda.generator
 
-import org.nikosoft.oanda.api.generator.ApiModelGeneratorParsers.ParameterTable
+import org.nikosoft.oanda.generator.ApiModelGeneratorParsers.ParameterTable
 import org.scalatest.{FunSuite, Matchers}
 
 class ApiModelGeneratorParsersUnitTest extends FunSuite with Matchers {

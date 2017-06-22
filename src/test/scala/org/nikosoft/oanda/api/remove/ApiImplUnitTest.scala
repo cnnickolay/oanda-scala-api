@@ -2,7 +2,7 @@ package org.nikosoft.oanda.api.remove
 
 import org.json4s.Formats
 import org.json4s.jackson.JsonMethods._
-import ApiModel.AccountCall.AccountResponse
+import org.nikosoft.oanda.api.AccountsApi.AccountsResponse
 import org.nikosoft.oanda.api.JsonSerializers
 import org.nikosoft.oanda.api.JsonSerializers.{Bear, Container, Fish}
 import org.scalatest.FunSuite
@@ -29,10 +29,10 @@ class ApiImplUnitTest extends FunSuite {
         |"unrealizedPL":"-2.4386","NAV":"74.5647","marginUsed":"20.0022","marginAvailable":"54.5625","positionValue":"1000.1076","marginCloseoutUnrealizedPL":"-2.3847","marginCloseoutNAV":"74.6186","marginCloseoutMarginUsed":"20.0000","marginCloseoutPositionValue":"1000.0000","marginCloseoutPercent":"0.13401","withdrawalLimit":"54.5625","marginCallMarginUsed":"20.0000","marginCallPercent":"0.26803"},
         |"lastTransactionID":"87"}""".stripMargin
 
-    println(parse(json).children.head.extract[AccountResponse])
+    println(parse(json).children.head.extract[AccountsResponse])
   }
 
-  test("x") {
+  test("check json4s inheritance tricks") {
     import org.json4s.native.Serialization.read
 
     val json1 = """{"base" : [{"type": "FISHO", "id": "123"}, {"type": "BEARO", "name": 123}]}"""
