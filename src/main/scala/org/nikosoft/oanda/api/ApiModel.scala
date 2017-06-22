@@ -3174,7 +3174,7 @@ object ApiModel {
       trailingStopLossOnFill: TrailingStopLossDetails,
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions]
-    )
+    ) extends OrderRequest
   
     /**
      * A LimitOrderRequest specifies the parameters that may be set when creating a Limit Order.
@@ -3189,24 +3189,24 @@ object ApiModel {
       /** The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price. */
       price: PriceValue,
       /** The time-in-force requested for the Limit Order. */
-      timeInForce: TimeInForce,
+      timeInForce: TimeInForce = TimeInForce.GTC,
       /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime] = None,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
-      positionFill: OrderPositionFill,
+      positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
-      triggerCondition: OrderTriggerCondition,
+      triggerCondition: OrderTriggerCondition = OrderTriggerCondition.DEFAULT,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
-      clientExtensions: Option[ClientExtensions],
+      clientExtensions: Option[ClientExtensions] = None,
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails] = None,
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails] = None,
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails] = None,
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
-      tradeclientExtensions: Option[ClientExtensions]
-    )
+      tradeclientExtensions: Option[ClientExtensions] = None
+    ) extends OrderRequest
   
     /**
      * A StopOrderRequest specifies the parameters that may be set when creating a Stop Order.
@@ -3227,20 +3227,20 @@ object ApiModel {
       /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
       gtdTime: DateTime,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
-      positionFill: OrderPositionFill,
+      positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
-      triggerCondition: OrderTriggerCondition,
+      triggerCondition: OrderTriggerCondition = OrderTriggerCondition.DEFAULT,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions]
-    )
+    ) extends OrderRequest
   
     /**
      * A MarketIfTouchedOrderRequest specifies the parameters that may be set when creating a Market-if-Touched Order.
@@ -3274,7 +3274,7 @@ object ApiModel {
       trailingStopLossOnFill: TrailingStopLossDetails,
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions]
-    )
+    ) extends OrderRequest
   
     /**
      * A TakeProfitOrderRequest specifies the parameters that may be set when creating a Take Profit Order.
@@ -3296,7 +3296,7 @@ object ApiModel {
       triggerCondition: OrderTriggerCondition,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions]
-    )
+    ) extends OrderRequest
   
     /**
      * A StopLossOrderRequest specifies the parameters that may be set when creating a Stop Loss Order.
@@ -3318,7 +3318,7 @@ object ApiModel {
       triggerCondition: OrderTriggerCondition,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions]
-    )
+    ) extends OrderRequest
   
     /**
      * A TrailingStopLossOrderRequest specifies the parameters that may be set when creating a Trailing Stop Loss Order.
@@ -3340,7 +3340,7 @@ object ApiModel {
       triggerCondition: OrderTriggerCondition,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions]
-    )
+    ) extends OrderRequest
     /**
      * The Order’s identifier, unique within the Order’s Account.
      * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.

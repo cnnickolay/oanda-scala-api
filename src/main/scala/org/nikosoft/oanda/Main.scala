@@ -2,9 +2,11 @@ package org.nikosoft.oanda
 
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
 import org.nikosoft.oanda.api.ApiModel.InstrumentModel.CandlestickGranularity
+import org.nikosoft.oanda.api.ApiModel.OrderModel.LimitOrderRequest
+import org.nikosoft.oanda.api.ApiModel.PricingModel.PriceValue
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
 import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState
-import org.nikosoft.oanda.api.impl.TradeApiImpl
+import org.nikosoft.oanda.api.impl.{OrderApiImpl, TradeApiImpl}
 
 import scalaz.{-\/, \/-}
 
@@ -28,6 +30,6 @@ object Main extends App {
   }
 */
 
-  println(TradeApiImpl.trades(accountId = AccountID("001-004-1442547-003"), instrument = InstrumentName("EUR_USD"), state = TradeState.CLOSED))
+  OrderApiImpl.order(AccountID(""), LimitOrderRequest(instrument = InstrumentName("EUR_USD"), units = 0.01, price = PriceValue("0.1")))
 
 }
