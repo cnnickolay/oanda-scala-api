@@ -413,9 +413,9 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
-      cancellingTransactionID: TransactionID
+      cancellingTransactionID: Option[TransactionID]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
@@ -463,7 +463,7 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
-      intendedReplacesOrderID: OrderID,
+      intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -515,9 +515,9 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
-      cancellingTransactionID: TransactionID
+      cancellingTransactionID: Option[TransactionID]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
@@ -567,7 +567,7 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
-      intendedReplacesOrderID: OrderID,
+      intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -619,9 +619,9 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
-      cancellingTransactionID: TransactionID
+      cancellingTransactionID: Option[TransactionID]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
@@ -671,7 +671,7 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
-      intendedReplacesOrderID: OrderID,
+      intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -713,9 +713,9 @@ object ApiModel {
       /** The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled). */
       orderFillTransactionID: TransactionID,
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
-      cancellingTransactionID: TransactionID
+      cancellingTransactionID: Option[TransactionID]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
@@ -755,7 +755,7 @@ object ApiModel {
       /** The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled). */
       orderFillTransactionID: TransactionID,
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
-      intendedReplacesOrderID: OrderID,
+      intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -797,9 +797,9 @@ object ApiModel {
       /** The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled). */
       orderFillTransactionID: TransactionID,
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
-      cancellingTransactionID: TransactionID
+      cancellingTransactionID: Option[TransactionID]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
@@ -839,7 +839,7 @@ object ApiModel {
       /** The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled). */
       orderFillTransactionID: TransactionID,
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
-      intendedReplacesOrderID: OrderID,
+      intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -881,9 +881,9 @@ object ApiModel {
       /** The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled). */
       orderFillTransactionID: TransactionID,
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
-      cancellingTransactionID: TransactionID
+      cancellingTransactionID: Option[TransactionID]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
 
     /**
@@ -923,7 +923,7 @@ object ApiModel {
       /** The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled). */
       orderFillTransactionID: TransactionID,
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
-      intendedReplacesOrderID: OrderID,
+      intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
@@ -997,7 +997,7 @@ object ApiModel {
       /** The reason that the Order was cancelled. */
       reason: OrderCancelReason,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement). */
-      replacedByOrderID: OrderID
+      replacedByOrderID: Option[OrderID]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID)
   
     /**
@@ -2795,43 +2795,43 @@ object ApiModel {
       /** The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder. */
       timeInForce: TimeInForce,
       /** The worst price that the client is willing to have the Market Order filled at. */
-      priceBound: PriceValue,
+      priceBound: Option[PriceValue],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Details of the Trade requested to be closed, only provided when the Market Order is being used to explicitly close a Trade. */
-      tradeClose: MarketOrderTradeClose,
+      tradeClose: Option[MarketOrderTradeClose],
       /** Details of the long Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a long Position. */
-      longPositionCloseout: MarketOrderPositionCloseout,
+      longPositionCloseout: Option[MarketOrderPositionCloseout],
       /** Details of the short Position requested to be closed out, only provided when a Market Order is being used to explicitly closeout a short Position. */
-      shortPositionCloseout: MarketOrderPositionCloseout,
+      shortPositionCloseout: Option[MarketOrderPositionCloseout],
       /** Details of the Margin Closeout that this Market Order was created for */
-      marginCloseout: MarketOrderMarginCloseout,
+      marginCloseout: Option[MarketOrderMarginCloseout],
       /** Details of the delayed Trade close that this Market Order was created for */
-      delayedTradeClose: MarketOrderDelayedTradeClose,
+      delayedTradeClose: Option[MarketOrderDelayedTradeClose],
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
-      fillingTransactionID: TransactionID,
+      fillingTransactionID: Option[TransactionID],
       /** Date/time when the Order was filled (only provided when the Order’s state is FILLED) */
-      filledTime: DateTime,
+      filledTime: Option[DateTime],
       /** Trade ID of Trade opened when the Order was filled (only provided when the Order’s state is FILLED and a Trade was opened as a result of the fill) */
-      tradeOpenedID: TradeID,
+      tradeOpenedID: Option[TradeID],
       /** Trade ID of Trade reduced when the Order was filled (only provided when the Order’s state is FILLED and a Trade was reduced as a result of the fill) */
-      tradeReducedID: TradeID,
+      tradeReducedID: Option[TradeID],
       /** Trade IDs of Trades closed when the Order was filled (only provided when the Order’s state is FILLED and one or more Trades were closed as a result of the fill) */
       tradeClosedIDs: Seq[TradeID],
       /** ID of the Transaction that cancelled the Order (only provided when the Order’s state is CANCELLED) */
-      cancellingTransactionID: TransactionID,
+      cancellingTransactionID: Option[TransactionID],
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
-      cancelledTime: DateTime
+      cancelledTime: Option[DateTime]
     ) extends Order(id, createTime, state, clientExtensions, `type`)
-  
+
     /**
      * A LimitOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or better than the threshold.
      */
@@ -2855,39 +2855,39 @@ object ApiModel {
       /** The time-in-force requested for the Limit Order. */
       timeInForce: TimeInForce,
       /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
-      fillingTransactionID: TransactionID,
+      fillingTransactionID: Option[TransactionID],
       /** Date/time when the Order was filled (only provided when the Order’s state is FILLED) */
-      filledTime: DateTime,
+      filledTime: Option[DateTime],
       /** Trade ID of Trade opened when the Order was filled (only provided when the Order’s state is FILLED and a Trade was opened as a result of the fill) */
-      tradeOpenedID: TradeID,
+      tradeOpenedID: Option[TradeID],
       /** Trade ID of Trade reduced when the Order was filled (only provided when the Order’s state is FILLED and a Trade was reduced as a result of the fill) */
-      tradeReducedID: TradeID,
+      tradeReducedID: Option[TradeID],
       /** Trade IDs of Trades closed when the Order was filled (only provided when the Order’s state is FILLED and one or more Trades were closed as a result of the fill) */
       tradeClosedIDs: Seq[TradeID],
       /** ID of the Transaction that cancelled the Order (only provided when the Order’s state is CANCELLED) */
-      cancellingTransactionID: TransactionID,
+      cancellingTransactionID: Option[TransactionID],
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
-      cancelledTime: DateTime,
+      cancelledTime: Option[DateTime],
       /** The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
-      replacedByOrderID: OrderID
+      replacedByOrderID: Option[OrderID]
     ) extends Order(id, createTime, state, clientExtensions, `type`)
-  
+
     /**
      * A StopOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or worse than the threshold.
      */
@@ -2909,11 +2909,11 @@ object ApiModel {
       /** The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price. */
       price: PriceValue,
       /** The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled. */
-      priceBound: PriceValue,
+      priceBound: Option[PriceValue],
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
       /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -2927,25 +2927,25 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
-      fillingTransactionID: TransactionID,
+      fillingTransactionID: Option[TransactionID],
       /** Date/time when the Order was filled (only provided when the Order’s state is FILLED) */
-      filledTime: DateTime,
+      filledTime: Option[DateTime],
       /** Trade ID of Trade opened when the Order was filled (only provided when the Order’s state is FILLED and a Trade was opened as a result of the fill) */
-      tradeOpenedID: TradeID,
+      tradeOpenedID: Option[TradeID],
       /** Trade ID of Trade reduced when the Order was filled (only provided when the Order’s state is FILLED and a Trade was reduced as a result of the fill) */
-      tradeReducedID: TradeID,
+      tradeReducedID: Option[TradeID],
       /** Trade IDs of Trades closed when the Order was filled (only provided when the Order’s state is FILLED and one or more Trades were closed as a result of the fill) */
       tradeClosedIDs: Seq[TradeID],
       /** ID of the Transaction that cancelled the Order (only provided when the Order’s state is CANCELLED) */
-      cancellingTransactionID: TransactionID,
+      cancellingTransactionID: Option[TransactionID],
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
-      cancelledTime: DateTime,
+      cancelledTime: Option[DateTime],
       /** The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
-      replacedByOrderID: OrderID
+      replacedByOrderID: Option[OrderID]
     ) extends Order(id, createTime, state, clientExtensions, `type`)
-  
+
     /**
      * A MarketIfTouchedOrder is an order that is created with a price threshold, and will only be filled by a market price that is touches or crosses the threshold.
      */
@@ -2967,11 +2967,11 @@ object ApiModel {
       /** The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order’s price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order. */
       price: PriceValue,
       /** The worst market price that may be used to fill this MarketIfTouched Order. */
-      priceBound: PriceValue,
+      priceBound: Option[PriceValue],
       /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -2987,25 +2987,25 @@ object ApiModel {
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
-      fillingTransactionID: TransactionID,
+      fillingTransactionID: Option[TransactionID],
       /** Date/time when the Order was filled (only provided when the Order’s state is FILLED) */
-      filledTime: DateTime,
+      filledTime: Option[DateTime],
       /** Trade ID of Trade opened when the Order was filled (only provided when the Order’s state is FILLED and a Trade was opened as a result of the fill) */
-      tradeOpenedID: TradeID,
+      tradeOpenedID: Option[TradeID],
       /** Trade ID of Trade reduced when the Order was filled (only provided when the Order’s state is FILLED and a Trade was reduced as a result of the fill) */
-      tradeReducedID: TradeID,
+      tradeReducedID: Option[TradeID],
       /** Trade IDs of Trades closed when the Order was filled (only provided when the Order’s state is FILLED and one or more Trades were closed as a result of the fill) */
       tradeClosedIDs: Seq[TradeID],
       /** ID of the Transaction that cancelled the Order (only provided when the Order’s state is CANCELLED) */
-      cancellingTransactionID: TransactionID,
+      cancellingTransactionID: Option[TransactionID],
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
-      cancelledTime: DateTime,
+      cancelledTime: Option[DateTime],
       /** The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
-      replacedByOrderID: OrderID
+      replacedByOrderID: Option[OrderID]
     ) extends Order(id, createTime, state, clientExtensions, `type`)
-  
+
     /**
      * A TakeProfitOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or better than the threshold. A TakeProfitOrder cannot be used to open a new Position.
      */
@@ -3033,9 +3033,9 @@ object ApiModel {
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
-      fillingTransactionID: TransactionID,
+      fillingTransactionID: Option[TransactionID],
       /** Date/time when the Order was filled (only provided when the Order’s state is FILLED) */
-      filledTime: DateTime,
+      filledTime: Option[DateTime],
       /** Trade ID of Trade opened when the Order was filled (only provided when the Order’s state is FILLED and a Trade was opened as a result of the fill) */
       tradeOpenedID: Option[TradeID],
       /** Trade ID of Trade reduced when the Order was filled (only provided when the Order’s state is FILLED and a Trade was reduced as a result of the fill) */
@@ -3051,7 +3051,7 @@ object ApiModel {
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
       replacedByOrderID: Option[OrderID]
     ) extends Order(id, createTime, state, clientExtensions, `type`)
-  
+
     /**
      * A StopLossOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or worse than the threshold. A StopLossOrder cannot be used to open a new Position.
      */
@@ -3069,35 +3069,35 @@ object ApiModel {
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
-      clientTradeID: ClientID,
+      clientTradeID: Option[ClientID],
       /** The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold. */
       price: PriceValue,
       /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
-      fillingTransactionID: TransactionID,
+      fillingTransactionID: Option[TransactionID],
       /** Date/time when the Order was filled (only provided when the Order’s state is FILLED) */
-      filledTime: DateTime,
+      filledTime: Option[DateTime],
       /** Trade ID of Trade opened when the Order was filled (only provided when the Order’s state is FILLED and a Trade was opened as a result of the fill) */
-      tradeOpenedID: TradeID,
+      tradeOpenedID: Option[TradeID],
       /** Trade ID of Trade reduced when the Order was filled (only provided when the Order’s state is FILLED and a Trade was reduced as a result of the fill) */
-      tradeReducedID: TradeID,
+      tradeReducedID: Option[TradeID],
       /** Trade IDs of Trades closed when the Order was filled (only provided when the Order’s state is FILLED and one or more Trades were closed as a result of the fill) */
       tradeClosedIDs: Seq[TradeID],
       /** ID of the Transaction that cancelled the Order (only provided when the Order’s state is CANCELLED) */
-      cancellingTransactionID: TransactionID,
+      cancellingTransactionID: Option[TransactionID],
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
-      cancelledTime: DateTime,
+      cancelledTime: Option[DateTime],
       /** The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
-      replacedByOrderID: OrderID
+      replacedByOrderID: Option[OrderID]
     ) extends Order(id, createTime, state, clientExtensions, `type`)
-  
+
     /**
      * A TrailingStopLossOrder is an order that is linked to an open Trade and created with a price distance. The price distance is used to calculate a trailing stop value for the order that is in the losing direction from the market price at the time of the order’s creation. The trailing stop value will follow the market price as it moves in the winning direction, and the order will filled (closing the Trade) by the first price that is equal to or worse than the trailing stop value. A TrailingStopLossOrder cannot be used to open a new Position.
      */
@@ -3115,35 +3115,35 @@ object ApiModel {
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
-      clientTradeID: ClientID,
+      clientTradeID: Option[ClientID],
       /** The price distance specified for the TrailingStopLoss Order. */
       distance: PriceValue,
       /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order’s configured "distance" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed. */
       trailingStopValue: PriceValue,
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
-      fillingTransactionID: TransactionID,
+      fillingTransactionID: Option[TransactionID],
       /** Date/time when the Order was filled (only provided when the Order’s state is FILLED) */
-      filledTime: DateTime,
+      filledTime: Option[DateTime],
       /** Trade ID of Trade opened when the Order was filled (only provided when the Order’s state is FILLED and a Trade was opened as a result of the fill) */
-      tradeOpenedID: TradeID,
+      tradeOpenedID: Option[TradeID],
       /** Trade ID of Trade reduced when the Order was filled (only provided when the Order’s state is FILLED and a Trade was reduced as a result of the fill) */
-      tradeReducedID: TradeID,
+      tradeReducedID: Option[TradeID],
       /** Trade IDs of Trades closed when the Order was filled (only provided when the Order’s state is FILLED and one or more Trades were closed as a result of the fill) */
       tradeClosedIDs: Seq[TradeID],
       /** ID of the Transaction that cancelled the Order (only provided when the Order’s state is CANCELLED) */
-      cancellingTransactionID: TransactionID,
+      cancellingTransactionID: Option[TransactionID],
       /** Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED) */
-      cancelledTime: DateTime,
+      cancelledTime: Option[DateTime],
       /** The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace). */
-      replacesOrderID: OrderID,
+      replacesOrderID: Option[OrderID],
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace). */
-      replacedByOrderID: OrderID
+      replacedByOrderID: Option[OrderID]
     ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     abstract class OrderRequest()
@@ -3161,7 +3161,7 @@ object ApiModel {
       /** The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder. */
       timeInForce: TimeInForce,
       /** The worst price that the client is willing to have the Market Order filled at. */
-      priceBound: PriceValue,
+      priceBound: Option[PriceValue],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
@@ -3221,11 +3221,11 @@ object ApiModel {
       /** The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price. */
       price: PriceValue,
       /** The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled. */
-      priceBound: PriceValue,
+      priceBound: Option[PriceValue],
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
       /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -3255,11 +3255,11 @@ object ApiModel {
       /** The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order’s price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order. */
       price: PriceValue,
       /** The worst market price that may be used to fill this MarketIfTouched Order. */
-      priceBound: PriceValue,
+      priceBound: Option[PriceValue],
       /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -3285,13 +3285,13 @@ object ApiModel {
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
-      clientTradeID: ClientID,
+      clientTradeID: Option[ClientID],
       /** The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold. */
       price: PriceValue,
       /** The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
@@ -3307,13 +3307,13 @@ object ApiModel {
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
-      clientTradeID: ClientID,
+      clientTradeID: Option[ClientID],
       /** The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold. */
       price: PriceValue,
       /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
@@ -3329,13 +3329,13 @@ object ApiModel {
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
-      clientTradeID: ClientID,
+      clientTradeID: Option[ClientID],
       /** The price distance specified for the TrailingStopLoss Order. */
       distance: PriceValue,
       /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */

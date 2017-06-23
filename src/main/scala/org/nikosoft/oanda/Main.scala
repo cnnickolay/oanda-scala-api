@@ -2,10 +2,11 @@ package org.nikosoft.oanda
 
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
 import org.nikosoft.oanda.api.ApiModel.InstrumentModel.CandlestickGranularity
-import org.nikosoft.oanda.api.ApiModel.OrderModel.LimitOrderRequest
+import org.nikosoft.oanda.api.ApiModel.OrderModel.{LimitOrderRequest, OrderSpecifier, OrderState}
 import org.nikosoft.oanda.api.ApiModel.PricingModel.PriceValue
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
 import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState
+import org.nikosoft.oanda.api.`def`.OrderApi.CreateOrderRequest
 import org.nikosoft.oanda.api.impl.{OrderApiImpl, TradeApiImpl}
 
 import scalaz.{-\/, \/-}
@@ -30,6 +31,13 @@ object Main extends App {
   }
 */
 
-  OrderApiImpl.order(AccountID(""), LimitOrderRequest(instrument = InstrumentName("EUR_USD"), units = 0.01, price = PriceValue("0.1")))
+  val accountId = System.getProperty("accountID")
+
+//  OrderApiImpl.order(AccountID(accountId), OrderRequestWrapper(LimitOrderRequest(instrument = InstrumentName("EUR_USD"), units = 1000, price = PriceValue("0.1"))))
+
+  val \/-(orders) = OrderApiImpl.orders(AccountID(accountId), state = OrderState.PENDING)
+  orders.orders.foreach(println)
+
+  println(OrderApiImpl.cancelOrder(AccountID(accountId), OrderSpecifier("237")))
 
 }

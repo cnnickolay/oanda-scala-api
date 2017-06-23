@@ -16,7 +16,7 @@ import scalaz.\/
   */
 trait ApiCommons {
 
-  implicit val formats = JsonSerializers.formats(List.empty)
+  implicit val formats = JsonSerializers.formats
 
   protected val baseUrl = s"https://api-fxtrade.oanda.com/v3"
 

@@ -2,14 +2,13 @@ package org.nikosoft.oanda.api.remove
 
 import org.json4s.Formats
 import org.json4s.jackson.JsonMethods._
-import org.nikosoft.oanda.api.`def`.AccountsApi.AccountsResponse
 import org.nikosoft.oanda.api.JsonSerializers
-import org.nikosoft.oanda.api.JsonSerializers.{Bear, Container, Fish}
+import org.nikosoft.oanda.api.`def`.AccountsApi.AccountsResponse
 import org.scalatest.FunSuite
 
 class ApiImplUnitTest extends FunSuite {
 
-  implicit val formats: Formats = JsonSerializers.formats(List(classOf[Fish], classOf[Bear]))
+  implicit val formats: Formats = JsonSerializers.formats
 
   test("parse account json") {
 
@@ -30,15 +29,6 @@ class ApiImplUnitTest extends FunSuite {
         |"lastTransactionID":"87"}""".stripMargin
 
     println(parse(json).children.head.extract[AccountsResponse])
-  }
-
-  test("check json4s inheritance tricks") {
-    import org.json4s.native.Serialization.read
-
-    val json1 = """{"base" : [{"type": "FISHO", "id": "123"}, {"type": "BEARO", "name": 123}]}"""
-
-    println(read[Container](json1))
-
   }
 
 }

@@ -4,11 +4,10 @@ import org.joda.time.DateTime
 import org.json4s.JsonAST.{JInt, JString}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.{CustomSerializer, DefaultFormats, _}
-import ApiModel.InstrumentModel.CandlestickGranularity
-import ApiModel.PrimitivesModel.InstrumentType
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountFinancingMode
 import org.nikosoft.oanda.api.ApiModel.OrderModel._
 import org.nikosoft.oanda.api.ApiModel.PricingModel.PriceStatus
+import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentType
 import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState
 import org.nikosoft.oanda.api.ApiModel.TransactionModel._
 
@@ -20,13 +19,13 @@ object JsonSerializers {
     case JInt(x) => x.toLong
   }, {
     case x: Long => JInt(x)
-    case x: Double => JDouble(x)
+    case x: Double => JString(x.toString)
   }))
 
   private object StringToDouble extends CustomSerializer[Double](format => ( {
     case JString(x) => x.toDouble
   }, {
-    case x: Double => JDouble(x)
+    case x: Double => JString(x.toString)
   }))
 
   private object DateTimeSerializer extends CustomSerializer[DateTime](format => ( {
@@ -34,14 +33,6 @@ object JsonSerializers {
   }, {
     case date: DateTime => JString(date.toString)
   }))
-
-  trait Base
-
-  case class Fish(id: String) extends Base
-
-  case class Bear(name: Int) extends Base
-
-  case class Container(base: Seq[Base])
 
   def formatsHints: DefaultFormats = new DefaultFormats {
     override val typeHintFieldName: String = "type"
@@ -78,7 +69,7 @@ object JsonSerializers {
     }
   }
 
-  private[api] def formats(classes: List[Class[_]]): Formats = formatsHints +
+  private[api] def formats = formatsHints +
     StringToDouble +
     LongSerializer +
     DateTimeSerializer +
