@@ -14,6 +14,45 @@ import org.nikosoft.oanda.api.ApiModel.TransactionModel._
 
 object JsonSerializers {
 
+  def transactionMappings: List[(String, Class[_])] = List(
+    ("CREATE", classOf[CreateTransaction]),
+    ("CLOSE", classOf[CloseTransaction]),
+    ("REOPEN", classOf[ReopenTransaction]),
+    ("CLIENT_CONFIGURE", classOf[ClientConfigureTransaction]),
+    ("CLIENT_CONFIGURE_REJECT", classOf[ClientConfigureRejectTransaction]),
+    ("TRANSFER_FUNDS", classOf[TransferFundsTransaction]),
+    ("TRANSFER_FUNDS_REJECT", classOf[TransferFundsRejectTransaction]),
+    ("MARKET_ORDER", classOf[MarketOrderTransaction]),
+    ("MARKET_ORDER_REJECT", classOf[MarketOrderRejectTransaction]),
+    ("LIMIT_ORDER", classOf[LimitOrderTransaction]),
+    ("LIMIT_ORDER_REJECT", classOf[LimitOrderRejectTransaction]),
+    ("STOP_ORDER", classOf[StopOrderTransaction]),
+    ("STOP_ORDER_REJECT", classOf[StopOrderRejectTransaction]),
+    ("MARKET_IF_TOUCHED_ORDER", classOf[MarketIfTouchedOrderTransaction]),
+    ("MARKET_IF_TOUCHED_ORDER_REJECT", classOf[MarketIfTouchedOrderRejectTransaction]),
+    ("TAKE_PROFIT_ORDER", classOf[TakeProfitOrderTransaction]),
+    ("TAKE_PROFIT_ORDER_REJECT", classOf[TakeProfitOrderRejectTransaction]),
+    ("STOP_LOSS_ORDER", classOf[StopLossOrderTransaction]),
+    ("STOP_LOSS_ORDER_REJECT", classOf[StopLossOrderRejectTransaction]),
+    ("TRAILING_STOP_LOSS_ORDER", classOf[TrailingStopLossOrderTransaction]),
+    ("TRAILING_STOP_LOSS_ORDER_REJECT", classOf[TrailingStopLossOrderRejectTransaction]),
+    ("ORDER_FILL", classOf[OrderFillTransaction]),
+    ("ORDER_CANCEL", classOf[OrderCancelTransaction]),
+    ("ORDER_CANCEL_REJECT", classOf[OrderCancelRejectTransaction]),
+    ("ORDER_CLIENT_EXTENSIONS_MODIFY", classOf[OrderClientExtensionsModifyTransaction]),
+    ("ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT", classOf[OrderClientExtensionsModifyRejectTransaction]),
+    ("TRADE_CLIENT_EXTENSIONS_MODIFY", classOf[TradeClientExtensionsModifyTransaction]),
+    ("TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT", classOf[TradeClientExtensionsModifyRejectTransaction]),
+    ("MARGIN_CALL_ENTER", classOf[MarginCallEnterTransaction]),
+    ("MARGIN_CALL_EXTEND", classOf[MarginCallExtendTransaction]),
+    ("MARGIN_CALL_EXIT", classOf[MarginCallExitTransaction]),
+    ("DELAYED_TRADE_CLOSURE", classOf[DelayedTradeClosureTransaction]),
+    ("DAILY_FINANCING", classOf[DailyFinancingTransaction]),
+    ("RESET_RESETTABLE_PL", classOf[ResetResettablePLTransaction])
+  )
+  val transactionMappingsByType: Map[String, Class[_]] = transactionMappings.toMap
+  val transactionMappingsByClass: Map[Class[_], String] = transactionMappings.map(_.swap).toMap
+
   private object LongSerializer extends CustomSerializer[Long](format => ( {
     case JString(x) => x.toLong
     case JInt(x) => x.toLong
@@ -45,7 +84,7 @@ object JsonSerializers {
         classOf[TakeProfitOrder],
         classOf[StopLossOrder],
         classOf[TrailingStopLossOrder]
-      )
+      ) ++ transactionMappings.map(_._2)
 
       override def classFor(hint: String): Option[Class[_]] = hint match {
         case "TRAILING_STOP_LOSS" => Option(classOf[TrailingStopLossOrder])
@@ -55,6 +94,7 @@ object JsonSerializers {
         case "STOP" => Option(classOf[StopOrder])
         case "LIMIT" => Option(classOf[LimitOrder])
         case "MARKET" => Option(classOf[MarketOrder])
+        case t => transactionMappingsByType.get(t)
       }
 
       override def hintFor(clazz: Class[_]): String = clazz match {
@@ -65,6 +105,7 @@ object JsonSerializers {
         case _: Class[StopOrder] => "STOP"
         case _: Class[LimitOrder] => "LIMIT"
         case _: Class[MarketOrder] => "MARKET"
+        case c => transactionMappingsByClass(c)
       }
     }
   }

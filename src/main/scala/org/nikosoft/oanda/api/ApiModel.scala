@@ -30,47 +30,11 @@ import org.nikosoft.oanda.api.ApiModel.TransactionModel.StopOrderReason.StopOrde
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.TakeProfitOrderReason.TakeProfitOrderReason
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.TrailingStopLossOrderReason.TrailingStopLossOrderReason
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionRejectReason.TransactionRejectReason
+import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionType.TransactionType
 
 object ApiModel {
 
   object TransactionModel {
-
-    def transactionMappings = List(
-      ("CREATE", classOf[CreateTransaction]),
-      ("CLOSE", classOf[CloseTransaction]),
-      ("REOPEN", classOf[ReopenTransaction]),
-      ("CLIENT_CONFIGURE", classOf[ClientConfigureTransaction]),
-      ("CLIENT_CONFIGURE_REJECT", classOf[ClientConfigureRejectTransaction]),
-      ("TRANSFER_FUNDS", classOf[TransferFundsTransaction]),
-      ("TRANSFER_FUNDS_REJECT", classOf[TransferFundsRejectTransaction]),
-      ("MARKET_ORDER", classOf[MarketOrderTransaction]),
-      ("MARKET_ORDER_REJECT", classOf[MarketOrderRejectTransaction]),
-      ("LIMIT_ORDER", classOf[LimitOrderTransaction]),
-      ("LIMIT_ORDER_REJECT", classOf[LimitOrderRejectTransaction]),
-      ("STOP_ORDER", classOf[StopOrderTransaction]),
-      ("STOP_ORDER_REJECT", classOf[StopOrderRejectTransaction]),
-      ("MARKET_IF_TOUCHED_ORDER", classOf[MarketIfTouchedOrderTransaction]),
-      ("MARKET_IF_TOUCHED_ORDER_REJECT", classOf[MarketIfTouchedOrderRejectTransaction]),
-      ("TAKE_PROFIT_ORDER", classOf[TakeProfitOrderTransaction]),
-      ("TAKE_PROFIT_ORDER_REJECT", classOf[TakeProfitOrderRejectTransaction]),
-      ("STOP_LOSS_ORDER", classOf[StopLossOrderTransaction]),
-      ("STOP_LOSS_ORDER_REJECT", classOf[StopLossOrderRejectTransaction]),
-      ("TRAILING_STOP_LOSS_ORDER", classOf[TrailingStopLossOrderTransaction]),
-      ("TRAILING_STOP_LOSS_ORDER_REJECT", classOf[TrailingStopLossOrderRejectTransaction]),
-      ("ORDER_FILL", classOf[OrderFillTransaction]),
-      ("ORDER_CANCEL", classOf[OrderCancelTransaction]),
-      ("ORDER_CANCEL_REJECT", classOf[OrderCancelRejectTransaction]),
-      ("ORDER_CLIENT_EXTENSIONS_MODIFY", classOf[OrderClientExtensionsModifyTransaction]),
-      ("ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT", classOf[OrderClientExtensionsModifyRejectTransaction]),
-      ("TRADE_CLIENT_EXTENSIONS_MODIFY", classOf[TradeClientExtensionsModifyTransaction]),
-      ("TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT", classOf[TradeClientExtensionsModifyRejectTransaction]),
-      ("MARGIN_CALL_ENTER", classOf[MarginCallEnterTransaction]),
-      ("MARGIN_CALL_EXTEND", classOf[MarginCallExtendTransaction]),
-      ("MARGIN_CALL_EXIT", classOf[MarginCallExitTransaction]),
-      ("DELAYED_TRADE_CLOSURE", classOf[DelayedTradeClosureTransaction]),
-      ("DAILY_FINANCING", classOf[DailyFinancingTransaction]),
-      ("RESET_RESETTABLE_PL", classOf[ResetResettablePLTransaction])
-    )
 
     /**
      * The base Transaction specification. Specifies properties that are common between all Transaction.
@@ -87,7 +51,9 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID
+      requestID: RequestID,
+      /** The Type of the Transaction. */
+      `type`: TransactionType
     )
   
     /**
@@ -107,7 +73,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "CREATE" in a CreateTransaction. */
-      // `type`: TransactionType,
+       `type`: TransactionType = TransactionType.CREATE,
       /** The ID of the Division that the Account is in */
       divisionID: Int,
       /** The ID of the Site that the Account was created at */
@@ -118,7 +84,7 @@ object ApiModel {
       accountNumber: Int,
       /** The home currency of the Account */
       homeCurrency: Currency
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A CloseTransaction represents the closing of an Account.
@@ -136,9 +102,9 @@ object ApiModel {
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID
-      /** The Type of the Transaction. Always set to "CLOSE" in a CloseTransaction. */
-      // `type`: TransactionType
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+      /** The Type of the Transaction. Always set to "CLOSE" in a CloseTransaction. */,
+      `type`: TransactionType = TransactionType.CLOSE
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A ReopenTransaction represents the re-opening of a closed Account.
@@ -155,10 +121,10 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID
+      requestID: RequestID,
       /** The Type of the Transaction. Always set to "REOPEN" in a ReopenTransaction. */
-      // `type`: TransactionType
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+      `type`: TransactionType = TransactionType.REOPEN
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A ClientConfigureTransaction represents the configuration of an Account by a client.
@@ -177,12 +143,12 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "CLIENT_CONFIGURE" in a ClientConfigureTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.CLIENT_CONFIGURE,
       /** The client-provided alias for the Account. */
       alias: String,
       /** The margin rate override for the Account. */
       marginRate: Double
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A ClientConfigureRejectTransaction represents the reject of configuration of an Account by a client.
@@ -201,14 +167,14 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "CLIENT_CONFIGURE_REJECT" in a ClientConfigureRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.CLIENT_CONFIGURE_REJECT,
       /** The client-provided alias for the Account. */
       alias: String,
       /** The margin rate override for the Account. */
       marginRate: Double,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A TransferFundsTransaction represents the transfer of funds in/out of an Account.
@@ -227,14 +193,14 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TRANSFER_FUNDS" in a TransferFundsTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TRANSFER_FUNDS,
       /** The amount to deposit/withdraw from the Account in the Account’s home currency. A positive value indicates a deposit, a negative value indicates a withdrawal. */
       amount: AccountUnits,
       /** The reason that an Account is being funded. */
       fundingReason: FundingReason,
       /** The Account’s balance after funds are transferred. */
       accountBalance: AccountUnits
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A TransferFundsRejectTransaction represents the rejection of the transfer of funds in/out of an Account.
@@ -253,14 +219,14 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TRANSFER_FUNDS_REJECT" in a TransferFundsRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TRANSFER_FUNDS_REJECT,
       /** The amount to deposit/withdraw from the Account in the Account’s home currency. A positive value indicates a deposit, a negative value indicates a withdrawal. */
       amount: AccountUnits,
       /** The reason that an Account is being funded. */
       fundingReason: FundingReason,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A MarketOrderTransaction represents the creation of a Market Order in the user’s account. A Market Order is an Order that is filled immediately at the current market price. Market Orders can be specialized when they are created to accomplish a specific task: to close a Trade, to closeout a Position or to particiate in in a Margin closeout.
@@ -279,7 +245,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "MARKET_ORDER" in a MarketOrderTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.MARKET_ORDER,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -312,7 +278,7 @@ object ApiModel {
       trailingStopLossOnFill: TrailingStopLossDetails,
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A MarketOrderRejectTransaction represents the rejection of the creation of a Market Order.
@@ -331,7 +297,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "MARKET_ORDER_REJECT" in a MarketOrderRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.MARKET_ORDER_REJECT,
       /** The Market Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -366,7 +332,7 @@ object ApiModel {
       tradeclientExtensions: Option[ClientExtensions],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A LimitOrderTransaction represents the creation of a Limit Order in the user’s Account.
@@ -385,7 +351,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "LIMIT_ORDER" in a LimitOrderTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.LIMIT_ORDER,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -416,7 +382,7 @@ object ApiModel {
       replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: Option[TransactionID]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A LimitOrderRejectTransaction represents the rejection of the creation of a Limit Order.
@@ -435,7 +401,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "LIMIT_ORDER_REJECT" in a LimitOrderRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.LIMIT_ORDER_REJECT,
       /** The Limit Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -466,7 +432,7 @@ object ApiModel {
       intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A StopOrderTransaction represents the creation of a Stop Order in the user’s Account.
@@ -485,7 +451,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "STOP_ORDER" in a StopOrderTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.STOP_ORDER,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -518,7 +484,7 @@ object ApiModel {
       replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: Option[TransactionID]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A StopOrderRejectTransaction represents the rejection of the creation of a Stop Order.
@@ -537,7 +503,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "STOP_ORDER_REJECT" in a StopOrderRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.STOP_ORDER_REJECT,
       /** The Stop Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -570,7 +536,7 @@ object ApiModel {
       intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A MarketIfTouchedOrderTransaction represents the creation of a MarketIfTouched Order in the user’s Account.
@@ -589,7 +555,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER" in a MarketIfTouchedOrderTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -622,7 +588,7 @@ object ApiModel {
       replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: Option[TransactionID]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A MarketIfTouchedOrderRejectTransaction represents the rejection of the creation of a MarketIfTouched Order.
@@ -641,7 +607,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER_REJECT" in a MarketIfTouchedOrderRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER_REJECT,
       /** The MarketIfTouched Order’s Instrument. */
       instrument: InstrumentName,
       /** The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
@@ -674,7 +640,7 @@ object ApiModel {
       intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A TakeProfitOrderTransaction represents the creation of a TakeProfit Order in the user’s Account.
@@ -693,7 +659,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER" in a TakeProfitOrderTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -716,7 +682,7 @@ object ApiModel {
       replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: Option[TransactionID]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A TakeProfitOrderRejectTransaction represents the rejection of the creation of a TakeProfit Order.
@@ -735,7 +701,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER_REJECT" in a TakeProfitOrderRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER_REJECT,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -758,7 +724,7 @@ object ApiModel {
       intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A StopLossOrderTransaction represents the creation of a StopLoss Order in the user’s Account.
@@ -777,7 +743,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "STOP_LOSS_ORDER" in a StopLossOrderTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.STOP_LOSS_ORDER,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -800,7 +766,7 @@ object ApiModel {
       replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: Option[TransactionID]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A StopLossOrderRejectTransaction represents the rejection of the creation of a StopLoss Order.
@@ -819,7 +785,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "STOP_LOSS_ORDER_REJECT" in a StopLossOrderRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.STOP_LOSS_ORDER_REJECT,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -842,7 +808,7 @@ object ApiModel {
       intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A TrailingStopLossOrderTransaction represents the creation of a TrailingStopLoss Order in the user’s Account.
@@ -861,7 +827,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER" in a TrailingStopLossOrderTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -884,7 +850,7 @@ object ApiModel {
       replacesOrderID: Option[OrderID],
       /** The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order). */
       cancellingTransactionID: Option[TransactionID]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
      * A TrailingStopLossOrderRejectTransaction represents the rejection of the creation of a TrailingStopLoss Order.
@@ -903,7 +869,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER_REJECT" in a TrailingStopLossOrderRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER_REJECT,
       /** The ID of the Trade to close when the price threshold is breached. */
       tradeID: TradeID,
       /** The client ID of the Trade to be closed when the price threshold is breached. */
@@ -926,7 +892,7 @@ object ApiModel {
       intendedReplacesOrderID: Option[OrderID],
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * An OrderFillTransaction represents the filling of an Order in the client’s Account.
@@ -945,7 +911,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "ORDER_FILL" for an OrderFillTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.ORDER_FILL,
       /** The ID of the Order filled. */
       orderID: OrderID,
       /** The client Order ID of the Order filled (only provided if the client has assigned one). */
@@ -970,7 +936,7 @@ object ApiModel {
       tradesClosed: Seq[TradeReduce],
       /** The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade). */
       tradeReduced: TradeReduce
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * An OrderCancelTransaction represents the cancellation of an Order in the client’s Account.
@@ -989,7 +955,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "ORDER_CANCEL" for an OrderCancelTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.ORDER_CANCEL,
       /** The ID of the Order cancelled */
       orderID: OrderID,
       /** The client ID of the Order cancelled (only provided if the Order has a client Order ID). */
@@ -998,7 +964,7 @@ object ApiModel {
       reason: OrderCancelReason,
       /** The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement). */
       replacedByOrderID: Option[OrderID]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * An OrderCancelRejectTransaction represents the rejection of the cancellation of an Order in the client’s Account.
@@ -1017,7 +983,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "ORDER_CANCEL_REJECT" for an OrderCancelRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.ORDER_CANCEL_REJECT,
       /** The ID of the Order intended to be cancelled */
       orderID: OrderID,
       /** The client ID of the Order intended to be cancelled (only provided if the Order has a client Order ID). */
@@ -1026,7 +992,7 @@ object ApiModel {
       reason: OrderCancelReason,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A OrderClientExtensionsModifyTransaction represents the modification of an Order’s Client Extensions.
@@ -1045,7 +1011,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY" for a OrderClienteExtensionsModifyTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY,
       /** The ID of the Order who’s client extensions are to be modified. */
       orderID: OrderID,
       /** The original Client ID of the Order who’s client extensions are to be modified. */
@@ -1054,7 +1020,7 @@ object ApiModel {
       clientExtensionsModify: ClientExtensions,
       /** The new Client Extensions for the Order’s Trade on fill. */
       tradeClientExtensionsModify: ClientExtensions
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A OrderClientExtensionsModifyRejectTransaction represents the rejection of the modification of an Order’s Client Extensions.
@@ -1073,7 +1039,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT" for a OrderClientExtensionsModifyRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT,
       /** The ID of the Order who’s client extensions are to be modified. */
       orderID: OrderID,
       /** The original Client ID of the Order who’s client extensions are to be modified. */
@@ -1084,7 +1050,7 @@ object ApiModel {
       tradeClientExtensionsModify: ClientExtensions,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A TradeClientExtensionsModifyTransaction represents the modification of a Trade’s Client Extensions.
@@ -1103,14 +1069,14 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY" for a TradeClientExtensionsModifyTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY,
       /** The ID of the Trade who’s client extensions are to be modified. */
       tradeID: TradeID,
       /** The original Client ID of the Trade who’s client extensions are to be modified. */
       clientTradeID: ClientID,
       /** The new Client Extensions for the Trade. */
       tradeClientExtensionsModify: ClientExtensions
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A TradeClientExtensionsModifyRejectTransaction represents the rejection of the modification of a Trade’s Client Extensions.
@@ -1129,7 +1095,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT" for a TradeClientExtensionsModifyRejectTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT,
       /** The ID of the Trade who’s client extensions are to be modified. */
       tradeID: TradeID,
       /** The original Client ID of the Trade who’s client extensions are to be modified. */
@@ -1138,7 +1104,7 @@ object ApiModel {
       tradeClientExtensionsModify: ClientExtensions,
       /** The reason that the Reject Transaction was created */
       rejectReason: TransactionRejectReason
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A MarginCallEnterTransaction is created when an Account enters the margin call state.
@@ -1155,10 +1121,10 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID
+      requestID: RequestID,
       /** The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an MarginCallEnterTransaction. */
-      // `type`: TransactionType
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+      `type`: TransactionType = TransactionType.MARGIN_CALL_ENTER
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A MarginCallExtendTransaction is created when the margin call state for an Account has been extended.
@@ -1177,10 +1143,10 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for an MarginCallExtendTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.MARGIN_CALL_EXTEND,
       /** The number of the extensions to the Account’s current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction */
       extensionNumber: Int
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A MarginCallExitnterTransaction is created when an Account leaves the margin call state.
@@ -1197,10 +1163,10 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID
+      requestID: RequestID,
       /** The Type of the Transaction. Always set to "MARGIN_CALL_EXIT" for an MarginCallExitTransaction. */
-      // `type`: TransactionType
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+      `type`: TransactionType = TransactionType.MARGIN_CALL_EXIT
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A DelayedTradeClosure Transaction is created administratively to indicate open trades that should have been closed but weren’t because the open trades’ instruments were untradeable at the time. Open trades listed in this transaction will be closed once their respective instruments become tradeable.
@@ -1219,12 +1185,12 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "DELAYED_TRADE_CLOSURE" for an DelayedTradeClosureTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.DELAYED_TRADE_CLOSURE,
       /** The reason for the delayed trade closure */
       reason: MarketOrderReason,
       /** List of Trade ID’s identifying the open trades that will be closed when their respective instruments become tradeable */
       tradeIDs: TradeID
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A DailyFinancingTransaction represents the daily payment/collection of financing for an Account.
@@ -1243,7 +1209,7 @@ object ApiModel {
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
       requestID: RequestID,
       /** The Type of the Transaction. Always set to "DAILY_FINANCING" for a DailyFinancingTransaction. */
-      // `type`: TransactionType,
+      `type`: TransactionType = TransactionType.DAILY_FINANCING,
       /** The amount of financing paid/collected for the Account. */
       financing: AccountUnits,
       /** The Account’s balance after daily financing. */
@@ -1252,7 +1218,7 @@ object ApiModel {
       accountFinancingMode: AccountFinancingMode,
       /** The financing paid/collected for each Position in the Account. */
       positionFinancings: Seq[PositionFinancing]
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
   
     /**
      * A ResetResettablePLTransaction represents the resetting of the Account’s resettable PL counters.
@@ -1269,10 +1235,10 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID
+      requestID: RequestID,
       /** The Type of the Transaction. Always set to "RESET_RESETTABLE_PL" for a ResetResettablePLTransaction. */
-      // `type`: TransactionType
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID)
+      `type`: TransactionType = TransactionType.RESET_RESETTABLE_PL
+    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
      * The unique Transaction identifier within each Account.

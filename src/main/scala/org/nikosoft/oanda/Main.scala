@@ -35,9 +35,9 @@ object Main extends App {
 
 //  OrderApiImpl.order(AccountID(accountId), OrderRequestWrapper(LimitOrderRequest(instrument = InstrumentName("EUR_USD"), units = 1000, price = PriceValue("0.1"))))
 
-  val \/-(orders) = OrderApiImpl.orders(AccountID(accountId), state = OrderState.PENDING)
+  val \/-(orders) = OrderApiImpl.orders(AccountID(accountId), state = OrderState.FILLED)
   orders.orders.foreach(println)
 
-  println(OrderApiImpl.cancelOrder(AccountID(accountId), OrderSpecifier("237")))
+//  println(OrderApiImpl.cancelOrder(AccountID(accountId), OrderSpecifier("237")))
 
 }
