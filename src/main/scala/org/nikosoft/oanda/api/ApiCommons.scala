@@ -19,6 +19,7 @@ trait ApiCommons {
   implicit val formats = JsonSerializers.formats
 
   protected val baseUrl = s"https://api-fxtrade.oanda.com/v3"
+  protected val streamUrl = s"https://stream-fxtrade.oanda.com/v3"
 
   private lazy val props: Properties = {
     val properties = new Properties()

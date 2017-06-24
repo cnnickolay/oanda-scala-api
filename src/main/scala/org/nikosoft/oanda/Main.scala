@@ -36,7 +36,8 @@ object Main extends App {
 
 //  println(OrderApiImpl.cancelOrder(AccountID(accountId), OrderSpecifier("237")))
 
-  val \/-(transactions) = TransactionApiImpl.transactionsIdRange(AccountID(accountId), from = TransactionID("1"), to = TransactionID("200"), `type` = Seq(TransactionFilter.ADMIN, TransactionFilter.LIMIT_ORDER))
-  transactions.transactions.foreach(println)
+//  val \/-(transactions) = TransactionApiImpl.transactionsIdRange(AccountID(accountId), from = TransactionID("1"), to = TransactionID("200"), `type` = Seq(TransactionFilter.ADMIN, TransactionFilter.LIMIT_ORDER))
+//  transactions.transactions.foreach(println)
 
+  TransactionApiImpl.transactionsStream(AccountID(accountId))
 }

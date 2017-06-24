@@ -1,5 +1,9 @@
 package org.nikosoft.oanda.api.impl
 
+import java.io._
+
+import org.apache.http.HttpResponse
+import org.apache.http.client.ResponseHandler
 import org.apache.http.client.fluent.Request
 import org.nikosoft.oanda.api.ApiCommons
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
@@ -69,4 +73,26 @@ object TransactionApiImpl extends TransactionApi with ApiCommons {
 
     handleRequest[TransactionsIdRangeResponse](content)
   }
+
+  def transactionsStream(accountId: AccountID) = {
+    val url = s"$streamUrl/accounts/${accountId.value}/transactions/stream"
+
+    val input = new PipedInputStream()
+    val output = new PipedOutputStream(input)
+
+    Request
+      .Get(url)
+      .addHeader("Authorization", token)
+      .execute()
+      .handleResponse((response: HttpResponse) => {
+        val input = response.getEntity.getContent
+        val stream = new BufferedReader(new InputStreamReader(input))
+        var line: String = null
+        while ({line = stream.readLine; line != null}) {
+          println(line)
+        }
+      })
+  }
+
+
 }
