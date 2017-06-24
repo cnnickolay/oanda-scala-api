@@ -134,5 +134,6 @@ object JsonSerializers {
     new EnumNameSerializer(StopOrderReason) +
     new EnumNameSerializer(TakeProfitOrderReason) +
     new EnumNameSerializer(TrailingStopLossOrderReason) +
-    new EnumNameSerializer(TransactionRejectReason)
+    new EnumNameSerializer(TransactionRejectReason) +
+    new EnumNameSerializer(TransactionFilter)
 }

@@ -51,7 +51,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. */
       `type`: TransactionType
     )
@@ -71,7 +71,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "CREATE" in a CreateTransaction. */
        `type`: TransactionType = TransactionType.CREATE,
       /** The ID of the Division that the Account is in */
@@ -101,7 +101,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID
+      requestID: Option[RequestID]
       /** The Type of the Transaction. Always set to "CLOSE" in a CloseTransaction. */,
       `type`: TransactionType = TransactionType.CLOSE
     ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
@@ -121,7 +121,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "REOPEN" in a ReopenTransaction. */
       `type`: TransactionType = TransactionType.REOPEN
     ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
@@ -141,7 +141,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "CLIENT_CONFIGURE" in a ClientConfigureTransaction. */
       `type`: TransactionType = TransactionType.CLIENT_CONFIGURE,
       /** The client-provided alias for the Account. */
@@ -165,7 +165,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "CLIENT_CONFIGURE_REJECT" in a ClientConfigureRejectTransaction. */
       `type`: TransactionType = TransactionType.CLIENT_CONFIGURE_REJECT,
       /** The client-provided alias for the Account. */
@@ -191,7 +191,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TRANSFER_FUNDS" in a TransferFundsTransaction. */
       `type`: TransactionType = TransactionType.TRANSFER_FUNDS,
       /** The amount to deposit/withdraw from the Account in the Account’s home currency. A positive value indicates a deposit, a negative value indicates a withdrawal. */
@@ -217,7 +217,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TRANSFER_FUNDS_REJECT" in a TransferFundsRejectTransaction. */
       `type`: TransactionType = TransactionType.TRANSFER_FUNDS_REJECT,
       /** The amount to deposit/withdraw from the Account in the Account’s home currency. A positive value indicates a deposit, a negative value indicates a withdrawal. */
@@ -243,7 +243,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "MARKET_ORDER" in a MarketOrderTransaction. */
       `type`: TransactionType = TransactionType.MARKET_ORDER,
       /** The Market Order’s Instrument. */
@@ -271,11 +271,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions]
     ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
@@ -295,7 +295,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "MARKET_ORDER_REJECT" in a MarketOrderRejectTransaction. */
       `type`: TransactionType = TransactionType.MARKET_ORDER_REJECT,
       /** The Market Order’s Instrument. */
@@ -323,11 +323,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The reason that the Reject Transaction was created */
@@ -349,7 +349,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "LIMIT_ORDER" in a LimitOrderTransaction. */
       `type`: TransactionType = TransactionType.LIMIT_ORDER,
       /** The Limit Order’s Instrument. */
@@ -361,7 +361,7 @@ object ApiModel {
       /** The time-in-force requested for the Limit Order. */
       timeInForce: TimeInForce,
       /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -371,11 +371,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
@@ -399,7 +399,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "LIMIT_ORDER_REJECT" in a LimitOrderRejectTransaction. */
       `type`: TransactionType = TransactionType.LIMIT_ORDER_REJECT,
       /** The Limit Order’s Instrument. */
@@ -411,7 +411,7 @@ object ApiModel {
       /** The time-in-force requested for the Limit Order. */
       timeInForce: TimeInForce,
       /** The date/time when the Limit Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -421,11 +421,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
@@ -449,7 +449,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "STOP_ORDER" in a StopOrderTransaction. */
       `type`: TransactionType = TransactionType.STOP_ORDER,
       /** The Stop Order’s Instrument. */
@@ -463,7 +463,7 @@ object ApiModel {
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
       /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -473,11 +473,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
@@ -501,7 +501,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "STOP_ORDER_REJECT" in a StopOrderRejectTransaction. */
       `type`: TransactionType = TransactionType.STOP_ORDER_REJECT,
       /** The Stop Order’s Instrument. */
@@ -515,7 +515,7 @@ object ApiModel {
       /** The time-in-force requested for the Stop Order. */
       timeInForce: TimeInForce,
       /** The date/time when the Stop Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -525,11 +525,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
@@ -553,7 +553,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER" in a MarketIfTouchedOrderTransaction. */
       `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER,
       /** The MarketIfTouched Order’s Instrument. */
@@ -567,7 +567,7 @@ object ApiModel {
       /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -577,11 +577,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order). */
@@ -605,7 +605,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER_REJECT" in a MarketIfTouchedOrderRejectTransaction. */
       `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER_REJECT,
       /** The MarketIfTouched Order’s Instrument. */
@@ -619,7 +619,7 @@ object ApiModel {
       /** The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of how Positions in the Account are modified when the Order is filled. */
       positionFill: OrderPositionFill,
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
@@ -629,11 +629,11 @@ object ApiModel {
       /** Client Extensions to add to the Order (only provided if the Order is being created with client extensions). */
       clientExtensions: Option[ClientExtensions],
       /** The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created). */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created). */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order). */
@@ -657,7 +657,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER" in a TakeProfitOrderTransaction. */
       `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER,
       /** The ID of the Trade to close when the price threshold is breached. */
@@ -669,7 +669,7 @@ object ApiModel {
       /** The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The reason that the Take Profit Order was initiated */
@@ -699,7 +699,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER_REJECT" in a TakeProfitOrderRejectTransaction. */
       `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER_REJECT,
       /** The ID of the Trade to close when the price threshold is breached. */
@@ -711,7 +711,7 @@ object ApiModel {
       /** The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The reason that the Take Profit Order was initiated */
@@ -741,7 +741,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "STOP_LOSS_ORDER" in a StopLossOrderTransaction. */
       `type`: TransactionType = TransactionType.STOP_LOSS_ORDER,
       /** The ID of the Trade to close when the price threshold is breached. */
@@ -753,7 +753,7 @@ object ApiModel {
       /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The reason that the Stop Loss Order was initiated */
@@ -783,7 +783,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "STOP_LOSS_ORDER_REJECT" in a StopLossOrderRejectTransaction. */
       `type`: TransactionType = TransactionType.STOP_LOSS_ORDER_REJECT,
       /** The ID of the Trade to close when the price threshold is breached. */
@@ -795,7 +795,7 @@ object ApiModel {
       /** The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The reason that the Stop Loss Order was initiated */
@@ -825,7 +825,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER" in a TrailingStopLossOrderTransaction. */
       `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER,
       /** The ID of the Trade to close when the price threshold is breached. */
@@ -837,7 +837,7 @@ object ApiModel {
       /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The reason that the Trailing Stop Loss Order was initiated */
@@ -867,7 +867,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER_REJECT" in a TrailingStopLossOrderRejectTransaction. */
       `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER_REJECT,
       /** The ID of the Trade to close when the price threshold is breached. */
@@ -879,7 +879,7 @@ object ApiModel {
       /** The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders. */
       timeInForce: TimeInForce,
       /** The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD". */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** The reason that the Trailing Stop Loss Order was initiated */
@@ -909,7 +909,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "ORDER_FILL" for an OrderFillTransaction. */
       `type`: TransactionType = TransactionType.ORDER_FILL,
       /** The ID of the Order filled. */
@@ -953,7 +953,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "ORDER_CANCEL" for an OrderCancelTransaction. */
       `type`: TransactionType = TransactionType.ORDER_CANCEL,
       /** The ID of the Order cancelled */
@@ -981,7 +981,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "ORDER_CANCEL_REJECT" for an OrderCancelRejectTransaction. */
       `type`: TransactionType = TransactionType.ORDER_CANCEL_REJECT,
       /** The ID of the Order intended to be cancelled */
@@ -1009,7 +1009,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY" for a OrderClienteExtensionsModifyTransaction. */
       `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY,
       /** The ID of the Order who’s client extensions are to be modified. */
@@ -1037,7 +1037,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT" for a OrderClientExtensionsModifyRejectTransaction. */
       `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT,
       /** The ID of the Order who’s client extensions are to be modified. */
@@ -1067,7 +1067,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY" for a TradeClientExtensionsModifyTransaction. */
       `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY,
       /** The ID of the Trade who’s client extensions are to be modified. */
@@ -1093,7 +1093,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT" for a TradeClientExtensionsModifyRejectTransaction. */
       `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT,
       /** The ID of the Trade who’s client extensions are to be modified. */
@@ -1121,7 +1121,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an MarginCallEnterTransaction. */
       `type`: TransactionType = TransactionType.MARGIN_CALL_ENTER
     ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
@@ -1141,7 +1141,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for an MarginCallExtendTransaction. */
       `type`: TransactionType = TransactionType.MARGIN_CALL_EXTEND,
       /** The number of the extensions to the Account’s current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction */
@@ -1163,7 +1163,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "MARGIN_CALL_EXIT" for an MarginCallExitTransaction. */
       `type`: TransactionType = TransactionType.MARGIN_CALL_EXIT
     ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
@@ -1183,7 +1183,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "DELAYED_TRADE_CLOSURE" for an DelayedTradeClosureTransaction. */
       `type`: TransactionType = TransactionType.DELAYED_TRADE_CLOSURE,
       /** The reason for the delayed trade closure */
@@ -1207,7 +1207,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "DAILY_FINANCING" for a DailyFinancingTransaction. */
       `type`: TransactionType = TransactionType.DAILY_FINANCING,
       /** The amount of financing paid/collected for the Account. */
@@ -1235,7 +1235,7 @@ object ApiModel {
       /** The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously. */
       batchID: TransactionID,
       /** The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request) */
-      requestID: RequestID,
+      requestID: Option[RequestID],
       /** The Type of the Transaction. Always set to "RESET_RESETTABLE_PL" for a ResetResettablePLTransaction. */
       `type`: TransactionType = TransactionType.RESET_RESETTABLE_PL
     ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
@@ -1659,7 +1659,7 @@ object ApiModel {
       /** The time in force for the created Take Profit Order. This may only be GTC, GTD or GFD. */
       timeInForce: TimeInForce,
       /** The date when the Take Profit Order will be cancelled on if timeInForce is GTD. */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** The Client Extensions to add to the Take Profit Order when created. */
       clientExtensions: Option[ClientExtensions]
     )
@@ -1673,7 +1673,7 @@ object ApiModel {
       /** The time in force for the created Stop Loss Order. This may only be GTC, GTD or GFD. */
       timeInForce: TimeInForce,
       /** The date when the Stop Loss Order will be cancelled on if timeInForce is GTD. */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** The Client Extensions to add to the Stop Loss Order when created. */
       clientExtensions: Option[ClientExtensions]
     )
@@ -1687,7 +1687,7 @@ object ApiModel {
       /** The time in force for the created Trailing Stop Loss Order. This may only be GTC, GTD or GFD. */
       timeInForce: TimeInForce,
       /** The date when the Trailing Stop Loss Order will be cancelled on if timeInForce is GTD. */
-      gtdTime: DateTime,
+      gtdTime: Option[DateTime],
       /** The Client Extensions to add to the Trailing Stop Loss Order when created. */
       clientExtensions: Option[ClientExtensions]
     )
@@ -1817,7 +1817,7 @@ object ApiModel {
      */
     case class PositionFinancing(
       /** The instrument of the Position that financing is being paid/collected for. */
-      instrumentID: InstrumentName,
+      instrumentID: Option[InstrumentName],
       /** The amount of financing paid/collected for the Position. */
       financing: AccountUnits,
       /** The financing paid/collecte for each open Trade within the Position. */
@@ -2885,11 +2885,11 @@ object ApiModel {
       /** Specification of what component of a price should be used for comparison when determining if the Order should be filled. */
       triggerCondition: OrderTriggerCondition,
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
@@ -2945,11 +2945,11 @@ object ApiModel {
       /** The Market price at the time when the MarketIfTouched Order was created. */
       initialMarketPrice: PriceValue,
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions],
       /** ID of the Transaction that filled this Order (only provided when the Order’s state is FILLED) */
@@ -3133,11 +3133,11 @@ object ApiModel {
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions]
     ) extends OrderRequest
@@ -3233,11 +3233,11 @@ object ApiModel {
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
       clientExtensions: Option[ClientExtensions],
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: TakeProfitDetails,
+      takeProfitOnFill: Option[TakeProfitDetails],
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: StopLossDetails,
+      stopLossOnFill: Option[StopLossDetails],
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: TrailingStopLossDetails,
+      trailingStopLossOnFill: Option[TrailingStopLossDetails],
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
       tradeclientExtensions: Option[ClientExtensions]
     ) extends OrderRequest
