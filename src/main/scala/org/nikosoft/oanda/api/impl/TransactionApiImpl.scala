@@ -1,6 +1,7 @@
 package org.nikosoft.oanda.api.impl
 
 import java.io._
+import java.util.concurrent.{BlockingQueue, LinkedBlockingQueue}
 
 import org.apache.http.HttpResponse
 import org.apache.http.client.fluent.Request
@@ -8,13 +9,15 @@ import org.nikosoft.oanda.api.ApiCommons
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.DateTime
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionFilter.TransactionFilter
-import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionID
+import org.nikosoft.oanda.api.ApiModel.TransactionModel.{Transaction, TransactionHeartbeat, TransactionID}
 import org.nikosoft.oanda.api.Errors.Error
 import org.nikosoft.oanda.api.`def`.TransactionApi
-import org.nikosoft.oanda.api.`def`.TransactionApi.{TransactionsIdRangeResponse, TransactionsResponse}
+import org.nikosoft.oanda.api.`def`.TransactionApi.{TransactionOrHeartbeat, TransactionsIdRangeResponse, TransactionsResponse}
 
-import scala.collection.immutable.Stream
-import scalaz.\/
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scalaz.Scalaz._
+import scalaz.{-\/, \/, \/-}
 
 object TransactionApiImpl extends TransactionApi with ApiCommons {
 
@@ -74,20 +77,38 @@ object TransactionApiImpl extends TransactionApi with ApiCommons {
     handleRequest[TransactionsIdRangeResponse](content)
   }
 
-  def transactionsStream(accountId: AccountID) = {
+  /**
+    * Get a stream of Transactions for an Account starting from when the request is made.
+    * Note: This endpoint is served by the streaming URLs.
+    *
+    * @param accountId Account Identifier [required]
+    */
+  def transactionsStream(accountId: AccountID, terminate: => Boolean): BlockingQueue[\/[Error, TransactionOrHeartbeat]] = {
     val url = s"$streamUrl/accounts/${accountId.value}/transactions/stream"
 
-    Request
-      .Get(url)
-      .addHeader("Authorization", token)
-      .execute()
-      .handleResponse((response: HttpResponse) => {
-        val input = response.getEntity.getContent
-        val stream = new BufferedReader(new InputStreamReader(input))
+    val queue = new LinkedBlockingQueue[\/[Error, TransactionOrHeartbeat]]()
 
-        Iterator.continually(stream.readLine()).takeWhile(_ != None.orNull).foreach(println)
-      })
+    Future {
+      Request
+        .Get(url)
+        .addHeader("Authorization", token)
+        .execute()
+        .handleResponse((response: HttpResponse) => {
+          val input = response.getEntity.getContent
+          val stream = new BufferedReader(new InputStreamReader(input))
+
+          Iterator.continually(stream.readLine())
+            .takeWhile(_ != None.orNull && !terminate)
+            .foreach { response =>
+              handleRequest[Any](response) match {
+                case \/-(t: TransactionHeartbeat) => queue.put(t.left.right)
+                case \/-(t: Transaction) => queue.put(t.right.right)
+                case -\/(err) => queue.put(err.left)
+              }
+            }
+        })
+    }
+    queue
   }
-
 
 }

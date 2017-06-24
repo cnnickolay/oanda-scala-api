@@ -83,7 +83,8 @@ object JsonSerializers {
         classOf[MarketIfTouchedOrder],
         classOf[TakeProfitOrder],
         classOf[StopLossOrder],
-        classOf[TrailingStopLossOrder]
+        classOf[TrailingStopLossOrder],
+        classOf[TransactionHeartbeat]
       ) ++ transactionMappings.map(_._2)
 
       override def classFor(hint: String): Option[Class[_]] = hint match {
@@ -94,6 +95,7 @@ object JsonSerializers {
         case "STOP" => Option(classOf[StopOrder])
         case "LIMIT" => Option(classOf[LimitOrder])
         case "MARKET" => Option(classOf[MarketOrder])
+        case "HEARTBEAT" => Option(classOf[TransactionHeartbeat])
         case t => transactionMappingsByType.get(t)
       }
 
@@ -105,6 +107,7 @@ object JsonSerializers {
         case _: Class[StopOrder] => "STOP"
         case _: Class[LimitOrder] => "LIMIT"
         case _: Class[MarketOrder] => "MARKET"
+        case _: Class[TransactionHeartbeat] => "HEARTBEAT"
         case c => transactionMappingsByClass(c)
       }
     }

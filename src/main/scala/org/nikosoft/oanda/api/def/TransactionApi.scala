@@ -1,15 +1,18 @@
 package org.nikosoft.oanda.api.`def`
 
+import java.util.concurrent.BlockingQueue
+
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.DateTime
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionFilter.TransactionFilter
-import org.nikosoft.oanda.api.ApiModel.TransactionModel.{Transaction, TransactionID}
+import org.nikosoft.oanda.api.ApiModel.TransactionModel.{Transaction, TransactionHeartbeat, TransactionID}
 import org.nikosoft.oanda.api.Errors.Error
-import org.nikosoft.oanda.api.`def`.TransactionApi.{TransactionsIdRangeResponse, TransactionsResponse}
+import org.nikosoft.oanda.api.`def`.TransactionApi.{TransactionOrHeartbeat, TransactionsIdRangeResponse, TransactionsResponse}
 
 import scalaz.\/
 
 object TransactionApi {
+
   /**
     * @param from              The starting time provided in the request.
     * @param to                The ending time provided in the request.
@@ -26,6 +29,8 @@ object TransactionApi {
     * @param lastTransactionID The ID of the most recent Transaction created for the Account
     */
   case class TransactionsIdRangeResponse(transactions: Seq[Transaction], lastTransactionID: TransactionID)
+
+  type TransactionOrHeartbeat = \/[TransactionHeartbeat, Transaction]
 }
 
 
@@ -53,5 +58,13 @@ trait TransactionApi {
     * @return The requested time range of Transactions are provided.
     */
   def transactionsIdRange(accountId: AccountID, from: TransactionID, to: TransactionID, `type`: Seq[TransactionFilter] = Seq.empty): \/[Error, TransactionsIdRangeResponse]
+
+  /**
+    * Get a stream of Transactions for an Account starting from when the request is made.
+    * Note: This endpoint is served by the streaming URLs.
+    *
+    * @param accountId Account Identifier [required]
+    */
+  def transactionsStream(accountId: AccountID, terminate: => Boolean): BlockingQueue[\/[Error, TransactionOrHeartbeat]]
 
 }

@@ -5,6 +5,7 @@ import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.{TransactionFilter, TransactionID}
 import org.nikosoft.oanda.api.impl.{AccountsApiImpl, TransactionApiImpl}
 
+import scala.concurrent.duration.DurationInt
 import scalaz.{-\/, \/-}
 
 object Main extends App {
@@ -39,5 +40,15 @@ object Main extends App {
 //  val \/-(transactions) = TransactionApiImpl.transactionsIdRange(AccountID(accountId), from = TransactionID("1"), to = TransactionID("200"), `type` = Seq(TransactionFilter.ADMIN, TransactionFilter.LIMIT_ORDER))
 //  transactions.transactions.foreach(println)
 
-  TransactionApiImpl.transactionsStream(AccountID(accountId))
+  import scala.concurrent.ExecutionContext.Implicits.global
+
+  var x = 0
+  val queue = TransactionApiImpl.transactionsStream(AccountID(accountId), terminate = {x = x + 1; x >= 3})
+
+  Iterator.continually(queue.take()).foreach {
+    case \/-(-\/(heartbeat)) => println(heartbeat)
+    case \/-(\/-(transaction)) => println(transaction)
+    case -\/(error) => println(error)
+  }
+
 }
