@@ -19,7 +19,7 @@ import scala.concurrent.Future
 import scalaz.Scalaz._
 import scalaz.{-\/, \/, \/-}
 
-object TransactionApiImpl extends TransactionApi with ApiCommons {
+private[api] object TransactionApiImpl extends TransactionApi with ApiCommons {
 
   /**
     * Get a list of Transactions pages that satisfy a time-based Transaction query.

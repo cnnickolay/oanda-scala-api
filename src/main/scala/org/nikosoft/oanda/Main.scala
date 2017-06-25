@@ -1,5 +1,6 @@
 package org.nikosoft.oanda
 
+import org.nikosoft.oanda.api.Api
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
 import org.nikosoft.oanda.api.ApiModel.InstrumentModel.{Candlestick, CandlestickGranularity}
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
@@ -55,6 +56,6 @@ object Main extends App {
   }
 */
 
-  val \/-(candles: CandlesResponse) = InstrumentApiImpl.candles(InstrumentName("EUR_USD"), granularity = CandlestickGranularity.M5, count = Option(100))
+  val \/-(candles: CandlesResponse) = Api.instrumentsApi.candles(InstrumentName("EUR_USD"), granularity = CandlestickGranularity.M5, count = Option(100))
   candles.candles.flatMap(_.mid).map(candle => candle.h.pips - candle.l.pips).foreach(println)
 }

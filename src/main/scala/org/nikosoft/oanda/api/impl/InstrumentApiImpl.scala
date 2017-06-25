@@ -14,7 +14,7 @@ import scalaz.\/
 /**
   * Created by Nikolai Cherkezishvili on 21/06/2017
   */
-object InstrumentApiImpl extends InstrumentApi with ApiCommons {
+private[api] object InstrumentApiImpl extends InstrumentApi with ApiCommons {
 
   /**
     * @param instrument        Name of the Instrument

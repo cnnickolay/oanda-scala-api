@@ -28,6 +28,8 @@ object InstrumentApi {
 trait InstrumentApi {
 
   /**
+    * Fetch candlestick data for an instrument.
+    *
     * @param instrument        Name of the Instrument
     * @param price             The Price component(s) to get candlestick data for. Can contain any combination of the characters “M” (midpoint candles) “B” (bid candles) and “A” (ask candles). [default=M]
     * @param granularity       The granularity of the candlesticks to fetch [default=S5]

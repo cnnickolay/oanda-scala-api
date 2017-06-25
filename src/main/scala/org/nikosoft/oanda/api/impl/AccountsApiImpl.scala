@@ -13,7 +13,7 @@ import scalaz.\/
 /**
   * Created by Nikolai Cherkezishvili on 21/06/2017
   */
-object AccountsApiImpl extends AccountsApi with ApiCommons {
+private[api] object AccountsApiImpl extends AccountsApi with ApiCommons {
 
   /**
     * Get a list of all Accounts authorized for the provided token.

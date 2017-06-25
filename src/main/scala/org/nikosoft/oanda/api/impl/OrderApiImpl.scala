@@ -14,7 +14,7 @@ import org.nikosoft.oanda.api.`def`.OrderApi.{CancelOrderResponse, CreateOrderRe
 
 import scalaz.\/
 
-object OrderApiImpl extends OrderApi with ApiCommons {
+private[api] object OrderApiImpl extends OrderApi with ApiCommons {
 
   /**
     * Create an Order for an Account

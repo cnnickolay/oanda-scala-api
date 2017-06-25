@@ -12,7 +12,7 @@ import org.nikosoft.oanda.api.`def`.TradeApi
 
 import scalaz.\/
 
-object TradeApiImpl extends TradeApi with ApiCommons {
+private[api] object TradeApiImpl extends TradeApi with ApiCommons {
 
   /**
     * Get a list of Trades for an Account
