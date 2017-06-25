@@ -28,3 +28,6 @@ So far only few APIs was implemented necessary for trading automation.
 1. In src/main/resources copy api-default.properties to api.properties in the same directory.
 2. In the properties file copied add your OANDA API token.
 3. Use api.Api object to access different APIs.
+
+## Java compatibility
+Not implemented yet
