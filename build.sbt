@@ -1,4 +1,4 @@
-name := "oanda-trader"
+name := "oanda-scala-api"
 
 version := "1.0"
 
