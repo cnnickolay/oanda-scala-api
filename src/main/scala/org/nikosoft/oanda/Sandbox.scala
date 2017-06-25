@@ -11,7 +11,10 @@ import org.nikosoft.oanda.api.impl.{AccountsApiImpl, InstrumentApiImpl, Transact
 import scala.concurrent.duration.DurationInt
 import scalaz.{-\/, \/-}
 
-object Main extends App {
+/**
+  * Sandbox for experiments
+  */
+object Sandbox extends App {
 
 /*
   AccountsApiImpl.accounts match {
