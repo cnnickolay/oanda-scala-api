@@ -65,6 +65,6 @@ trait TransactionApi {
     *
     * @param accountId Account Identifier [required]
     */
-  def transactionsStream(accountId: AccountID, terminate: => Boolean): BlockingQueue[\/[Error, TransactionOrHeartbeat]]
+  def transactionsStream(accountId: AccountID, terminate: => Boolean): BlockingQueue[TransactionOrHeartbeat]
 
 }

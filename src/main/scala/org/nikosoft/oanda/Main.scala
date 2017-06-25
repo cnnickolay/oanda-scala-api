@@ -1,9 +1,11 @@
 package org.nikosoft.oanda
 
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
+import org.nikosoft.oanda.api.ApiModel.InstrumentModel.{Candlestick, CandlestickGranularity}
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentName
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.{TransactionFilter, TransactionID}
-import org.nikosoft.oanda.api.impl.{AccountsApiImpl, TransactionApiImpl}
+import org.nikosoft.oanda.api.`def`.InstrumentApi.CandlesResponse
+import org.nikosoft.oanda.api.impl.{AccountsApiImpl, InstrumentApiImpl, TransactionApiImpl}
 
 import scala.concurrent.duration.DurationInt
 import scalaz.{-\/, \/-}
@@ -28,7 +30,7 @@ object Main extends App {
   }
 */
 
-  val accountId = System.getProperty("accountID")
+  val accountId = AccountID(System.getProperty("accountID"))
 
 //  OrderApiImpl.order(AccountID(accountId), OrderRequestWrapper(LimitOrderRequest(instrument = InstrumentName("EUR_USD"), units = 1000, price = PriceValue("0.1"))))
 
@@ -42,6 +44,7 @@ object Main extends App {
 
   import scala.concurrent.ExecutionContext.Implicits.global
 
+/*
   var x = 0
   val queue = TransactionApiImpl.transactionsStream(AccountID(accountId), terminate = {x = x + 1; x >= 3})
 
@@ -50,5 +53,8 @@ object Main extends App {
     case \/-(\/-(transaction)) => println(transaction)
     case -\/(error) => println(error)
   }
+*/
 
+  val \/-(candles: CandlesResponse) = InstrumentApiImpl.candles(InstrumentName("EUR_USD"), granularity = CandlestickGranularity.M5, count = Option(100))
+  candles.candles.flatMap(_.mid).map(candle => candle.h.pips - candle.l.pips).foreach(println)
 }

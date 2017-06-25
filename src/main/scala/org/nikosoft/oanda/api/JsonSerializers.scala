@@ -5,11 +5,14 @@ import org.json4s.JsonAST.{JInt, JString}
 import org.json4s.ext.EnumNameSerializer
 import org.json4s.{CustomSerializer, DefaultFormats, _}
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountFinancingMode
+import org.nikosoft.oanda.api.ApiModel.InstrumentModel.CandlestickGranularity
 import org.nikosoft.oanda.api.ApiModel.OrderModel._
 import org.nikosoft.oanda.api.ApiModel.PricingModel.PriceStatus
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentType
 import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState
 import org.nikosoft.oanda.api.ApiModel.TransactionModel._
+
+import scala.math.BigDecimal.RoundingMode
 
 
 object JsonSerializers {
@@ -59,10 +62,11 @@ object JsonSerializers {
   }, {
     case x: Long => JInt(x)
     case x: Double => JString(x.toString)
+    case x: BigDecimal => JString(x.toString)
   }))
 
-  private object StringToDouble extends CustomSerializer[Double](format => ( {
-    case JString(x) => x.toDouble
+  private object StringToBigDecimal extends CustomSerializer[BigDecimal](format => ( {
+    case JString(x) => BigDecimal.valueOf(x.toDouble).setScale(5, RoundingMode.HALF_DOWN)
   }, {
     case x: Double => JString(x.toString)
   }))
@@ -114,9 +118,10 @@ object JsonSerializers {
   }
 
   private[api] def formats = formatsHints +
-    StringToDouble +
+    StringToBigDecimal +
     LongSerializer +
     DateTimeSerializer +
+    new EnumNameSerializer(CandlestickGranularity) +
     new EnumNameSerializer(AccountFinancingMode) +
     new EnumNameSerializer(OrderPositionFill) +
     new EnumNameSerializer(OrderState) +

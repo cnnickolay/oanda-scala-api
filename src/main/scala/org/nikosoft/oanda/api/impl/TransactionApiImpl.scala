@@ -83,10 +83,10 @@ object TransactionApiImpl extends TransactionApi with ApiCommons {
     *
     * @param accountId Account Identifier [required]
     */
-  def transactionsStream(accountId: AccountID, terminate: => Boolean): BlockingQueue[\/[Error, TransactionOrHeartbeat]] = {
+  def transactionsStream(accountId: AccountID, terminate: => Boolean): BlockingQueue[TransactionOrHeartbeat] = {
     val url = s"$streamUrl/accounts/${accountId.value}/transactions/stream"
 
-    val queue = new LinkedBlockingQueue[\/[Error, TransactionOrHeartbeat]]()
+    val queue = new LinkedBlockingQueue[TransactionOrHeartbeat]()
 
     Future {
       Request
@@ -101,9 +101,9 @@ object TransactionApiImpl extends TransactionApi with ApiCommons {
             .takeWhile(_ != None.orNull && !terminate)
             .foreach { response =>
               handleRequest[Any](response) match {
-                case \/-(t: TransactionHeartbeat) => queue.put(t.left.right)
-                case \/-(t: Transaction) => queue.put(t.right.right)
-                case -\/(err) => queue.put(err.left)
+                case \/-(t: TransactionHeartbeat) => queue.put(t.left)
+                case \/-(t: Transaction) => queue.put(t.right)
+                case -\/(err) => throw new RuntimeException(s"Error while parsing response $response\n$err")
               }
             }
         })

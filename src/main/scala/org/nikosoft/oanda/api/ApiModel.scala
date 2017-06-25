@@ -3661,8 +3661,10 @@ object ApiModel {
      * The string representation of a Price for an Instrument.
      * Format: A decimal number encodes as a string. The amount of precision provided depends on the Price’s Instrument.
      */
-    case class PriceValue(value: String) extends AnyVal
-  
+    case class PriceValue(value: BigDecimal) extends AnyVal {
+      def pips = (value * 100000).toInt
+    }
+
     /**
      * A Price Bucket represents a price available for an amount of liquidity
      */
