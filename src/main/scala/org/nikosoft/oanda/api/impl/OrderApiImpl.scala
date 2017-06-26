@@ -12,6 +12,7 @@ import org.nikosoft.oanda.api.Errors.Error
 import org.nikosoft.oanda.api.`def`.OrderApi
 import org.nikosoft.oanda.api.`def`.OrderApi.{CancelOrderResponse, CreateOrderRequest, CreateOrderResponse, OrdersResponse}
 
+import scala.util.Try
 import scalaz.\/
 
 private[api] object OrderApiImpl extends OrderApi with ApiCommons {

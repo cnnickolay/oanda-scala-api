@@ -23,6 +23,10 @@ So far only few APIs was implemented necessary for trading automation.
 * transactions - Get a list of Transactions pages that satisfy a time-based Transaction query.
 * transactionsIdRange - Get a range of Transactions for an Account based on the Transaction IDs.
 * transactionsStream - Get a stream of Transactions for an Account starting from when the request is made.
+### Positions
+* positions - List all Positions for an Account. The Positions returned are for every instrument that has had a position during the lifetime of an the Account.
+* openPositions - List all open Positions for an Account. An open Position is a Position in an Account that currently has a Trade opened for it.
+* closePosition - Closeout the open Position for a specific instrument in an Account.
 
 ## How to use
 1. In src/main/resources copy api-default.properties to api.properties in the same directory.

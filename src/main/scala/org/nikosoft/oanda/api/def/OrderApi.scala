@@ -21,7 +21,13 @@ object OrderApi {
     * @param relatedTransactionIDs         The IDs of all Transactions that were created while satisfying the request.
     * @param lastTransactionID             The ID of the most recent Transaction created for the Account
     */
-  case class CreateOrderResponse(orderCreateTransaction: Transaction, orderFillTransaction: OrderFillTransaction, orderCancelTransaction: OrderCancelTransaction, orderReissueTransaction: Transaction, orderReissueRejectTransaction: Transaction, relatedTransactionIDs: Seq[TransactionID], lastTransactionID: TransactionID)
+  case class CreateOrderResponse(orderCreateTransaction: Option[Transaction],
+                                 orderFillTransaction: Option[OrderFillTransaction],
+                                 orderCancelTransaction: Option[OrderCancelTransaction],
+                                 orderReissueTransaction: Option[Transaction],
+                                 orderReissueRejectTransaction: Option[Transaction],
+                                 relatedTransactionIDs: Seq[TransactionID],
+                                 lastTransactionID: Option[TransactionID])
 
   /**
     * @param order Specification of the Order to create
@@ -34,14 +40,16 @@ object OrderApi {
     * @param orders            The list of Order detail objects
     * @param lastTransactionID The ID of the most recent Transaction created for the Account
     */
-  case class OrdersResponse(orders: Seq[Order], lastTransactionID: TransactionID)
+  case class OrdersResponse(orders: Seq[Order], lastTransactionID: Option[TransactionID])
 
   /**
     * @param orderCancelTransaction The Transaction that cancelled the Order
     * @param relatedTransactionIDs  The IDs of all Transactions that were created while satisfying the request.
     * @param lastTransactionID      The ID of the most recent Transaction created for the Account
     */
-  case class CancelOrderResponse(orderCancelTransaction: OrderCancelTransaction, relatedTransactionIDs: Seq[TransactionID], lastTransactionID: TransactionID)
+  case class CancelOrderResponse(orderCancelTransaction: Option[OrderCancelTransaction],
+                                 relatedTransactionIDs: Seq[TransactionID],
+                                 lastTransactionID: Option[TransactionID])
 
 }
 

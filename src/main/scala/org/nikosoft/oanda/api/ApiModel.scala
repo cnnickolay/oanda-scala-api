@@ -3125,21 +3125,21 @@ object ApiModel {
       /** The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order. */
       units: Double,
       /** The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder. */
-      timeInForce: TimeInForce,
+      timeInForce: TimeInForce = TimeInForce.FOK,
       /** The worst price that the client is willing to have the Market Order filled at. */
-      priceBound: Option[PriceValue],
+      priceBound: Option[PriceValue] = None,
       /** Specification of how Positions in the Account are modified when the Order is filled. */
-      positionFill: OrderPositionFill,
+      positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
       /** The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4. */
-      clientExtensions: Option[ClientExtensions],
+      clientExtensions: Option[ClientExtensions] = None,
       /** TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade. */
-      takeProfitOnFill: Option[TakeProfitDetails],
+      takeProfitOnFill: Option[TakeProfitDetails] = None,
       /** StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade. */
-      stopLossOnFill: Option[StopLossDetails],
+      stopLossOnFill: Option[StopLossDetails] = None,
       /** TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade. */
-      trailingStopLossOnFill: Option[TrailingStopLossDetails],
+      trailingStopLossOnFill: Option[TrailingStopLossDetails] = None,
       /** Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4. */
-      tradeclientExtensions: Option[ClientExtensions]
+      tradeclientExtensions: Option[ClientExtensions] = None
     ) extends OrderRequest
   
     /**

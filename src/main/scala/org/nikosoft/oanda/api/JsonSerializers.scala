@@ -61,14 +61,19 @@ object JsonSerializers {
     case JInt(x) => x.toLong
   }, {
     case x: Long => JInt(x)
-    case x: Double => JString(x.toString)
     case x: BigDecimal => JString(x.toString)
+  }))
+
+  private object StringToDouble extends CustomSerializer[Double](format => ( {
+    case JString(x) => x.toDouble
+  }, {
+    case x: Double => JString(x.toString)
   }))
 
   private object StringToBigDecimal extends CustomSerializer[BigDecimal](format => ( {
     case JString(x) => BigDecimal.valueOf(x.toDouble).setScale(5, RoundingMode.HALF_DOWN)
   }, {
-    case x: Double => JString(x.toString)
+    case x: BigDecimal => JString(x.toString)
   }))
 
   private object DateTimeSerializer extends CustomSerializer[DateTime](format => ( {
@@ -118,6 +123,7 @@ object JsonSerializers {
   }
 
   private[api] def formats = formatsHints +
+    StringToDouble +
     StringToBigDecimal +
     LongSerializer +
     DateTimeSerializer +
