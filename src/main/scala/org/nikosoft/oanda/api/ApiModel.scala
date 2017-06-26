@@ -1659,9 +1659,9 @@ object ApiModel {
       /** The time in force for the created Take Profit Order. This may only be GTC, GTD or GFD. */
       timeInForce: TimeInForce,
       /** The date when the Take Profit Order will be cancelled on if timeInForce is GTD. */
-      gtdTime: Option[DateTime],
+      gtdTime: Option[DateTime] = None,
       /** The Client Extensions to add to the Take Profit Order when created. */
-      clientExtensions: Option[ClientExtensions]
+      clientExtensions: Option[ClientExtensions] = None
     )
   
     /**
@@ -3653,9 +3653,9 @@ object ApiModel {
       /** The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position. */
       closeoutAsk: PriceValue,
       /** The factors used to convert quantities of this price’s Instrument’s quote currency into a quantity of the Account’s home currency.<b>Deprecated</b>: Will be removed in a future API update. */
-      quoteHomeConversionFactors: QuoteHomeConversionFactors,
+      quoteHomeConversionFactors: Option[QuoteHomeConversionFactors],
       /** Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.<b>Deprecated</b>: Will be removed in a future API update. */
-      unitsAvailable: UnitsAvailable
+      unitsAvailable: Option[UnitsAvailable]
     )
     /**
      * The string representation of a Price for an Instrument.

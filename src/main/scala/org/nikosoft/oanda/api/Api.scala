@@ -11,5 +11,6 @@ object Api {
   val tradeApi: TradeApi = TradeApiImpl
   val transactionApi: TransactionApi = TransactionApiImpl
   val positionApi: PositionApi = PositionApiImpl
+  val pricingApi: PricingApi = PricingApiImpl
 
 }
