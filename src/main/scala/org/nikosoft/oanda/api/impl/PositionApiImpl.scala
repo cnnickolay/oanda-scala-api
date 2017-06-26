@@ -57,8 +57,6 @@ private[api] object PositionApiImpl extends PositionApi with ApiCommons {
   def closePosition(accountId: AccountID, instrument: InstrumentName, closePositionRequest: ClosePositionRequest): \/[Error, ClosePositionResponse] = {
     val jsonBody = write(closePositionRequest)
 
-    println(jsonBody)
-
     val url = s"$baseUrl/accounts/${accountId.value}/positions/${instrument.value}/close"
     val content = Request
       .Put(url)
