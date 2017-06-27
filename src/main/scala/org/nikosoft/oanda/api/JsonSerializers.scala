@@ -7,7 +7,7 @@ import org.json4s.{CustomSerializer, DefaultFormats, _}
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountFinancingMode
 import org.nikosoft.oanda.api.ApiModel.InstrumentModel.CandlestickGranularity
 import org.nikosoft.oanda.api.ApiModel.OrderModel._
-import org.nikosoft.oanda.api.ApiModel.PricingModel.PriceStatus
+import org.nikosoft.oanda.api.ApiModel.PricingModel.{Price, PriceStatus, PricingHeartbeat}
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.InstrumentType
 import org.nikosoft.oanda.api.ApiModel.TradeModel.TradeState
 import org.nikosoft.oanda.api.ApiModel.TransactionModel._
@@ -105,6 +105,8 @@ object JsonSerializers {
         case "LIMIT" => Option(classOf[LimitOrder])
         case "MARKET" => Option(classOf[MarketOrder])
         case "HEARTBEAT" => Option(classOf[TransactionHeartbeat])
+        case "PRICING_HEARTBEAT" => Option(classOf[PricingHeartbeat])
+        case "PRICE" => Option(classOf[Price])
         case t => transactionMappingsByType.get(t)
       }
 
@@ -117,6 +119,8 @@ object JsonSerializers {
         case _: Class[LimitOrder] => "LIMIT"
         case _: Class[MarketOrder] => "MARKET"
         case _: Class[TransactionHeartbeat] => "HEARTBEAT"
+        case _: Class[Price] => "PRICE"
+        case _: Class[PricingHeartbeat] => "PRICING_HEARTBEAT"
         case c => transactionMappingsByClass(c)
       }
     }

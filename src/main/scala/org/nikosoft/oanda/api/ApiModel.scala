@@ -3730,7 +3730,7 @@ object ApiModel {
      */
     case class PricingHeartbeat(
       /** The string "HEARTBEAT" */
-      `type`: String = "HEARTBEAT",
+      `type`: String = "PRICING_HEARTBEAT",
       /** The date/time when the Heartbeat was created. */
       time: DateTime
     )
