@@ -32,6 +32,9 @@ import org.nikosoft.oanda.api.ApiModel.TransactionModel.TrailingStopLossOrderRea
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionRejectReason.TransactionRejectReason
 import org.nikosoft.oanda.api.ApiModel.TransactionModel.TransactionType.TransactionType
 
+/**
+  * This Model was generated from OANDA v20 definitions http://developer.oanda.com/rest-live-v20/order-ep/
+  */
 object ApiModel {
 
   object TransactionModel {
