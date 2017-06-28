@@ -24,9 +24,14 @@ So far only few APIs was implemented necessary for trading automation.
 * transactionsIdRange - Get a range of Transactions for an Account based on the Transaction IDs.
 * transactionsStream - Get a stream of Transactions for an Account starting from when the request is made.
 ### Positions
+Retrieving current and past positions
 * positions - List all Positions for an Account. The Positions returned are for every instrument that has had a position during the lifetime of an the Account.
 * openPositions - List all open Positions for an Account. An open Position is a Position in an Account that currently has a Trade opened for it.
 * closePosition - Closeout the open Position for a specific instrument in an Account.
+### Pricing
+Getting historical and realtime pricing data. Streaming is supported
+* pricing - Get pricing information for a specified list of Instruments within an Account.
+* pricingStream - Get a stream of Account Prices starting from when the request is made. This pricing stream does not include every single price created for the Account, but instead will provide at most 4 prices per second (every 250 milliseconds) for each instrument being requested. If more than one price is created for an instrument during the 250 millisecond window, only the price in effect at the end of the window is sent. This means that during periods of rapid price movement, subscribers to this stream will not be sent every price. Pricing windows for different connections to the price stream are not all aligned in the same way (i.e. they are not all aligned to the top of the second). This means that during periods of rapid price movement, different subscribers may observe different prices depending on their alignment. Note: This endpoint is served by the streaming URLs.
 
 ## How to use
 1. In src/main/resources copy api-default.properties to api.properties in the same directory.
