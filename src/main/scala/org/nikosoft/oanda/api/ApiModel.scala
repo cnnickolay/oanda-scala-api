@@ -47,15 +47,13 @@ object ApiModel {
       * @param requestID The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request)
       * @param type      The Type of the Transaction.
       */
-    abstract class Transaction(
-                                id: TransactionID,
-                                time: DateTime,
-                                userID: Int,
-                                accountID: AccountID,
-                                batchID: TransactionID,
-                                requestID: Option[RequestID],
-                                `type`: TransactionType
-                              )
+    abstract class Transaction(id: TransactionID,
+                               time: DateTime,
+                               userID: Int,
+                               accountID: AccountID,
+                               batchID: TransactionID,
+                               requestID: Option[RequestID],
+                               `type`: TransactionType)
 
     /**
       * A CreateTransaction represents the creation of an Account.
@@ -73,19 +71,18 @@ object ApiModel {
       * @param accountNumber The number of the Account within the site/division/user
       * @param homeCurrency  The home currency of the Account
       */
-    case class CreateTransaction(
-                                  id: TransactionID,
-                                  time: DateTime,
-                                  userID: Int,
-                                  accountID: AccountID,
-                                  batchID: TransactionID,
-                                  requestID: Option[RequestID],
-                                  `type`: TransactionType = TransactionType.CREATE,
-                                  divisionID: Int,
-                                  siteID: Int,
-                                  accountUserID: Int,
-                                  accountNumber: Int,
-                                  homeCurrency: Currency
+    case class CreateTransaction(id: TransactionID,
+                                 time: DateTime,
+                                 userID: Int,
+                                 accountID: AccountID,
+                                 batchID: TransactionID,
+                                 requestID: Option[RequestID],
+                                 `type`: TransactionType = TransactionType.CREATE,
+                                 divisionID: Int,
+                                 siteID: Int,
+                                 accountUserID: Int,
+                                 accountNumber: Int,
+                                 homeCurrency: Currency
                                 ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -99,15 +96,14 @@ object ApiModel {
       * @param requestID The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request)
       * @param type      The Type of the Transaction. Always set to "CLOSE" in a CloseTransaction.
       */
-    case class CloseTransaction(
-                                 id: TransactionID,
-                                 time: DateTime,
-                                 userID: Int,
-                                 accountID: AccountID,
-                                 batchID: TransactionID,
-                                 requestID: Option[RequestID]
-                                 `type`: TransactionType = TransactionType.CLOSE
-    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
+    case class CloseTransaction(id: TransactionID,
+                                time: DateTime,
+                                userID: Int,
+                                accountID: AccountID,
+                                batchID: TransactionID,
+                                requestID: Option[RequestID],
+                                `type`: TransactionType = TransactionType.CLOSE
+                               ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
       * A ReopenTransaction represents the re-opening of a closed Account.
@@ -120,14 +116,13 @@ object ApiModel {
       * @param requestID The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request)
       * @param type      The Type of the Transaction. Always set to "REOPEN" in a ReopenTransaction.
       */
-    case class ReopenTransaction(
-                                  id: TransactionID,
-                                  time: DateTime,
-                                  userID: Int,
-                                  accountID: AccountID,
-                                  batchID: TransactionID,
-                                  requestID: Option[RequestID],
-                                  `type`: TransactionType = TransactionType.REOPEN
+    case class ReopenTransaction(id: TransactionID,
+                                 time: DateTime,
+                                 userID: Int,
+                                 accountID: AccountID,
+                                 batchID: TransactionID,
+                                 requestID: Option[RequestID],
+                                 `type`: TransactionType = TransactionType.REOPEN
                                 ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -143,16 +138,15 @@ object ApiModel {
       * @param alias      The client-provided alias for the Account.
       * @param marginRate The margin rate override for the Account.
       */
-    case class ClientConfigureTransaction(
-                                           id: TransactionID,
-                                           time: DateTime,
-                                           userID: Int,
-                                           accountID: AccountID,
-                                           batchID: TransactionID,
-                                           requestID: Option[RequestID],
-                                           `type`: TransactionType = TransactionType.CLIENT_CONFIGURE,
-                                           alias: String,
-                                           marginRate: Double
+    case class ClientConfigureTransaction(id: TransactionID,
+                                          time: DateTime,
+                                          userID: Int,
+                                          accountID: AccountID,
+                                          batchID: TransactionID,
+                                          requestID: Option[RequestID],
+                                          `type`: TransactionType = TransactionType.CLIENT_CONFIGURE,
+                                          alias: String,
+                                          marginRate: Double
                                          ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -167,19 +161,17 @@ object ApiModel {
       * @param type         The Type of the Transaction. Always set to "CLIENT_CONFIGURE_REJECT" in a ClientConfigureRejectTransaction.
       * @param alias        The client-provided alias for the Account.
       * @param rejectReason The margin rate override for the Account.
-      * @param id           The reason that the Reject Transaction was created
       */
-    case class ClientConfigureRejectTransaction(
-                                                 id: TransactionID,
-                                                 time: DateTime,
-                                                 userID: Int,
-                                                 accountID: AccountID,
-                                                 batchID: TransactionID,
-                                                 requestID: Option[RequestID],
-                                                 `type`: TransactionType = TransactionType.CLIENT_CONFIGURE_REJECT,
-                                                 alias: String,
-                                                 marginRate: Double,
-                                                 rejectReason: TransactionRejectReason
+    case class ClientConfigureRejectTransaction(id: TransactionID,
+                                                time: DateTime,
+                                                userID: Int,
+                                                accountID: AccountID,
+                                                batchID: TransactionID,
+                                                requestID: Option[RequestID],
+                                                `type`: TransactionType = TransactionType.CLIENT_CONFIGURE_REJECT,
+                                                alias: String,
+                                                marginRate: Double,
+                                                rejectReason: TransactionRejectReason
                                                ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -189,24 +181,22 @@ object ApiModel {
       * @param userID         The date/time when the Transaction was created.
       * @param accountID      The ID of the user that initiated the creation of the Transaction.
       * @param batchID        The ID of the Account the Transaction was created for.
-      * @param batchID        The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
       * @param requestID      The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request)
       * @param type           The Type of the Transaction. Always set to "TRANSFER_FUNDS" in a TransferFundsTransaction.
       * @param amount         The amount to deposit/withdraw from the Account in the Account’s home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.
       * @param fundingReason  The reason that an Account is being funded.
       * @param accountBalance The Account’s balance after funds are transferred.
       */
-    case class TransferFundsTransaction(
-                                         id: TransactionID,
-                                         time: DateTime,
-                                         userID: Int,
-                                         accountID: AccountID,
-                                         batchID: TransactionID,
-                                         requestID: Option[RequestID],
-                                         `type`: TransactionType = TransactionType.TRANSFER_FUNDS,
-                                         amount: AccountUnits,
-                                         fundingReason: FundingReason,
-                                         accountBalance: AccountUnits
+    case class TransferFundsTransaction(id: TransactionID,
+                                        time: DateTime,
+                                        userID: Int,
+                                        accountID: AccountID,
+                                        batchID: TransactionID,
+                                        requestID: Option[RequestID],
+                                        `type`: TransactionType = TransactionType.TRANSFER_FUNDS,
+                                        amount: AccountUnits,
+                                        fundingReason: FundingReason,
+                                        accountBalance: AccountUnits
                                        ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -223,17 +213,16 @@ object ApiModel {
       * @param fundingReason The reason that an Account is being funded.
       * @param rejectReason  The reason that the Reject Transaction was created
       */
-    case class TransferFundsRejectTransaction(
-                                               id: TransactionID,
-                                               time: DateTime,
-                                               userID: Int,
-                                               accountID: AccountID,
-                                               batchID: TransactionID,
-                                               requestID: Option[RequestID],
-                                               `type`: TransactionType = TransactionType.TRANSFER_FUNDS_REJECT,
-                                               amount: AccountUnits,
-                                               fundingReason: FundingReason,
-                                               rejectReason: TransactionRejectReason
+    case class TransferFundsRejectTransaction(id: TransactionID,
+                                              time: DateTime,
+                                              userID: Int,
+                                              accountID: AccountID,
+                                              batchID: TransactionID,
+                                              requestID: Option[RequestID],
+                                              `type`: TransactionType = TransactionType.TRANSFER_FUNDS_REJECT,
+                                              amount: AccountUnits,
+                                              fundingReason: FundingReason,
+                                              rejectReason: TransactionRejectReason
                                              ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -526,30 +515,29 @@ object ApiModel {
       * @param intendedReplacesOrderID The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
       * @param rejectReason            The reason that the Reject Transaction was created
       */
-    case class StopOrderRejectTransaction(
-                                           id: TransactionID,
-                                           time: DateTime,
-                                           userID: Int,
-                                           accountID: AccountID,
-                                           batchID: TransactionID,
-                                           requestID: Option[RequestID],
-                                           `type`: TransactionType = TransactionType.STOP_ORDER_REJECT,
-                                           instrument: InstrumentName,
-                                           units: Double,
-                                           price: PriceValue,
-                                           priceBound: PriceValue,
-                                           timeInForce: TimeInForce,
-                                           gtdTime: Option[DateTime],
-                                           positionFill: OrderPositionFill,
-                                           triggerCondition: OrderTriggerCondition,
-                                           reason: StopOrderReason,
-                                           clientExtensions: Option[ClientExtensions],
-                                           takeProfitOnFill: Option[TakeProfitDetails],
-                                           stopLossOnFill: Option[StopLossDetails],
-                                           trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                                           tradeclientExtensions: Option[ClientExtensions],
-                                           intendedReplacesOrderID: Option[OrderID],
-                                           rejectReason: TransactionRejectReason
+    case class StopOrderRejectTransaction(id: TransactionID,
+                                          time: DateTime,
+                                          userID: Int,
+                                          accountID: AccountID,
+                                          batchID: TransactionID,
+                                          requestID: Option[RequestID],
+                                          `type`: TransactionType = TransactionType.STOP_ORDER_REJECT,
+                                          instrument: InstrumentName,
+                                          units: Double,
+                                          price: PriceValue,
+                                          priceBound: PriceValue,
+                                          timeInForce: TimeInForce,
+                                          gtdTime: Option[DateTime],
+                                          positionFill: OrderPositionFill,
+                                          triggerCondition: OrderTriggerCondition,
+                                          reason: StopOrderReason,
+                                          clientExtensions: Option[ClientExtensions],
+                                          takeProfitOnFill: Option[TakeProfitDetails],
+                                          stopLossOnFill: Option[StopLossDetails],
+                                          trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                                          tradeclientExtensions: Option[ClientExtensions],
+                                          intendedReplacesOrderID: Option[OrderID],
+                                          rejectReason: TransactionRejectReason
                                          ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -579,30 +567,29 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
       * @param cancellingTransactionID The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
       */
-    case class MarketIfTouchedOrderTransaction(
-                                                id: TransactionID,
-                                                time: DateTime,
-                                                userID: Int,
-                                                accountID: AccountID,
-                                                batchID: TransactionID,
-                                                requestID: Option[RequestID],
-                                                `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER,
-                                                instrument: InstrumentName,
-                                                units: Double,
-                                                price: PriceValue,
-                                                priceBound: PriceValue,
-                                                timeInForce: TimeInForce,
-                                                gtdTime: Option[DateTime],
-                                                positionFill: OrderPositionFill,
-                                                triggerCondition: OrderTriggerCondition,
-                                                reason: MarketIfTouchedOrderReason,
-                                                clientExtensions: Option[ClientExtensions],
-                                                takeProfitOnFill: Option[TakeProfitDetails],
-                                                stopLossOnFill: Option[StopLossDetails],
-                                                trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                                                tradeclientExtensions: Option[ClientExtensions],
-                                                replacesOrderID: Option[OrderID],
-                                                cancellingTransactionID: Option[TransactionID]
+    case class MarketIfTouchedOrderTransaction(id: TransactionID,
+                                               time: DateTime,
+                                               userID: Int,
+                                               accountID: AccountID,
+                                               batchID: TransactionID,
+                                               requestID: Option[RequestID],
+                                               `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER,
+                                               instrument: InstrumentName,
+                                               units: Double,
+                                               price: PriceValue,
+                                               priceBound: PriceValue,
+                                               timeInForce: TimeInForce,
+                                               gtdTime: Option[DateTime],
+                                               positionFill: OrderPositionFill,
+                                               triggerCondition: OrderTriggerCondition,
+                                               reason: MarketIfTouchedOrderReason,
+                                               clientExtensions: Option[ClientExtensions],
+                                               takeProfitOnFill: Option[TakeProfitDetails],
+                                               stopLossOnFill: Option[StopLossDetails],
+                                               trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                                               tradeclientExtensions: Option[ClientExtensions],
+                                               replacesOrderID: Option[OrderID],
+                                               cancellingTransactionID: Option[TransactionID]
                                               ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -632,30 +619,29 @@ object ApiModel {
       * @param intendedReplacesOrderID The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
       * @param rejectReason            The reason that the Reject Transaction was created
       */
-    case class MarketIfTouchedOrderRejectTransaction(
-                                                      id: TransactionID,
-                                                      time: DateTime,
-                                                      userID: Int,
-                                                      accountID: AccountID,
-                                                      batchID: TransactionID,
-                                                      requestID: Option[RequestID],
-                                                      `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER_REJECT,
-                                                      instrument: InstrumentName,
-                                                      units: Double,
-                                                      price: PriceValue,
-                                                      priceBound: PriceValue,
-                                                      timeInForce: TimeInForce,
-                                                      gtdTime: Option[DateTime],
-                                                      positionFill: OrderPositionFill,
-                                                      triggerCondition: OrderTriggerCondition,
-                                                      reason: MarketIfTouchedOrderReason,
-                                                      clientExtensions: Option[ClientExtensions],
-                                                      takeProfitOnFill: Option[TakeProfitDetails],
-                                                      stopLossOnFill: Option[StopLossDetails],
-                                                      trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                                                      tradeclientExtensions: Option[ClientExtensions],
-                                                      intendedReplacesOrderID: Option[OrderID],
-                                                      rejectReason: TransactionRejectReason
+    case class MarketIfTouchedOrderRejectTransaction(id: TransactionID,
+                                                     time: DateTime,
+                                                     userID: Int,
+                                                     accountID: AccountID,
+                                                     batchID: TransactionID,
+                                                     requestID: Option[RequestID],
+                                                     `type`: TransactionType = TransactionType.MARKET_IF_TOUCHED_ORDER_REJECT,
+                                                     instrument: InstrumentName,
+                                                     units: Double,
+                                                     price: PriceValue,
+                                                     priceBound: PriceValue,
+                                                     timeInForce: TimeInForce,
+                                                     gtdTime: Option[DateTime],
+                                                     positionFill: OrderPositionFill,
+                                                     triggerCondition: OrderTriggerCondition,
+                                                     reason: MarketIfTouchedOrderReason,
+                                                     clientExtensions: Option[ClientExtensions],
+                                                     takeProfitOnFill: Option[TakeProfitDetails],
+                                                     stopLossOnFill: Option[StopLossDetails],
+                                                     trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                                                     tradeclientExtensions: Option[ClientExtensions],
+                                                     intendedReplacesOrderID: Option[OrderID],
+                                                     rejectReason: TransactionRejectReason
                                                     ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -680,25 +666,24 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
       * @param cancellingTransactionID The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
       */
-    case class TakeProfitOrderTransaction(
-                                           id: TransactionID,
-                                           time: DateTime,
-                                           userID: Int,
-                                           accountID: AccountID,
-                                           batchID: TransactionID,
-                                           requestID: Option[RequestID],
-                                           `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER,
-                                           tradeID: TradeID,
-                                           clientTradeID: ClientID,
-                                           price: PriceValue,
-                                           timeInForce: TimeInForce,
-                                           gtdTime: Option[DateTime],
-                                           triggerCondition: OrderTriggerCondition,
-                                           reason: TakeProfitOrderReason,
-                                           clientExtensions: Option[ClientExtensions],
-                                           orderFillTransactionID: TransactionID,
-                                           replacesOrderID: Option[OrderID],
-                                           cancellingTransactionID: Option[TransactionID]
+    case class TakeProfitOrderTransaction(id: TransactionID,
+                                          time: DateTime,
+                                          userID: Int,
+                                          accountID: AccountID,
+                                          batchID: TransactionID,
+                                          requestID: Option[RequestID],
+                                          `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER,
+                                          tradeID: TradeID,
+                                          clientTradeID: ClientID,
+                                          price: PriceValue,
+                                          timeInForce: TimeInForce,
+                                          gtdTime: Option[DateTime],
+                                          triggerCondition: OrderTriggerCondition,
+                                          reason: TakeProfitOrderReason,
+                                          clientExtensions: Option[ClientExtensions],
+                                          orderFillTransactionID: TransactionID,
+                                          replacesOrderID: Option[OrderID],
+                                          cancellingTransactionID: Option[TransactionID]
                                          ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -723,25 +708,24 @@ object ApiModel {
       * @param intendedReplacesOrderID The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
       * @param rejectReason            The reason that the Reject Transaction was created
       */
-    case class TakeProfitOrderRejectTransaction(
-                                                 id: TransactionID,
-                                                 time: DateTime,
-                                                 userID: Int,
-                                                 accountID: AccountID,
-                                                 batchID: TransactionID,
-                                                 requestID: Option[RequestID],
-                                                 `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER_REJECT,
-                                                 tradeID: TradeID,
-                                                 clientTradeID: ClientID,
-                                                 price: PriceValue,
-                                                 timeInForce: TimeInForce,
-                                                 gtdTime: Option[DateTime],
-                                                 triggerCondition: OrderTriggerCondition,
-                                                 reason: TakeProfitOrderReason,
-                                                 clientExtensions: Option[ClientExtensions],
-                                                 orderFillTransactionID: TransactionID,
-                                                 intendedReplacesOrderID: Option[OrderID],
-                                                 rejectReason: TransactionRejectReason
+    case class TakeProfitOrderRejectTransaction(id: TransactionID,
+                                                time: DateTime,
+                                                userID: Int,
+                                                accountID: AccountID,
+                                                batchID: TransactionID,
+                                                requestID: Option[RequestID],
+                                                `type`: TransactionType = TransactionType.TAKE_PROFIT_ORDER_REJECT,
+                                                tradeID: TradeID,
+                                                clientTradeID: ClientID,
+                                                price: PriceValue,
+                                                timeInForce: TimeInForce,
+                                                gtdTime: Option[DateTime],
+                                                triggerCondition: OrderTriggerCondition,
+                                                reason: TakeProfitOrderReason,
+                                                clientExtensions: Option[ClientExtensions],
+                                                orderFillTransactionID: TransactionID,
+                                                intendedReplacesOrderID: Option[OrderID],
+                                                rejectReason: TransactionRejectReason
                                                ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -766,25 +750,24 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
       * @param cancellingTransactionID The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
       */
-    case class StopLossOrderTransaction(
-                                         id: TransactionID,
-                                         time: DateTime,
-                                         userID: Int,
-                                         accountID: AccountID,
-                                         batchID: TransactionID,
-                                         requestID: Option[RequestID],
-                                         `type`: TransactionType = TransactionType.STOP_LOSS_ORDER,
-                                         tradeID: TradeID,
-                                         clientTradeID: ClientID,
-                                         price: PriceValue,
-                                         timeInForce: TimeInForce,
-                                         gtdTime: Option[DateTime],
-                                         triggerCondition: OrderTriggerCondition,
-                                         reason: StopLossOrderReason,
-                                         clientExtensions: Option[ClientExtensions],
-                                         orderFillTransactionID: TransactionID,
-                                         replacesOrderID: Option[OrderID],
-                                         cancellingTransactionID: Option[TransactionID]
+    case class StopLossOrderTransaction(id: TransactionID,
+                                        time: DateTime,
+                                        userID: Int,
+                                        accountID: AccountID,
+                                        batchID: TransactionID,
+                                        requestID: Option[RequestID],
+                                        `type`: TransactionType = TransactionType.STOP_LOSS_ORDER,
+                                        tradeID: TradeID,
+                                        clientTradeID: ClientID,
+                                        price: PriceValue,
+                                        timeInForce: TimeInForce,
+                                        gtdTime: Option[DateTime],
+                                        triggerCondition: OrderTriggerCondition,
+                                        reason: StopLossOrderReason,
+                                        clientExtensions: Option[ClientExtensions],
+                                        orderFillTransactionID: TransactionID,
+                                        replacesOrderID: Option[OrderID],
+                                        cancellingTransactionID: Option[TransactionID]
                                        ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -809,25 +792,24 @@ object ApiModel {
       * @param intendedReplacesOrderID The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
       * @param rejectReason            The reason that the Reject Transaction was created
       */
-    case class StopLossOrderRejectTransaction(
-                                               id: TransactionID,
-                                               time: DateTime,
-                                               userID: Int,
-                                               accountID: AccountID,
-                                               batchID: TransactionID,
-                                               requestID: Option[RequestID],
-                                               `type`: TransactionType = TransactionType.STOP_LOSS_ORDER_REJECT,
-                                               tradeID: TradeID,
-                                               clientTradeID: ClientID,
-                                               price: PriceValue,
-                                               timeInForce: TimeInForce,
-                                               gtdTime: Option[DateTime],
-                                               triggerCondition: OrderTriggerCondition,
-                                               reason: StopLossOrderReason,
-                                               clientExtensions: Option[ClientExtensions],
-                                               orderFillTransactionID: TransactionID,
-                                               intendedReplacesOrderID: Option[OrderID],
-                                               rejectReason: TransactionRejectReason
+    case class StopLossOrderRejectTransaction(id: TransactionID,
+                                              time: DateTime,
+                                              userID: Int,
+                                              accountID: AccountID,
+                                              batchID: TransactionID,
+                                              requestID: Option[RequestID],
+                                              `type`: TransactionType = TransactionType.STOP_LOSS_ORDER_REJECT,
+                                              tradeID: TradeID,
+                                              clientTradeID: ClientID,
+                                              price: PriceValue,
+                                              timeInForce: TimeInForce,
+                                              gtdTime: Option[DateTime],
+                                              triggerCondition: OrderTriggerCondition,
+                                              reason: StopLossOrderReason,
+                                              clientExtensions: Option[ClientExtensions],
+                                              orderFillTransactionID: TransactionID,
+                                              intendedReplacesOrderID: Option[OrderID],
+                                              rejectReason: TransactionRejectReason
                                              ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -852,25 +834,24 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
       * @param cancellingTransactionID The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
       */
-    case class TrailingStopLossOrderTransaction(
-                                                 id: TransactionID,
-                                                 time: DateTime,
-                                                 userID: Int,
-                                                 accountID: AccountID,
-                                                 batchID: TransactionID,
-                                                 requestID: Option[RequestID],
-                                                 `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER,
-                                                 tradeID: TradeID,
-                                                 clientTradeID: ClientID,
-                                                 distance: PriceValue,
-                                                 timeInForce: TimeInForce,
-                                                 gtdTime: Option[DateTime],
-                                                 triggerCondition: OrderTriggerCondition,
-                                                 reason: TrailingStopLossOrderReason,
-                                                 clientExtensions: Option[ClientExtensions],
-                                                 orderFillTransactionID: TransactionID,
-                                                 replacesOrderID: Option[OrderID],
-                                                 cancellingTransactionID: Option[TransactionID]
+    case class TrailingStopLossOrderTransaction(id: TransactionID,
+                                                time: DateTime,
+                                                userID: Int,
+                                                accountID: AccountID,
+                                                batchID: TransactionID,
+                                                requestID: Option[RequestID],
+                                                `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER,
+                                                tradeID: TradeID,
+                                                clientTradeID: ClientID,
+                                                distance: PriceValue,
+                                                timeInForce: TimeInForce,
+                                                gtdTime: Option[DateTime],
+                                                triggerCondition: OrderTriggerCondition,
+                                                reason: TrailingStopLossOrderReason,
+                                                clientExtensions: Option[ClientExtensions],
+                                                orderFillTransactionID: TransactionID,
+                                                replacesOrderID: Option[OrderID],
+                                                cancellingTransactionID: Option[TransactionID]
                                                ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -895,25 +876,24 @@ object ApiModel {
       * @param intendedReplacesOrderID The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
       * @param rejectReason            The reason that the Reject Transaction was created
       */
-    case class TrailingStopLossOrderRejectTransaction(
-                                                       id: TransactionID,
-                                                       time: DateTime,
-                                                       userID: Int,
-                                                       accountID: AccountID,
-                                                       batchID: TransactionID,
-                                                       requestID: Option[RequestID],
-                                                       `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER_REJECT,
-                                                       tradeID: TradeID,
-                                                       clientTradeID: ClientID,
-                                                       distance: PriceValue,
-                                                       timeInForce: TimeInForce,
-                                                       gtdTime: Option[DateTime],
-                                                       triggerCondition: OrderTriggerCondition,
-                                                       reason: TrailingStopLossOrderReason,
-                                                       clientExtensions: Option[ClientExtensions],
-                                                       orderFillTransactionID: TransactionID,
-                                                       intendedReplacesOrderID: Option[OrderID],
-                                                       rejectReason: TransactionRejectReason
+    case class TrailingStopLossOrderRejectTransaction(id: TransactionID,
+                                                      time: DateTime,
+                                                      userID: Int,
+                                                      accountID: AccountID,
+                                                      batchID: TransactionID,
+                                                      requestID: Option[RequestID],
+                                                      `type`: TransactionType = TransactionType.TRAILING_STOP_LOSS_ORDER_REJECT,
+                                                      tradeID: TradeID,
+                                                      clientTradeID: ClientID,
+                                                      distance: PriceValue,
+                                                      timeInForce: TimeInForce,
+                                                      gtdTime: Option[DateTime],
+                                                      triggerCondition: OrderTriggerCondition,
+                                                      reason: TrailingStopLossOrderReason,
+                                                      clientExtensions: Option[ClientExtensions],
+                                                      orderFillTransactionID: TransactionID,
+                                                      intendedReplacesOrderID: Option[OrderID],
+                                                      rejectReason: TransactionRejectReason
                                                      ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -939,26 +919,25 @@ object ApiModel {
       * @param tradesClosed   The Trades that were closed when the Order was filled (only provided if filling the Order resulted in a closing open Trades).
       * @param tradeReduced   The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade).
       */
-    case class OrderFillTransaction(
-                                     id: TransactionID,
-                                     time: DateTime,
-                                     userID: Int,
-                                     accountID: AccountID,
-                                     batchID: TransactionID,
-                                     requestID: Option[RequestID],
-                                     `type`: TransactionType = TransactionType.ORDER_FILL,
-                                     orderID: OrderID,
-                                     clientOrderID: ClientID,
-                                     instrument: InstrumentName,
-                                     units: Double,
-                                     price: PriceValue,
-                                     reason: OrderFillReason,
-                                     pl: AccountUnits,
-                                     financing: AccountUnits,
-                                     accountBalance: AccountUnits,
-                                     tradeOpened: TradeOpen,
-                                     tradesClosed: Seq[TradeReduce],
-                                     tradeReduced: TradeReduce
+    case class OrderFillTransaction(id: TransactionID,
+                                    time: DateTime,
+                                    userID: Int,
+                                    accountID: AccountID,
+                                    batchID: TransactionID,
+                                    requestID: Option[RequestID],
+                                    `type`: TransactionType = TransactionType.ORDER_FILL,
+                                    orderID: OrderID,
+                                    clientOrderID: ClientID,
+                                    instrument: InstrumentName,
+                                    units: Double,
+                                    price: PriceValue,
+                                    reason: OrderFillReason,
+                                    pl: AccountUnits,
+                                    financing: AccountUnits,
+                                    accountBalance: AccountUnits,
+                                    tradeOpened: TradeOpen,
+                                    tradesClosed: Seq[TradeReduce],
+                                    tradeReduced: TradeReduce
                                    ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -976,18 +955,17 @@ object ApiModel {
       * @param reason            The reason that the Order was cancelled.
       * @param replacedByOrderID The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement).
       */
-    case class OrderCancelTransaction(
-                                       id: TransactionID,
-                                       time: DateTime,
-                                       userID: Int,
-                                       accountID: AccountID,
-                                       batchID: TransactionID,
-                                       requestID: Option[RequestID],
-                                       `type`: TransactionType = TransactionType.ORDER_CANCEL,
-                                       orderID: OrderID,
-                                       clientOrderID: OrderID,
-                                       reason: OrderCancelReason,
-                                       replacedByOrderID: Option[OrderID]
+    case class OrderCancelTransaction(id: TransactionID,
+                                      time: DateTime,
+                                      userID: Int,
+                                      accountID: AccountID,
+                                      batchID: TransactionID,
+                                      requestID: Option[RequestID],
+                                      `type`: TransactionType = TransactionType.ORDER_CANCEL,
+                                      orderID: OrderID,
+                                      clientOrderID: OrderID,
+                                      reason: OrderCancelReason,
+                                      replacedByOrderID: Option[OrderID]
                                      ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1005,18 +983,17 @@ object ApiModel {
       * @param reason        The reason that the Order was to be cancelled.
       * @param rejectReason  The reason that the Reject Transaction was created
       */
-    case class OrderCancelRejectTransaction(
-                                             id: TransactionID,
-                                             time: DateTime,
-                                             userID: Int,
-                                             accountID: AccountID,
-                                             batchID: TransactionID,
-                                             requestID: Option[RequestID],
-                                             `type`: TransactionType = TransactionType.ORDER_CANCEL_REJECT,
-                                             orderID: OrderID,
-                                             clientOrderID: OrderID,
-                                             reason: OrderCancelReason,
-                                             rejectReason: TransactionRejectReason
+    case class OrderCancelRejectTransaction(id: TransactionID,
+                                            time: DateTime,
+                                            userID: Int,
+                                            accountID: AccountID,
+                                            batchID: TransactionID,
+                                            requestID: Option[RequestID],
+                                            `type`: TransactionType = TransactionType.ORDER_CANCEL_REJECT,
+                                            orderID: OrderID,
+                                            clientOrderID: OrderID,
+                                            reason: OrderCancelReason,
+                                            rejectReason: TransactionRejectReason
                                            ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1034,18 +1011,17 @@ object ApiModel {
       * @param clientExtensionsModify      The new Client Extensions for the Order.
       * @param tradeClientExtensionsModify The new Client Extensions for the Order’s Trade on fill.
       */
-    case class OrderClientExtensionsModifyTransaction(
-                                                       id: TransactionID,
-                                                       time: DateTime,
-                                                       userID: Int,
-                                                       accountID: AccountID,
-                                                       batchID: TransactionID,
-                                                       requestID: Option[RequestID],
-                                                       `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY,
-                                                       orderID: OrderID,
-                                                       clientOrderID: ClientID,
-                                                       clientExtensionsModify: ClientExtensions,
-                                                       tradeClientExtensionsModify: ClientExtensions
+    case class OrderClientExtensionsModifyTransaction(id: TransactionID,
+                                                      time: DateTime,
+                                                      userID: Int,
+                                                      accountID: AccountID,
+                                                      batchID: TransactionID,
+                                                      requestID: Option[RequestID],
+                                                      `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY,
+                                                      orderID: OrderID,
+                                                      clientOrderID: ClientID,
+                                                      clientExtensionsModify: ClientExtensions,
+                                                      tradeClientExtensionsModify: ClientExtensions
                                                      ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1064,19 +1040,18 @@ object ApiModel {
       * @param tradeClientExtensionsModify The new Client Extensions for the Order’s Trade on fill.
       * @param rejectReason                The reason that the Reject Transaction was created
       */
-    case class OrderClientExtensionsModifyRejectTransaction(
-                                                             id: TransactionID,
-                                                             time: DateTime,
-                                                             userID: Int,
-                                                             accountID: AccountID,
-                                                             batchID: TransactionID,
-                                                             requestID: Option[RequestID],
-                                                             `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT,
-                                                             orderID: OrderID,
-                                                             clientOrderID: ClientID,
-                                                             clientExtensionsModify: ClientExtensions,
-                                                             tradeClientExtensionsModify: ClientExtensions,
-                                                             rejectReason: TransactionRejectReason
+    case class OrderClientExtensionsModifyRejectTransaction(id: TransactionID,
+                                                            time: DateTime,
+                                                            userID: Int,
+                                                            accountID: AccountID,
+                                                            batchID: TransactionID,
+                                                            requestID: Option[RequestID],
+                                                            `type`: TransactionType = TransactionType.ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT,
+                                                            orderID: OrderID,
+                                                            clientOrderID: ClientID,
+                                                            clientExtensionsModify: ClientExtensions,
+                                                            tradeClientExtensionsModify: ClientExtensions,
+                                                            rejectReason: TransactionRejectReason
                                                            ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1093,17 +1068,16 @@ object ApiModel {
       * @param clientTradeID               The original Client ID of the Trade who’s client extensions are to be modified.
       * @param tradeClientExtensionsModify The new Client Extensions for the Trade.
       */
-    case class TradeClientExtensionsModifyTransaction(
-                                                       id: TransactionID,
-                                                       time: DateTime,
-                                                       userID: Int,
-                                                       accountID: AccountID,
-                                                       batchID: TransactionID,
-                                                       requestID: Option[RequestID],
-                                                       `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY,
-                                                       tradeID: TradeID,
-                                                       clientTradeID: ClientID,
-                                                       tradeClientExtensionsModify: ClientExtensions
+    case class TradeClientExtensionsModifyTransaction(id: TransactionID,
+                                                      time: DateTime,
+                                                      userID: Int,
+                                                      accountID: AccountID,
+                                                      batchID: TransactionID,
+                                                      requestID: Option[RequestID],
+                                                      `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY,
+                                                      tradeID: TradeID,
+                                                      clientTradeID: ClientID,
+                                                      tradeClientExtensionsModify: ClientExtensions
                                                      ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1121,18 +1095,17 @@ object ApiModel {
       * @param tradeClientExtensionsModify The new Client Extensions for the Trade.
       * @param rejectReason                The reason that the Reject Transaction was created
       */
-    case class TradeClientExtensionsModifyRejectTransaction(
-                                                             id: TransactionID,
-                                                             time: DateTime,
-                                                             userID: Int,
-                                                             accountID: AccountID,
-                                                             batchID: TransactionID,
-                                                             requestID: Option[RequestID],
-                                                             `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT,
-                                                             tradeID: TradeID,
-                                                             clientTradeID: ClientID,
-                                                             tradeClientExtensionsModify: ClientExtensions,
-                                                             rejectReason: TransactionRejectReason
+    case class TradeClientExtensionsModifyRejectTransaction(id: TransactionID,
+                                                            time: DateTime,
+                                                            userID: Int,
+                                                            accountID: AccountID,
+                                                            batchID: TransactionID,
+                                                            requestID: Option[RequestID],
+                                                            `type`: TransactionType = TransactionType.TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT,
+                                                            tradeID: TradeID,
+                                                            clientTradeID: ClientID,
+                                                            tradeClientExtensionsModify: ClientExtensions,
+                                                            rejectReason: TransactionRejectReason
                                                            ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1146,14 +1119,13 @@ object ApiModel {
       * @param requestID The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request)
       * @param type      The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an MarginCallEnterTransaction.
       */
-    case class MarginCallEnterTransaction(
-                                           id: TransactionID,
-                                           time: DateTime,
-                                           userID: Int,
-                                           accountID: AccountID,
-                                           batchID: TransactionID,
-                                           requestID: Option[RequestID],
-                                           `type`: TransactionType = TransactionType.MARGIN_CALL_ENTER
+    case class MarginCallEnterTransaction(id: TransactionID,
+                                          time: DateTime,
+                                          userID: Int,
+                                          accountID: AccountID,
+                                          batchID: TransactionID,
+                                          requestID: Option[RequestID],
+                                          `type`: TransactionType = TransactionType.MARGIN_CALL_ENTER
                                          ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1168,15 +1140,14 @@ object ApiModel {
       * @param type            The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for an MarginCallExtendTransaction.
       * @param extensionNumber The number of the extensions to the Account’s current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction
       */
-    case class MarginCallExtendTransaction(
-                                            id: TransactionID,
-                                            time: DateTime,
-                                            userID: Int,
-                                            accountID: AccountID,
-                                            batchID: TransactionID,
-                                            requestID: Option[RequestID],
-                                            `type`: TransactionType = TransactionType.MARGIN_CALL_EXTEND,
-                                            extensionNumber: Int
+    case class MarginCallExtendTransaction(id: TransactionID,
+                                           time: DateTime,
+                                           userID: Int,
+                                           accountID: AccountID,
+                                           batchID: TransactionID,
+                                           requestID: Option[RequestID],
+                                           `type`: TransactionType = TransactionType.MARGIN_CALL_EXTEND,
+                                           extensionNumber: Int
                                           ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1190,14 +1161,13 @@ object ApiModel {
       * @param requestID The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request)
       * @param type      The Type of the Transaction. Always set to "MARGIN_CALL_EXIT" for an MarginCallExitTransaction.
       */
-    case class MarginCallExitTransaction(
-                                          id: TransactionID,
-                                          time: DateTime,
-                                          userID: Int,
-                                          accountID: AccountID,
-                                          batchID: TransactionID,
-                                          requestID: Option[RequestID],
-                                          `type`: TransactionType = TransactionType.MARGIN_CALL_EXIT
+    case class MarginCallExitTransaction(id: TransactionID,
+                                         time: DateTime,
+                                         userID: Int,
+                                         accountID: AccountID,
+                                         batchID: TransactionID,
+                                         requestID: Option[RequestID],
+                                         `type`: TransactionType = TransactionType.MARGIN_CALL_EXIT
                                         ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1213,16 +1183,15 @@ object ApiModel {
       * @param reason    The reason for the delayed trade closure
       * @param tradeIDs  List of Trade ID’s identifying the open trades that will be closed when their respective instruments become tradeable
       */
-    case class DelayedTradeClosureTransaction(
-                                               id: TransactionID,
-                                               time: DateTime,
-                                               userID: Int,
-                                               accountID: AccountID,
-                                               batchID: TransactionID,
-                                               requestID: Option[RequestID],
-                                               `type`: TransactionType = TransactionType.DELAYED_TRADE_CLOSURE,
-                                               reason: MarketOrderReason,
-                                               tradeIDs: TradeID
+    case class DelayedTradeClosureTransaction(id: TransactionID,
+                                              time: DateTime,
+                                              userID: Int,
+                                              accountID: AccountID,
+                                              batchID: TransactionID,
+                                              requestID: Option[RequestID],
+                                              `type`: TransactionType = TransactionType.DELAYED_TRADE_CLOSURE,
+                                              reason: MarketOrderReason,
+                                              tradeIDs: TradeID
                                              ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1240,18 +1209,17 @@ object ApiModel {
       * @param accountFinancingMode The account financing mode at the time of the daily financing.
       * @param positionFinancings   The financing paid/collected for each Position in the Account.
       */
-    case class DailyFinancingTransaction(
-                                          id: TransactionID,
-                                          time: DateTime,
-                                          userID: Int,
-                                          accountID: AccountID,
-                                          batchID: TransactionID,
-                                          requestID: Option[RequestID],
-                                          `type`: TransactionType = TransactionType.DAILY_FINANCING,
-                                          financing: AccountUnits,
-                                          accountBalance: AccountUnits,
-                                          accountFinancingMode: AccountFinancingMode,
-                                          positionFinancings: Seq[PositionFinancing]
+    case class DailyFinancingTransaction(id: TransactionID,
+                                         time: DateTime,
+                                         userID: Int,
+                                         accountID: AccountID,
+                                         batchID: TransactionID,
+                                         requestID: Option[RequestID],
+                                         `type`: TransactionType = TransactionType.DAILY_FINANCING,
+                                         financing: AccountUnits,
+                                         accountBalance: AccountUnits,
+                                         accountFinancingMode: AccountFinancingMode,
+                                         positionFinancings: Seq[PositionFinancing]
                                         ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1265,14 +1233,13 @@ object ApiModel {
       * @param requestID The Request ID of the Account Control Request which generated the transaction (only provided for Transactions created by a Client request)
       * @param type      The Type of the Transaction. Always set to "RESET_RESETTABLE_PL" for a ResetResettablePLTransaction.
       */
-    case class ResetResettablePLTransaction(
-                                             id: TransactionID,
-                                             time: DateTime,
-                                             userID: Int,
-                                             accountID: AccountID,
-                                             batchID: TransactionID,
-                                             requestID: Option[RequestID],
-                                             `type`: TransactionType = TransactionType.RESET_RESETTABLE_PL
+    case class ResetResettablePLTransaction(id: TransactionID,
+                                            time: DateTime,
+                                            userID: Int,
+                                            accountID: AccountID,
+                                            batchID: TransactionID,
+                                            requestID: Option[RequestID],
+                                            `type`: TransactionType = TransactionType.RESET_RESETTABLE_PL
                                            ) extends Transaction(id, time, userID, accountID, batchID, requestID, `type`)
 
     /**
@@ -1681,11 +1648,9 @@ object ApiModel {
       * @param tag     A tag associated with the Order/Trade
       * @param comment A comment associated with the Order/Trade
       */
-    case class ClientExtensions(
-                                 id: ClientID,
-                                 tag: ClientTag,
-                                 comment: Option[ClientComment]
-                               )
+    case class ClientExtensions(id: ClientID,
+                                tag: ClientTag,
+                                comment: Option[ClientComment])
 
     /**
       * TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade’s dependent Take Profit Order is modified directly through the Trade.
@@ -1695,12 +1660,10 @@ object ApiModel {
       * @param gtdTime          The date when the Take Profit Order will be cancelled on if timeInForce is GTD.
       * @param clientExtensions The Client Extensions to add to the Take Profit Order when created.
       */
-    case class TakeProfitDetails(
-                                  price: PriceValue,
-                                  timeInForce: TimeInForce,
-                                  gtdTime: Option[DateTime] = None,
-                                  clientExtensions: Option[ClientExtensions] = None
-                                )
+    case class TakeProfitDetails(price: PriceValue,
+                                 timeInForce: TimeInForce,
+                                 gtdTime: Option[DateTime] = None,
+                                 clientExtensions: Option[ClientExtensions] = None)
 
     /**
       * StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade’s dependent Stop Loss Order is modified directly through the Trade.
@@ -1710,12 +1673,10 @@ object ApiModel {
       * @param gtdTime          The date when the Stop Loss Order will be cancelled on if timeInForce is GTD.
       * @param clientExtensions The Client Extensions to add to the Stop Loss Order when created.
       */
-    case class StopLossDetails(
-                                price: PriceValue,
-                                timeInForce: TimeInForce,
-                                gtdTime: Option[DateTime],
-                                clientExtensions: Option[ClientExtensions]
-                              )
+    case class StopLossDetails(price: PriceValue,
+                               timeInForce: TimeInForce,
+                               gtdTime: Option[DateTime],
+                               clientExtensions: Option[ClientExtensions])
 
     /**
       * TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade.
@@ -1725,12 +1686,10 @@ object ApiModel {
       * @param gtdTime          The date when the Trailing Stop Loss Order will be cancelled on if timeInForce is GTD.
       * @param clientExtensions The Client Extensions to add to the Trailing Stop Loss Order when created.
       */
-    case class TrailingStopLossDetails(
-                                        distance: PriceValue,
-                                        timeInForce: TimeInForce,
-                                        gtdTime: Option[DateTime],
-                                        clientExtensions: Option[ClientExtensions]
-                                      )
+    case class TrailingStopLossDetails(distance: PriceValue,
+                                       timeInForce: TimeInForce,
+                                       gtdTime: Option[DateTime],
+                                       clientExtensions: Option[ClientExtensions])
 
     /**
       * A TradeOpen object represents a Trade for an instrument that was opened in an Account. It is found embedded in Transactions that affect the position of an instrument in the Account, specifically the OrderFill Transaction.
@@ -1739,11 +1698,9 @@ object ApiModel {
       * @param units            The number of units opened by the Trade
       * @param clientExtensions The client extensions for the newly opened Trade
       */
-    case class TradeOpen(
-                          tradeID: TradeID,
-                          units: Double,
-                          clientExtensions: Option[ClientExtensions]
-                        )
+    case class TradeOpen(tradeID: TradeID,
+                         units: Double,
+                         clientExtensions: Option[ClientExtensions])
 
     /**
       * A TradeReduce object represents a Trade for an instrument that was reduced (either partially or fully) in an Account. It is found embedded in Transactions that affect the position of an instrument in the account, specifically the OrderFill Transaction.
@@ -1753,12 +1710,10 @@ object ApiModel {
       * @param realizedPL The PL realized when reducing the Trade
       * @param financing  The financing paid/collected when reducing the Trade
       */
-    case class TradeReduce(
-                            tradeID: TradeID,
-                            units: Double,
-                            realizedPL: AccountUnits,
-                            financing: AccountUnits
-                          )
+    case class TradeReduce(tradeID: TradeID,
+                           units: Double,
+                           realizedPL: AccountUnits,
+                           financing: AccountUnits)
 
     /**
       * A MarketOrderTradeClose specifies the extensions to a Market Order that has been created specifically to close a Trade.
@@ -1767,22 +1722,16 @@ object ApiModel {
       * @param clientTradeID The client ID of the Trade requested to be closed
       * @param units         Indication of how much of the Trade to close. Either "ALL", or a DecimalNumber reflection a partial close of the Trade.
       */
-    case class MarketOrderTradeClose(
-                                      tradeID: TradeID,
-                                      clientTradeID: String,
-                                      units: String
-                                    )
+    case class MarketOrderTradeClose(tradeID: TradeID,
+                                     clientTradeID: String,
+                                     units: String)
 
     /**
       * Details for the Market Order extensions specific to a Market Order placed that is part of a Market Order Margin Closeout in a client’s account
       *
       * @param reason The reason the Market Order was created to perform a margin closeout
-      * @param val    Trade closures resulted from violating OANDA’s margin policy
-      * @param val    Trade closures came from a margin closeout event resulting from regulatory conditions placed on the Account’s margin call
       */
-    case class MarketOrderMarginCloseout(
-                                          reason: MarketOrderMarginCloseoutReason
-                                        )
+    case class MarketOrderMarginCloseout(reason: MarketOrderMarginCloseoutReason)
 
     /**
       * The reason that the Market Order was created to perform a margin closeout
@@ -1790,8 +1739,10 @@ object ApiModel {
     object MarketOrderMarginCloseoutReason extends Enumeration {
       type MarketOrderMarginCloseoutReason = Value
 
+      /** Trade closures resulted from violating OANDA’s margin policy */
       val MARGIN_CHECK_VIOLATION = Value
 
+      /** Trade closures came from a margin closeout event resulting from regulatory conditions placed on the Account’s margin call */
       val REGULATORY_MARGIN_CALL_VIOLATION = Value
     }
 
@@ -1802,11 +1753,9 @@ object ApiModel {
       * @param clientTradeID       The Client ID of the Trade being closed
       * @param sourceTransactionID The Transaction ID of the DelayedTradeClosure transaction to which this Delayed Trade Close belongs to
       */
-    case class MarketOrderDelayedTradeClose(
-                                             tradeID: TradeID,
-                                             clientTradeID: TradeID,
-                                             sourceTransactionID: TransactionID
-                                           )
+    case class MarketOrderDelayedTradeClose(tradeID: TradeID,
+                                            clientTradeID: TradeID,
+                                            sourceTransactionID: TransactionID)
 
     /**
       * A MarketOrderPositionCloseout specifies the extensions to a Market Order when it has been created to closeout a specific Position.
@@ -1814,10 +1763,8 @@ object ApiModel {
       * @param instrument The instrument of the Position being closed out.
       * @param units      Indication of how much of the Position to close. Either "ALL", or a DecimalNumber reflection a partial close of the Trade. The DecimalNumber must always be positive, and represent a number that doesn’t exceed the absolute size of the Position.
       */
-    case class MarketOrderPositionCloseout(
-                                            instrument: InstrumentName,
-                                            units: String
-                                          )
+    case class MarketOrderPositionCloseout(instrument: InstrumentName,
+                                           units: String)
 
     /**
       * A VWAP Receipt provides a record of how the price for an Order fill is constructed. If the Order is filled with multiple buckets in a depth of market, each bucket will be represented with a VWAP Receipt.
@@ -1825,9 +1772,8 @@ object ApiModel {
       * @param units The number of units filled
       * @param price The price at which the units were filled
       */
-    case class VWAPReceipt(
-                            units: Double,
-                            price: PriceValue
+    case class VWAPReceipt(units: Double,
+                           price: PriceValue
                           )
 
     /**
@@ -1835,9 +1781,7 @@ object ApiModel {
       *
       * @param steps The steps in the Liquidity Regeneration Schedule
       */
-    case class LiquidityRegenerationSchedule(
-                                              steps: Seq[LiquidityRegenerationScheduleStep]
-                                            )
+    case class LiquidityRegenerationSchedule(steps: Seq[LiquidityRegenerationScheduleStep])
 
     /**
       * A liquidity regeneration schedule Step indicates the amount of bid and ask liquidity that is used by the Account at a certain time. These amounts will only change at the timestamp of the following step.
@@ -1846,11 +1790,9 @@ object ApiModel {
       * @param bidLiquidityUsed The amount of bid liquidity used at this step in the schedule.
       * @param askLiquidityUsed The amount of ask liquidity used at this step in the schedule.
       */
-    case class LiquidityRegenerationScheduleStep(
-                                                  timestamp: DateTime,
-                                                  bidLiquidityUsed: Double,
-                                                  askLiquidityUsed: Double
-                                                )
+    case class LiquidityRegenerationScheduleStep(timestamp: DateTime,
+                                                 bidLiquidityUsed: Double,
+                                                 askLiquidityUsed: Double)
 
     /**
       * OpenTradeFinancing is used to pay/collect daily financing charge for an open Trade within an Account
@@ -1858,10 +1800,8 @@ object ApiModel {
       * @param tradeID   The ID of the Trade that financing is being paid/collected for.
       * @param financing The amount of financing paid/collected for the Trade.
       */
-    case class OpenTradeFinancing(
-                                   tradeID: TradeID,
-                                   financing: AccountUnits
-                                 )
+    case class OpenTradeFinancing(tradeID: TradeID,
+                                  financing: AccountUnits)
 
     /**
       * OpenTradeFinancing is used to pay/collect daily financing charge for a Position within an Account
@@ -1870,11 +1810,9 @@ object ApiModel {
       * @param financing           The amount of financing paid/collected for the Position.
       * @param openTradeFinancings The financing paid/collecte for each open Trade within the Position.
       */
-    case class PositionFinancing(
-                                  instrumentID: Option[InstrumentName],
-                                  financing: AccountUnits,
-                                  openTradeFinancings: Seq[OpenTradeFinancing]
-                                )
+    case class PositionFinancing(instrumentID: Option[InstrumentName],
+                                 financing: AccountUnits,
+                                 openTradeFinancings: Seq[OpenTradeFinancing])
 
     /**
       * The request identifier. Used by administrators to refer to a client’s request.
@@ -2382,11 +2320,9 @@ object ApiModel {
       * @param lastTransactionID The ID of the most recent Transaction created for the Account
       * @param time              The date/time when the TransactionHeartbeat was created.
       */
-    case class TransactionHeartbeat(
-                                     `type`: String = "HEARTBEAT",
-                                     lastTransactionID: TransactionID,
-                                     time: DateTime
-                                   )
+    case class TransactionHeartbeat(`type`: String = "HEARTBEAT",
+                                    lastTransactionID: TransactionID,
+                                    time: DateTime)
 
   }
 
@@ -2437,42 +2373,40 @@ object ApiModel {
       * @param positions                   The details all Account Positions.
       * @param orders                      The details of the Orders currently pending in the Account.
       */
-    case class Account(
-                        id: AccountID,
-                        alias: String,
-                        currency: Currency,
-                        balance: AccountUnits,
-                        createdByUserID: Int,
-                        createdTime: DateTime,
-                        pl: AccountUnits,
-                        resettablePL: AccountUnits,
-                        resettabledPLTime: Option[DateTime],
-                        marginRate: Double,
-                        marginCallEnterTime: Option[DateTime],
-                        marginCallExtensionCount: Option[Int],
-                        lastMarginCallExtensionTime: Option[DateTime],
-                        openTradeCount: Int,
-                        openPositionCount: Int,
-                        pendingOrderCount: Int,
-                        hedgingEnabled: Boolean,
-                        unrealizedPL: AccountUnits,
-                        NAV: AccountUnits,
-                        marginUsed: AccountUnits,
-                        marginAvailable: AccountUnits,
-                        positionValue: AccountUnits,
-                        marginCloseoutUnrealizedPL: AccountUnits,
-                        marginCloseoutNAV: AccountUnits,
-                        marginCloseoutMarginUsed: AccountUnits,
-                        marginCloseoutPercent: Double,
-                        marginCloseoutPositionValue: Double,
-                        withdrawalLimit: AccountUnits,
-                        marginCallMarginUsed: AccountUnits,
-                        marginCallPercent: Double,
-                        lastTransactionID: TransactionID,
-                        trades: Seq[TradeSummary],
-                        positions: Seq[Position],
-                        orders: Seq[Order]
-                      )
+    case class Account(id: AccountID,
+                       alias: String,
+                       currency: Currency,
+                       balance: AccountUnits,
+                       createdByUserID: Int,
+                       createdTime: DateTime,
+                       pl: AccountUnits,
+                       resettablePL: AccountUnits,
+                       resettabledPLTime: Option[DateTime],
+                       marginRate: Double,
+                       marginCallEnterTime: Option[DateTime],
+                       marginCallExtensionCount: Option[Int],
+                       lastMarginCallExtensionTime: Option[DateTime],
+                       openTradeCount: Int,
+                       openPositionCount: Int,
+                       pendingOrderCount: Int,
+                       hedgingEnabled: Boolean,
+                       unrealizedPL: AccountUnits,
+                       NAV: AccountUnits,
+                       marginUsed: AccountUnits,
+                       marginAvailable: AccountUnits,
+                       positionValue: AccountUnits,
+                       marginCloseoutUnrealizedPL: AccountUnits,
+                       marginCloseoutNAV: AccountUnits,
+                       marginCloseoutMarginUsed: AccountUnits,
+                       marginCloseoutPercent: Double,
+                       marginCloseoutPositionValue: Double,
+                       withdrawalLimit: AccountUnits,
+                       marginCallMarginUsed: AccountUnits,
+                       marginCallPercent: Double,
+                       lastTransactionID: TransactionID,
+                       trades: Seq[TradeSummary],
+                       positions: Seq[Position],
+                       orders: Seq[Order])
 
     /**
       * An AccountState Object is used to represent an Account’s current price-dependent state. Price-dependent Account state is dependent on OANDA’s current Prices, and includes things like unrealized PL, NAV and Trailing Stop Loss Order state.
@@ -2494,24 +2428,22 @@ object ApiModel {
       * @param trades                      The price-dependent state for each open Trade in the Account.
       * @param positions                   The price-dependent state for each open Position in the Account.
       */
-    case class AccountChangesState(
-                                    unrealizedPL: AccountUnits,
-                                    NAV: AccountUnits,
-                                    marginUsed: AccountUnits,
-                                    marginAvailable: AccountUnits,
-                                    positionValue: AccountUnits,
-                                    marginCloseoutUnrealizedPL: AccountUnits,
-                                    marginCloseoutNAV: AccountUnits,
-                                    marginCloseoutMarginUsed: AccountUnits,
-                                    marginCloseoutPercent: Double,
-                                    marginCloseoutPositionValue: Double,
-                                    withdrawalLimit: AccountUnits,
-                                    marginCallMarginUsed: AccountUnits,
-                                    marginCallPercent: Double,
-                                    orders: Seq[DynamicOrderState],
-                                    trades: Seq[CalculatedTradeState],
-                                    positions: Seq[CalculatedPositionState]
-                                  )
+    case class AccountChangesState(unrealizedPL: AccountUnits,
+                                   NAV: AccountUnits,
+                                   marginUsed: AccountUnits,
+                                   marginAvailable: AccountUnits,
+                                   positionValue: AccountUnits,
+                                   marginCloseoutUnrealizedPL: AccountUnits,
+                                   marginCloseoutNAV: AccountUnits,
+                                   marginCloseoutMarginUsed: AccountUnits,
+                                   marginCloseoutPercent: Double,
+                                   marginCloseoutPositionValue: Double,
+                                   withdrawalLimit: AccountUnits,
+                                   marginCallMarginUsed: AccountUnits,
+                                   marginCallPercent: Double,
+                                   orders: Seq[DynamicOrderState],
+                                   trades: Seq[CalculatedTradeState],
+                                   positions: Seq[CalculatedPositionState])
 
     /**
       * Properties related to an Account.
@@ -2520,11 +2452,9 @@ object ApiModel {
       * @param mt4AccountID The Account’s associated MT4 Account ID. This field will not be present if the Account is not an MT4 account.
       * @param tags         The Account’s tags
       */
-    case class AccountProperties(
-                                  id: AccountID,
-                                  mt4AccountID: Option[Int],
-                                  tags: Seq[String]
-                                )
+    case class AccountProperties(id: AccountID,
+                                 mt4AccountID: Option[Int],
+                                 tags: Seq[String])
 
     /**
       * A summary representation of a client’s Account. The AccountSummary does not provide to full specification of pending Orders, open Trades and Positions.
@@ -2561,39 +2491,37 @@ object ApiModel {
       * @param marginCallPercent           The Account’s margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.
       * @param lastTransactionID           The ID of the last Transaction created for the Account.
       */
-    case class AccountSummary(
-                               id: AccountID,
-                               alias: String,
-                               currency: Currency,
-                               balance: AccountUnits,
-                               createdByUserID: Int,
-                               createdTime: DateTime,
-                               pl: AccountUnits,
-                               resettablePL: AccountUnits,
-                               resettabledPLTime: Option[DateTime],
-                               marginRate: Double,
-                               marginCallEnterTime: Option[DateTime],
-                               marginCallExtensionCount: Option[Int],
-                               lastMarginCallExtensionTime: Option[DateTime],
-                               openTradeCount: Int,
-                               openPositionCount: Int,
-                               pendingOrderCount: Int,
-                               hedgingEnabled: Boolean,
-                               unrealizedPL: AccountUnits,
-                               NAV: AccountUnits,
-                               marginUsed: AccountUnits,
-                               marginAvailable: AccountUnits,
-                               positionValue: AccountUnits,
-                               marginCloseoutUnrealizedPL: AccountUnits,
-                               marginCloseoutNAV: AccountUnits,
-                               marginCloseoutMarginUsed: AccountUnits,
-                               marginCloseoutPercent: Double,
-                               marginCloseoutPositionValue: Double,
-                               withdrawalLimit: AccountUnits,
-                               marginCallMarginUsed: AccountUnits,
-                               marginCallPercent: Double,
-                               lastTransactionID: TransactionID
-                             )
+    case class AccountSummary(id: AccountID,
+                              alias: String,
+                              currency: Currency,
+                              balance: AccountUnits,
+                              createdByUserID: Int,
+                              createdTime: DateTime,
+                              pl: AccountUnits,
+                              resettablePL: AccountUnits,
+                              resettabledPLTime: Option[DateTime],
+                              marginRate: Double,
+                              marginCallEnterTime: Option[DateTime],
+                              marginCallExtensionCount: Option[Int],
+                              lastMarginCallExtensionTime: Option[DateTime],
+                              openTradeCount: Int,
+                              openPositionCount: Int,
+                              pendingOrderCount: Int,
+                              hedgingEnabled: Boolean,
+                              unrealizedPL: AccountUnits,
+                              NAV: AccountUnits,
+                              marginUsed: AccountUnits,
+                              marginAvailable: AccountUnits,
+                              positionValue: AccountUnits,
+                              marginCloseoutUnrealizedPL: AccountUnits,
+                              marginCloseoutNAV: AccountUnits,
+                              marginCloseoutMarginUsed: AccountUnits,
+                              marginCloseoutPercent: Double,
+                              marginCloseoutPositionValue: Double,
+                              withdrawalLimit: AccountUnits,
+                              marginCallMarginUsed: AccountUnits,
+                              marginCallPercent: Double,
+                              lastTransactionID: TransactionID)
 
     /**
       * An AccountChanges Object is used to represent the changes to an Account’s Orders, Trades and Positions since a specified Account TransactionID in the past.
@@ -2608,17 +2536,15 @@ object ApiModel {
       * @param positions       The Positions changed.
       * @param transactions    The Transactions that have been generated.
       */
-    case class AccountChanges(
-                               ordersCreated: Seq[Order],
-                               ordersCancelled: Seq[Order],
-                               ordersFilled: Seq[Order],
-                               ordersTriggered: Seq[Order],
-                               tradesOpened: Seq[TradeSummary],
-                               tradesReduced: Seq[TradeSummary],
-                               tradesClosed: Seq[TradeSummary],
-                               positions: Seq[Position],
-                               transactions: Seq[Transaction]
-                             )
+    case class AccountChanges(ordersCreated: Seq[Order],
+                              ordersCancelled: Seq[Order],
+                              ordersFilled: Seq[Order],
+                              ordersTriggered: Seq[Order],
+                              tradesOpened: Seq[TradeSummary],
+                              tradesReduced: Seq[TradeSummary],
+                              tradesClosed: Seq[TradeSummary],
+                              positions: Seq[Position],
+                              transactions: Seq[Transaction])
 
     /**
       * The financing mode of an Account
@@ -2764,14 +2690,12 @@ object ApiModel {
       * @param volume   The number of prices created during the time-range represented by the candlestick.
       * @param complete A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future.
       */
-    case class Candlestick(
-                            time: DateTime,
-                            bid: Option[CandlestickData],
-                            ask: Option[CandlestickData],
-                            mid: Option[CandlestickData],
-                            volume: Int,
-                            complete: Boolean
-                          )
+    case class Candlestick(time: DateTime,
+                           bid: Option[CandlestickData],
+                           ask: Option[CandlestickData],
+                           mid: Option[CandlestickData],
+                           volume: Int,
+                           complete: Boolean)
 
     /**
       * The price data (open, high, low, close) for the Candlestick representation.
@@ -2781,12 +2705,10 @@ object ApiModel {
       * @param l The lowest price in the time-range represented by the candlestick.
       * @param c The last (closing) price in the time-range represented by the candlestick.
       */
-    case class CandlestickData(
-                                o: PriceValue,
-                                h: PriceValue,
-                                l: PriceValue,
-                                c: PriceValue
-                              )
+    case class CandlestickData(o: PriceValue,
+                               h: PriceValue,
+                               l: PriceValue,
+                               c: PriceValue)
 
   }
 
@@ -2801,13 +2723,11 @@ object ApiModel {
       * @param clientExtensions The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.
       * @param type             The type of the Order.
       */
-    abstract class Order(
-                          id: OrderID,
-                          createTime: DateTime,
-                          state: OrderState,
-                          clientExtensions: Option[ClientExtensions],
-                          `type`: OrderType
-                        )
+    abstract class Order(id: OrderID,
+                         createTime: DateTime,
+                         state: OrderState,
+                         clientExtensions: Option[ClientExtensions],
+                         `type`: OrderType)
 
     /**
       * A MarketOrder is an order that is filled immediately upon creation using the current market price.
@@ -2839,33 +2759,32 @@ object ApiModel {
       * @param cancellingTransactionID ID of the Transaction that cancelled the Order (only provided when the Order’s state is CANCELLED)
       * @param cancelledTime           Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
       */
-    case class MarketOrder(
-                            id: OrderID,
-                            createTime: DateTime,
-                            state: OrderState,
-                            clientExtensions: Option[ClientExtensions],
-                            `type`: OrderType = OrderType.MARKET,
-                            instrument: InstrumentName,
-                            units: Double,
-                            timeInForce: TimeInForce,
-                            priceBound: Option[PriceValue],
-                            positionFill: OrderPositionFill,
-                            tradeClose: Option[MarketOrderTradeClose],
-                            longPositionCloseout: Option[MarketOrderPositionCloseout],
-                            shortPositionCloseout: Option[MarketOrderPositionCloseout],
-                            marginCloseout: Option[MarketOrderMarginCloseout],
-                            delayedTradeClose: Option[MarketOrderDelayedTradeClose],
-                            takeProfitOnFill: Option[TakeProfitDetails],
-                            stopLossOnFill: Option[StopLossDetails],
-                            trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                            tradeclientExtensions: Option[ClientExtensions],
-                            fillingTransactionID: Option[TransactionID],
-                            filledTime: Option[DateTime],
-                            tradeOpenedID: Option[TradeID],
-                            tradeReducedID: Option[TradeID],
-                            tradeClosedIDs: Seq[TradeID],
-                            cancellingTransactionID: Option[TransactionID],
-                            cancelledTime: Option[DateTime]
+    case class MarketOrder(id: OrderID,
+                           createTime: DateTime,
+                           state: OrderState,
+                           clientExtensions: Option[ClientExtensions],
+                           `type`: OrderType = OrderType.MARKET,
+                           instrument: InstrumentName,
+                           units: Double,
+                           timeInForce: TimeInForce,
+                           priceBound: Option[PriceValue],
+                           positionFill: OrderPositionFill,
+                           tradeClose: Option[MarketOrderTradeClose],
+                           longPositionCloseout: Option[MarketOrderPositionCloseout],
+                           shortPositionCloseout: Option[MarketOrderPositionCloseout],
+                           marginCloseout: Option[MarketOrderMarginCloseout],
+                           delayedTradeClose: Option[MarketOrderDelayedTradeClose],
+                           takeProfitOnFill: Option[TakeProfitDetails],
+                           stopLossOnFill: Option[StopLossDetails],
+                           trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                           tradeclientExtensions: Option[ClientExtensions],
+                           fillingTransactionID: Option[TransactionID],
+                           filledTime: Option[DateTime],
+                           tradeOpenedID: Option[TradeID],
+                           tradeReducedID: Option[TradeID],
+                           tradeClosedIDs: Seq[TradeID],
+                           cancellingTransactionID: Option[TransactionID],
+                           cancelledTime: Option[DateTime]
                           ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     /**
@@ -2897,32 +2816,31 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
       * @param replacedByOrderID       The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
       */
-    case class LimitOrder(
-                           id: OrderID,
-                           createTime: DateTime,
-                           state: OrderState,
-                           clientExtensions: Option[ClientExtensions],
-                           `type`: OrderType = OrderType.LIMIT,
-                           instrument: InstrumentName,
-                           units: Double,
-                           price: PriceValue,
-                           timeInForce: TimeInForce,
-                           gtdTime: Option[DateTime],
-                           positionFill: OrderPositionFill,
-                           triggerCondition: OrderTriggerCondition,
-                           takeProfitOnFill: Option[TakeProfitDetails],
-                           stopLossOnFill: Option[StopLossDetails],
-                           trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                           tradeclientExtensions: Option[ClientExtensions],
-                           fillingTransactionID: Option[TransactionID],
-                           filledTime: Option[DateTime],
-                           tradeOpenedID: Option[TradeID],
-                           tradeReducedID: Option[TradeID],
-                           tradeClosedIDs: Seq[TradeID],
-                           cancellingTransactionID: Option[TransactionID],
-                           cancelledTime: Option[DateTime],
-                           replacesOrderID: Option[OrderID],
-                           replacedByOrderID: Option[OrderID]
+    case class LimitOrder(id: OrderID,
+                          createTime: DateTime,
+                          state: OrderState,
+                          clientExtensions: Option[ClientExtensions],
+                          `type`: OrderType = OrderType.LIMIT,
+                          instrument: InstrumentName,
+                          units: Double,
+                          price: PriceValue,
+                          timeInForce: TimeInForce,
+                          gtdTime: Option[DateTime],
+                          positionFill: OrderPositionFill,
+                          triggerCondition: OrderTriggerCondition,
+                          takeProfitOnFill: Option[TakeProfitDetails],
+                          stopLossOnFill: Option[StopLossDetails],
+                          trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                          tradeclientExtensions: Option[ClientExtensions],
+                          fillingTransactionID: Option[TransactionID],
+                          filledTime: Option[DateTime],
+                          tradeOpenedID: Option[TradeID],
+                          tradeReducedID: Option[TradeID],
+                          tradeClosedIDs: Seq[TradeID],
+                          cancellingTransactionID: Option[TransactionID],
+                          cancelledTime: Option[DateTime],
+                          replacesOrderID: Option[OrderID],
+                          replacedByOrderID: Option[OrderID]
                          ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     /**
@@ -2955,33 +2873,32 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
       * @param replacedByOrderID       The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
       */
-    case class StopOrder(
-                          id: OrderID,
-                          createTime: DateTime,
-                          state: OrderState,
-                          clientExtensions: Option[ClientExtensions],
-                          `type`: OrderType = OrderType.STOP,
-                          instrument: InstrumentName,
-                          units: Double,
-                          price: PriceValue,
-                          priceBound: Option[PriceValue],
-                          timeInForce: TimeInForce,
-                          gtdTime: Option[DateTime],
-                          positionFill: OrderPositionFill,
-                          triggerCondition: OrderTriggerCondition,
-                          takeProfitOnFill: Option[TakeProfitDetails],
-                          stopLossOnFill: Option[StopLossDetails],
-                          trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                          tradeclientExtensions: Option[ClientExtensions],
-                          fillingTransactionID: Option[TransactionID],
-                          filledTime: Option[DateTime],
-                          tradeOpenedID: Option[TradeID],
-                          tradeReducedID: Option[TradeID],
-                          tradeClosedIDs: Seq[TradeID],
-                          cancellingTransactionID: Option[TransactionID],
-                          cancelledTime: Option[DateTime],
-                          replacesOrderID: Option[OrderID],
-                          replacedByOrderID: Option[OrderID]
+    case class StopOrder(id: OrderID,
+                         createTime: DateTime,
+                         state: OrderState,
+                         clientExtensions: Option[ClientExtensions],
+                         `type`: OrderType = OrderType.STOP,
+                         instrument: InstrumentName,
+                         units: Double,
+                         price: PriceValue,
+                         priceBound: Option[PriceValue],
+                         timeInForce: TimeInForce,
+                         gtdTime: Option[DateTime],
+                         positionFill: OrderPositionFill,
+                         triggerCondition: OrderTriggerCondition,
+                         takeProfitOnFill: Option[TakeProfitDetails],
+                         stopLossOnFill: Option[StopLossDetails],
+                         trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                         tradeclientExtensions: Option[ClientExtensions],
+                         fillingTransactionID: Option[TransactionID],
+                         filledTime: Option[DateTime],
+                         tradeOpenedID: Option[TradeID],
+                         tradeReducedID: Option[TradeID],
+                         tradeClosedIDs: Seq[TradeID],
+                         cancellingTransactionID: Option[TransactionID],
+                         cancelledTime: Option[DateTime],
+                         replacesOrderID: Option[OrderID],
+                         replacedByOrderID: Option[OrderID]
                         ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     /**
@@ -3015,34 +2932,33 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
       * @param replacedByOrderID       The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
       */
-    case class MarketIfTouchedOrder(
-                                     id: OrderID,
-                                     createTime: DateTime,
-                                     state: OrderState,
-                                     clientExtensions: Option[ClientExtensions],
-                                     `type`: OrderType = OrderType.MARKET_IF_TOUCHED,
-                                     instrument: InstrumentName,
-                                     units: Double,
-                                     price: PriceValue,
-                                     priceBound: Option[PriceValue],
-                                     timeInForce: TimeInForce,
-                                     gtdTime: Option[DateTime],
-                                     positionFill: OrderPositionFill,
-                                     triggerCondition: OrderTriggerCondition,
-                                     initialMarketPrice: PriceValue,
-                                     takeProfitOnFill: Option[TakeProfitDetails],
-                                     stopLossOnFill: Option[StopLossDetails],
-                                     trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                                     tradeclientExtensions: Option[ClientExtensions],
-                                     fillingTransactionID: Option[TransactionID],
-                                     filledTime: Option[DateTime],
-                                     tradeOpenedID: Option[TradeID],
-                                     tradeReducedID: Option[TradeID],
-                                     tradeClosedIDs: Seq[TradeID],
-                                     cancellingTransactionID: Option[TransactionID],
-                                     cancelledTime: Option[DateTime],
-                                     replacesOrderID: Option[OrderID],
-                                     replacedByOrderID: Option[OrderID]
+    case class MarketIfTouchedOrder(id: OrderID,
+                                    createTime: DateTime,
+                                    state: OrderState,
+                                    clientExtensions: Option[ClientExtensions],
+                                    `type`: OrderType = OrderType.MARKET_IF_TOUCHED,
+                                    instrument: InstrumentName,
+                                    units: Double,
+                                    price: PriceValue,
+                                    priceBound: Option[PriceValue],
+                                    timeInForce: TimeInForce,
+                                    gtdTime: Option[DateTime],
+                                    positionFill: OrderPositionFill,
+                                    triggerCondition: OrderTriggerCondition,
+                                    initialMarketPrice: PriceValue,
+                                    takeProfitOnFill: Option[TakeProfitDetails],
+                                    stopLossOnFill: Option[StopLossDetails],
+                                    trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                                    tradeclientExtensions: Option[ClientExtensions],
+                                    fillingTransactionID: Option[TransactionID],
+                                    filledTime: Option[DateTime],
+                                    tradeOpenedID: Option[TradeID],
+                                    tradeReducedID: Option[TradeID],
+                                    tradeClosedIDs: Seq[TradeID],
+                                    cancellingTransactionID: Option[TransactionID],
+                                    cancelledTime: Option[DateTime],
+                                    replacesOrderID: Option[OrderID],
+                                    replacedByOrderID: Option[OrderID]
                                    ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     /**
@@ -3069,27 +2985,26 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
       * @param replacedByOrderID       The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
       */
-    case class TakeProfitOrder(
-                                id: OrderID,
-                                createTime: DateTime,
-                                state: OrderState,
-                                clientExtensions: Option[ClientExtensions],
-                                `type`: OrderType = OrderType.TAKE_PROFIT,
-                                tradeID: TradeID,
-                                clientTradeID: Option[ClientID],
-                                price: PriceValue,
-                                timeInForce: TimeInForce,
-                                gtdTime: Option[DateTime],
-                                triggerCondition: OrderTriggerCondition,
-                                fillingTransactionID: Option[TransactionID],
-                                filledTime: Option[DateTime],
-                                tradeOpenedID: Option[TradeID],
-                                tradeReducedID: Option[TradeID],
-                                tradeClosedIDs: Seq[TradeID],
-                                cancellingTransactionID: Option[TransactionID],
-                                cancelledTime: Option[DateTime],
-                                replacesOrderID: Option[OrderID],
-                                replacedByOrderID: Option[OrderID]
+    case class TakeProfitOrder(id: OrderID,
+                               createTime: DateTime,
+                               state: OrderState,
+                               clientExtensions: Option[ClientExtensions],
+                               `type`: OrderType = OrderType.TAKE_PROFIT,
+                               tradeID: TradeID,
+                               clientTradeID: Option[ClientID],
+                               price: PriceValue,
+                               timeInForce: TimeInForce,
+                               gtdTime: Option[DateTime],
+                               triggerCondition: OrderTriggerCondition,
+                               fillingTransactionID: Option[TransactionID],
+                               filledTime: Option[DateTime],
+                               tradeOpenedID: Option[TradeID],
+                               tradeReducedID: Option[TradeID],
+                               tradeClosedIDs: Seq[TradeID],
+                               cancellingTransactionID: Option[TransactionID],
+                               cancelledTime: Option[DateTime],
+                               replacesOrderID: Option[OrderID],
+                               replacedByOrderID: Option[OrderID]
                               ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     /**
@@ -3116,27 +3031,26 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
       * @param replacedByOrderID       The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
       */
-    case class StopLossOrder(
-                              id: OrderID,
-                              createTime: DateTime,
-                              state: OrderState,
-                              clientExtensions: Option[ClientExtensions],
-                              `type`: OrderType = OrderType.STOP_LOSS,
-                              tradeID: TradeID,
-                              clientTradeID: Option[ClientID],
-                              price: PriceValue,
-                              timeInForce: TimeInForce,
-                              gtdTime: Option[DateTime],
-                              triggerCondition: OrderTriggerCondition,
-                              fillingTransactionID: Option[TransactionID],
-                              filledTime: Option[DateTime],
-                              tradeOpenedID: Option[TradeID],
-                              tradeReducedID: Option[TradeID],
-                              tradeClosedIDs: Seq[TradeID],
-                              cancellingTransactionID: Option[TransactionID],
-                              cancelledTime: Option[DateTime],
-                              replacesOrderID: Option[OrderID],
-                              replacedByOrderID: Option[OrderID]
+    case class StopLossOrder(id: OrderID,
+                             createTime: DateTime,
+                             state: OrderState,
+                             clientExtensions: Option[ClientExtensions],
+                             `type`: OrderType = OrderType.STOP_LOSS,
+                             tradeID: TradeID,
+                             clientTradeID: Option[ClientID],
+                             price: PriceValue,
+                             timeInForce: TimeInForce,
+                             gtdTime: Option[DateTime],
+                             triggerCondition: OrderTriggerCondition,
+                             fillingTransactionID: Option[TransactionID],
+                             filledTime: Option[DateTime],
+                             tradeOpenedID: Option[TradeID],
+                             tradeReducedID: Option[TradeID],
+                             tradeClosedIDs: Seq[TradeID],
+                             cancellingTransactionID: Option[TransactionID],
+                             cancelledTime: Option[DateTime],
+                             replacesOrderID: Option[OrderID],
+                             replacedByOrderID: Option[OrderID]
                             ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     /**
@@ -3164,28 +3078,27 @@ object ApiModel {
       * @param replacesOrderID         The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
       * @param replacedByOrderID       The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
       */
-    case class TrailingStopLossOrder(
-                                      id: OrderID,
-                                      createTime: DateTime,
-                                      state: OrderState,
-                                      clientExtensions: Option[ClientExtensions],
-                                      `type`: OrderType = OrderType.TRAILING_STOP_LOSS,
-                                      tradeID: TradeID,
-                                      clientTradeID: Option[ClientID],
-                                      distance: PriceValue,
-                                      timeInForce: TimeInForce,
-                                      gtdTime: Option[DateTime],
-                                      triggerCondition: OrderTriggerCondition,
-                                      trailingStopValue: PriceValue,
-                                      fillingTransactionID: Option[TransactionID],
-                                      filledTime: Option[DateTime],
-                                      tradeOpenedID: Option[TradeID],
-                                      tradeReducedID: Option[TradeID],
-                                      tradeClosedIDs: Seq[TradeID],
-                                      cancellingTransactionID: Option[TransactionID],
-                                      cancelledTime: Option[DateTime],
-                                      replacesOrderID: Option[OrderID],
-                                      replacedByOrderID: Option[OrderID]
+    case class TrailingStopLossOrder(id: OrderID,
+                                     createTime: DateTime,
+                                     state: OrderState,
+                                     clientExtensions: Option[ClientExtensions],
+                                     `type`: OrderType = OrderType.TRAILING_STOP_LOSS,
+                                     tradeID: TradeID,
+                                     clientTradeID: Option[ClientID],
+                                     distance: PriceValue,
+                                     timeInForce: TimeInForce,
+                                     gtdTime: Option[DateTime],
+                                     triggerCondition: OrderTriggerCondition,
+                                     trailingStopValue: PriceValue,
+                                     fillingTransactionID: Option[TransactionID],
+                                     filledTime: Option[DateTime],
+                                     tradeOpenedID: Option[TradeID],
+                                     tradeReducedID: Option[TradeID],
+                                     tradeClosedIDs: Seq[TradeID],
+                                     cancellingTransactionID: Option[TransactionID],
+                                     cancelledTime: Option[DateTime],
+                                     replacesOrderID: Option[OrderID],
+                                     replacedByOrderID: Option[OrderID]
                                     ) extends Order(id, createTime, state, clientExtensions, `type`)
 
     abstract class OrderRequest()
@@ -3205,18 +3118,17 @@ object ApiModel {
       * @param trailingStopLossOnFill TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade.
       * @param tradeclientExtensions  Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.
       */
-    case class MarketOrderRequest(
-                                   `type`: OrderType = OrderType.MARKET,
-                                   instrument: InstrumentName,
-                                   units: Double,
-                                   timeInForce: TimeInForce = TimeInForce.FOK,
-                                   priceBound: Option[PriceValue] = None,
-                                   positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
-                                   clientExtensions: Option[ClientExtensions] = None,
-                                   takeProfitOnFill: Option[TakeProfitDetails] = None,
-                                   stopLossOnFill: Option[StopLossDetails] = None,
-                                   trailingStopLossOnFill: Option[TrailingStopLossDetails] = None,
-                                   tradeclientExtensions: Option[ClientExtensions] = None
+    case class MarketOrderRequest(`type`: OrderType = OrderType.MARKET,
+                                  instrument: InstrumentName,
+                                  units: Double,
+                                  timeInForce: TimeInForce = TimeInForce.FOK,
+                                  priceBound: Option[PriceValue] = None,
+                                  positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
+                                  clientExtensions: Option[ClientExtensions] = None,
+                                  takeProfitOnFill: Option[TakeProfitDetails] = None,
+                                  stopLossOnFill: Option[StopLossDetails] = None,
+                                  trailingStopLossOnFill: Option[TrailingStopLossDetails] = None,
+                                  tradeclientExtensions: Option[ClientExtensions] = None
                                  ) extends OrderRequest
 
     /**
@@ -3236,20 +3148,19 @@ object ApiModel {
       * @param trailingStopLossOnFill TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade.
       * @param tradeclientExtensions  Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.
       */
-    case class LimitOrderRequest(
-                                  `type`: OrderType = OrderType.LIMIT,
-                                  instrument: InstrumentName,
-                                  units: Double,
-                                  price: PriceValue,
-                                  timeInForce: TimeInForce = TimeInForce.GTC,
-                                  gtdTime: Option[DateTime] = None,
-                                  positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
-                                  triggerCondition: OrderTriggerCondition = OrderTriggerCondition.DEFAULT,
-                                  clientExtensions: Option[ClientExtensions] = None,
-                                  takeProfitOnFill: Option[TakeProfitDetails] = None,
-                                  stopLossOnFill: Option[StopLossDetails] = None,
-                                  trailingStopLossOnFill: Option[TrailingStopLossDetails] = None,
-                                  tradeclientExtensions: Option[ClientExtensions] = None
+    case class LimitOrderRequest(`type`: OrderType = OrderType.LIMIT,
+                                 instrument: InstrumentName,
+                                 units: Double,
+                                 price: PriceValue,
+                                 timeInForce: TimeInForce = TimeInForce.GTC,
+                                 gtdTime: Option[DateTime] = None,
+                                 positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
+                                 triggerCondition: OrderTriggerCondition = OrderTriggerCondition.DEFAULT,
+                                 clientExtensions: Option[ClientExtensions] = None,
+                                 takeProfitOnFill: Option[TakeProfitDetails] = None,
+                                 stopLossOnFill: Option[StopLossDetails] = None,
+                                 trailingStopLossOnFill: Option[TrailingStopLossDetails] = None,
+                                 tradeclientExtensions: Option[ClientExtensions] = None
                                 ) extends OrderRequest
 
     /**
@@ -3270,21 +3181,20 @@ object ApiModel {
       * @param trailingStopLossOnFill TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade.
       * @param tradeclientExtensions  Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.
       */
-    case class StopOrderRequest(
-                                 `type`: OrderType = OrderType.STOP,
-                                 instrument: InstrumentName,
-                                 units: Double,
-                                 price: PriceValue,
-                                 priceBound: Option[PriceValue],
-                                 timeInForce: TimeInForce,
-                                 gtdTime: Option[DateTime],
-                                 positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
-                                 triggerCondition: OrderTriggerCondition = OrderTriggerCondition.DEFAULT,
-                                 clientExtensions: Option[ClientExtensions],
-                                 takeProfitOnFill: Option[TakeProfitDetails],
-                                 stopLossOnFill: Option[StopLossDetails],
-                                 trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                                 tradeclientExtensions: Option[ClientExtensions]
+    case class StopOrderRequest(`type`: OrderType = OrderType.STOP,
+                                instrument: InstrumentName,
+                                units: Double,
+                                price: PriceValue,
+                                priceBound: Option[PriceValue],
+                                timeInForce: TimeInForce,
+                                gtdTime: Option[DateTime],
+                                positionFill: OrderPositionFill = OrderPositionFill.DEFAULT,
+                                triggerCondition: OrderTriggerCondition = OrderTriggerCondition.DEFAULT,
+                                clientExtensions: Option[ClientExtensions],
+                                takeProfitOnFill: Option[TakeProfitDetails],
+                                stopLossOnFill: Option[StopLossDetails],
+                                trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                                tradeclientExtensions: Option[ClientExtensions]
                                ) extends OrderRequest
 
     /**
@@ -3305,21 +3215,20 @@ object ApiModel {
       * @param trailingStopLossOnFill TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade.
       * @param tradeclientExtensions  Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.
       */
-    case class MarketIfTouchedOrderRequest(
-                                            `type`: OrderType = OrderType.MARKET_IF_TOUCHED,
-                                            instrument: InstrumentName,
-                                            units: Double,
-                                            price: PriceValue,
-                                            priceBound: Option[PriceValue],
-                                            timeInForce: TimeInForce,
-                                            gtdTime: Option[DateTime],
-                                            positionFill: OrderPositionFill,
-                                            triggerCondition: OrderTriggerCondition,
-                                            clientExtensions: Option[ClientExtensions],
-                                            takeProfitOnFill: Option[TakeProfitDetails],
-                                            stopLossOnFill: Option[StopLossDetails],
-                                            trailingStopLossOnFill: Option[TrailingStopLossDetails],
-                                            tradeclientExtensions: Option[ClientExtensions]
+    case class MarketIfTouchedOrderRequest(`type`: OrderType = OrderType.MARKET_IF_TOUCHED,
+                                           instrument: InstrumentName,
+                                           units: Double,
+                                           price: PriceValue,
+                                           priceBound: Option[PriceValue],
+                                           timeInForce: TimeInForce,
+                                           gtdTime: Option[DateTime],
+                                           positionFill: OrderPositionFill,
+                                           triggerCondition: OrderTriggerCondition,
+                                           clientExtensions: Option[ClientExtensions],
+                                           takeProfitOnFill: Option[TakeProfitDetails],
+                                           stopLossOnFill: Option[StopLossDetails],
+                                           trailingStopLossOnFill: Option[TrailingStopLossDetails],
+                                           tradeclientExtensions: Option[ClientExtensions]
                                           ) extends OrderRequest
 
     /**
@@ -3334,15 +3243,14 @@ object ApiModel {
       * @param triggerCondition Specification of what component of a price should be used for comparison when determining if the Order should be filled.
       * @param clientExtensions The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.
       */
-    case class TakeProfitOrderRequest(
-                                       `type`: OrderType = OrderType.TAKE_PROFIT,
-                                       tradeID: TradeID,
-                                       clientTradeID: Option[ClientID],
-                                       price: PriceValue,
-                                       timeInForce: TimeInForce,
-                                       gtdTime: Option[DateTime],
-                                       triggerCondition: OrderTriggerCondition,
-                                       clientExtensions: Option[ClientExtensions]
+    case class TakeProfitOrderRequest(`type`: OrderType = OrderType.TAKE_PROFIT,
+                                      tradeID: TradeID,
+                                      clientTradeID: Option[ClientID],
+                                      price: PriceValue,
+                                      timeInForce: TimeInForce,
+                                      gtdTime: Option[DateTime],
+                                      triggerCondition: OrderTriggerCondition,
+                                      clientExtensions: Option[ClientExtensions]
                                      ) extends OrderRequest
 
     /**
@@ -3357,15 +3265,14 @@ object ApiModel {
       * @param triggerCondition Specification of what component of a price should be used for comparison when determining if the Order should be filled.
       * @param clientExtensions The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.
       */
-    case class StopLossOrderRequest(
-                                     `type`: OrderType = OrderType.STOP_LOSS,
-                                     tradeID: TradeID,
-                                     clientTradeID: Option[ClientID],
-                                     price: PriceValue,
-                                     timeInForce: TimeInForce,
-                                     gtdTime: Option[DateTime],
-                                     triggerCondition: OrderTriggerCondition,
-                                     clientExtensions: Option[ClientExtensions]
+    case class StopLossOrderRequest(`type`: OrderType = OrderType.STOP_LOSS,
+                                    tradeID: TradeID,
+                                    clientTradeID: Option[ClientID],
+                                    price: PriceValue,
+                                    timeInForce: TimeInForce,
+                                    gtdTime: Option[DateTime],
+                                    triggerCondition: OrderTriggerCondition,
+                                    clientExtensions: Option[ClientExtensions]
                                    ) extends OrderRequest
 
     /**
@@ -3380,15 +3287,14 @@ object ApiModel {
       * @param triggerCondition Specification of what component of a price should be used for comparison when determining if the Order should be filled.
       * @param clientExtensions The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.
       */
-    case class TrailingStopLossOrderRequest(
-                                             `type`: OrderType = OrderType.TRAILING_STOP_LOSS,
-                                             tradeID: TradeID,
-                                             clientTradeID: Option[ClientID],
-                                             distance: PriceValue,
-                                             timeInForce: TimeInForce,
-                                             gtdTime: Option[DateTime],
-                                             triggerCondition: OrderTriggerCondition,
-                                             clientExtensions: Option[ClientExtensions]
+    case class TrailingStopLossOrderRequest(`type`: OrderType = OrderType.TRAILING_STOP_LOSS,
+                                            tradeID: TradeID,
+                                            clientTradeID: Option[ClientID],
+                                            distance: PriceValue,
+                                            timeInForce: TimeInForce,
+                                            gtdTime: Option[DateTime],
+                                            triggerCondition: OrderTriggerCondition,
+                                            clientExtensions: Option[ClientExtensions]
                                            ) extends OrderRequest
 
     /**
@@ -3451,10 +3357,8 @@ object ApiModel {
       * @param orderID       The OANDA-assigned Order ID
       * @param clientOrderID The client-provided client Order ID
       */
-    case class OrderIdentifier(
-                                orderID: OrderID,
-                                clientOrderID: ClientID
-                              )
+    case class OrderIdentifier(orderID: OrderID,
+                               clientOrderID: ClientID)
 
     /**
       * The specification of an Order as referred to by clients
@@ -3534,12 +3438,10 @@ object ApiModel {
       * @param triggerDistance        The distance between the Trailing Stop Loss Order’s trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.
       * @param isTriggerDistanceExact True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set.
       */
-    case class DynamicOrderState(
-                                  id: OrderID,
-                                  trailingStopValue: PriceValue,
-                                  triggerDistance: PriceValue,
-                                  isTriggerDistanceExact: Boolean
-                                )
+    case class DynamicOrderState(id: OrderID,
+                                 trailingStopValue: PriceValue,
+                                 triggerDistance: PriceValue,
+                                 isTriggerDistanceExact: Boolean)
 
   }
 
@@ -3596,25 +3498,23 @@ object ApiModel {
       * @param stopLossOrder         Full representation of the Trade’s Stop Loss Order, only provided if such an Order exists.
       * @param trailingStopLossOrder Full representation of the Trade’s Trailing Stop Loss Order, only provided if such an Order exists.
       */
-    case class Trade(
-                      id: TradeID,
-                      instrument: InstrumentName,
-                      price: PriceValue,
-                      openTime: DateTime,
-                      state: TradeState,
-                      initialUnits: Double,
-                      currentUnits: Double,
-                      realizedPL: AccountUnits,
-                      unrealizedPL: Option[AccountUnits],
-                      averageClosePrice: PriceValue,
-                      closingTransactionIDs: Seq[TransactionID],
-                      financing: AccountUnits,
-                      closeTime: DateTime,
-                      clientExtensions: Option[ClientExtensions],
-                      takeProfitOrder: Option[TakeProfitOrder],
-                      stopLossOrder: Option[StopLossOrder],
-                      trailingStopLossOrder: Option[TrailingStopLossOrder]
-                    )
+    case class Trade(id: TradeID,
+                     instrument: InstrumentName,
+                     price: PriceValue,
+                     openTime: DateTime,
+                     state: TradeState,
+                     initialUnits: Double,
+                     currentUnits: Double,
+                     realizedPL: AccountUnits,
+                     unrealizedPL: Option[AccountUnits],
+                     averageClosePrice: PriceValue,
+                     closingTransactionIDs: Seq[TransactionID],
+                     financing: AccountUnits,
+                     closeTime: DateTime,
+                     clientExtensions: Option[ClientExtensions],
+                     takeProfitOrder: Option[TakeProfitOrder],
+                     stopLossOrder: Option[StopLossOrder],
+                     trailingStopLossOrder: Option[TrailingStopLossOrder])
 
     /**
       * The summary of a Trade within an Account. This representation does not provide the full details of the Trade’s dependent Orders.
@@ -3637,25 +3537,23 @@ object ApiModel {
       * @param stopLossOrderID         ID of the Trade’s Stop Loss Order, only provided if such an Order exists.
       * @param trailingStopLossOrderID ID of the Trade’s Trailing Stop Loss Order, only provided if such an Order exists.
       */
-    case class TradeSummary(
-                             id: TradeID,
-                             instrument: InstrumentName,
-                             price: PriceValue,
-                             openTime: DateTime,
-                             state: TradeState,
-                             initialUnits: Double,
-                             currentUnits: Double,
-                             realizedPL: AccountUnits,
-                             unrealizedPL: AccountUnits,
-                             averageClosePrice: PriceValue,
-                             closingTransactionIDs: Seq[TransactionID],
-                             financing: AccountUnits,
-                             closeTime: DateTime,
-                             clientExtensions: Option[ClientExtensions],
-                             takeProfitOrderID: OrderID,
-                             stopLossOrderID: OrderID,
-                             trailingStopLossOrderID: OrderID
-                           )
+    case class TradeSummary(id: TradeID,
+                            instrument: InstrumentName,
+                            price: PriceValue,
+                            openTime: DateTime,
+                            state: TradeState,
+                            initialUnits: Double,
+                            currentUnits: Double,
+                            realizedPL: AccountUnits,
+                            unrealizedPL: AccountUnits,
+                            averageClosePrice: PriceValue,
+                            closingTransactionIDs: Seq[TransactionID],
+                            financing: AccountUnits,
+                            closeTime: DateTime,
+                            clientExtensions: Option[ClientExtensions],
+                            takeProfitOrderID: OrderID,
+                            stopLossOrderID: OrderID,
+                            trailingStopLossOrderID: OrderID)
 
     /**
       * The dynamic (calculated) state of an open Trade
@@ -3663,10 +3561,8 @@ object ApiModel {
       * @param id           The Trade’s ID.
       * @param unrealizedPL The Trade’s unrealized profit/loss.
       */
-    case class CalculatedTradeState(
-                                     id: TradeID,
-                                     unrealizedPL: AccountUnits
-                                   )
+    case class CalculatedTradeState(id: TradeID,
+                                    unrealizedPL: AccountUnits)
 
   }
 
@@ -3682,14 +3578,12 @@ object ApiModel {
       * @param long         The details of the long side of the Position.
       * @param short        The details of the short side of the Position.
       */
-    case class Position(
-                         instrument: InstrumentName,
-                         pl: AccountUnits,
-                         unrealizedPL: AccountUnits,
-                         resettablePL: AccountUnits,
-                         long: PositionSide,
-                         short: PositionSide
-                       )
+    case class Position(instrument: InstrumentName,
+                        pl: AccountUnits,
+                        unrealizedPL: AccountUnits,
+                        resettablePL: AccountUnits,
+                        long: PositionSide,
+                        short: PositionSide)
 
     /**
       * The representation of a Position for a single direction (long or short).
@@ -3701,14 +3595,12 @@ object ApiModel {
       * @param unrealizedPL The unrealized profit/loss of all open Trades that contribute to this PositionSide.
       * @param resettablePL Profit/loss realized by the PositionSide since the Account’s resettablePL was last reset by the client.
       */
-    case class PositionSide(
-                             units: Double,
-                             averagePrice: Option[PriceValue],
-                             tradeIDs: Seq[TradeID],
-                             pl: AccountUnits,
-                             unrealizedPL: AccountUnits,
-                             resettablePL: AccountUnits
-                           )
+    case class PositionSide(units: Double,
+                            averagePrice: Option[PriceValue],
+                            tradeIDs: Seq[TradeID],
+                            pl: AccountUnits,
+                            unrealizedPL: AccountUnits,
+                            resettablePL: AccountUnits)
 
     /**
       * The dynamic (calculated) state of a Position
@@ -3718,12 +3610,10 @@ object ApiModel {
       * @param longUnrealizedPL  The unrealized profit/loss of the Position’s long open Trades
       * @param shortUnrealizedPL The unrealized profit/loss of the Position’s short open Trades
       */
-    case class CalculatedPositionState(
-                                        instrument: InstrumentName,
-                                        netUnrealizedPL: AccountUnits,
-                                        longUnrealizedPL: AccountUnits,
-                                        shortUnrealizedPL: AccountUnits
-                                      )
+    case class CalculatedPositionState(instrument: InstrumentName,
+                                       netUnrealizedPL: AccountUnits,
+                                       longUnrealizedPL: AccountUnits,
+                                       shortUnrealizedPL: AccountUnits)
 
   }
 
@@ -3744,19 +3634,17 @@ object ApiModel {
       * @param quoteHomeConversionFactors The factors used to convert quantities of this price’s Instrument’s quote currency into a quantity of the Account’s home currency.<b>Deprecated</b>: Will be removed in a future API update.
       * @param unitsAvailable             Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.<b>Deprecated</b>: Will be removed in a future API update.
       */
-    case class Price(
-                      `type`: String = "PRICE",
-                      instrument: InstrumentName,
-                      time: DateTime,
-                      status: PriceStatus,
-                      tradeable: Boolean,
-                      bids: Seq[PriceBucket],
-                      asks: Seq[PriceBucket],
-                      closeoutBid: PriceValue,
-                      closeoutAsk: PriceValue,
-                      quoteHomeConversionFactors: Option[QuoteHomeConversionFactors],
-                      unitsAvailable: Option[UnitsAvailable]
-                    )
+    case class Price(`type`: String = "PRICE",
+                     instrument: InstrumentName,
+                     time: DateTime,
+                     status: PriceStatus,
+                     tradeable: Boolean,
+                     bids: Seq[PriceBucket],
+                     asks: Seq[PriceBucket],
+                     closeoutBid: PriceValue,
+                     closeoutAsk: PriceValue,
+                     quoteHomeConversionFactors: Option[QuoteHomeConversionFactors],
+                     unitsAvailable: Option[UnitsAvailable])
 
     /**
       * The string representation of a Price for an Instrument.
@@ -3772,10 +3660,8 @@ object ApiModel {
       * @param price     The Price offered by the PriceBucket
       * @param liquidity The amount of liquidity offered by the PriceBucket
       */
-    case class PriceBucket(
-                            price: PriceValue,
-                            liquidity: Int
-                          )
+    case class PriceBucket(price: PriceValue,
+                           liquidity: Int)
 
     /**
       * The status of the Price.
@@ -3799,10 +3685,8 @@ object ApiModel {
       * @param long  The units available for long Orders.
       * @param short The units available for short Orders.
       */
-    case class UnitsAvailableDetails(
-                                      long: Double,
-                                      short: Double
-                                    )
+    case class UnitsAvailableDetails(long: Double,
+                                     short: Double)
 
     /**
       * Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.
@@ -3812,12 +3696,10 @@ object ApiModel {
       * @param reduceOnly  The number of units that may are available to be traded with an Order with a positionFill option of "REDUCE_ONLY".
       * @param openOnly    The number of units that may are available to be traded with an Order with a positionFill option of "OPEN_ONLY".
       */
-    case class UnitsAvailable(
-                               default: UnitsAvailableDetails,
-                               reduceFirst: UnitsAvailableDetails,
-                               reduceOnly: UnitsAvailableDetails,
-                               openOnly: UnitsAvailableDetails
-                             )
+    case class UnitsAvailable(default: UnitsAvailableDetails,
+                              reduceFirst: UnitsAvailableDetails,
+                              reduceOnly: UnitsAvailableDetails,
+                              openOnly: UnitsAvailableDetails)
 
     /**
       * QuoteHomeConversionFactors represents the factors that can be used used to convert quantities of a Price’s Instrument’s quote currency into the Account’s home currency.
@@ -3825,10 +3707,8 @@ object ApiModel {
       * @param positiveUnits The factor used to convert a positive amount of the Price’s Instrument’s quote currency into a positive amount of the Account’s home currency. Conversion is performed by multiplying the quote units by the conversion factor.
       * @param negativeUnits The factor used to convert a negative amount of the Price’s Instrument’s quote currency into a negative amount of the Account’s home currency. Conversion is performed by multiplying the quote units by the conversion factor.
       */
-    case class QuoteHomeConversionFactors(
-                                           positiveUnits: Double,
-                                           negativeUnits: Double
-                                         )
+    case class QuoteHomeConversionFactors(positiveUnits: Double,
+                                          negativeUnits: Double)
 
     /**
       * A PricingHeartbeat object is injected into the Pricing stream to ensure that the HTTP connection remains active.
@@ -3836,10 +3716,8 @@ object ApiModel {
       * @param type The string "HEARTBEAT"
       * @param time The date/time when the Heartbeat was created.
       */
-    case class PricingHeartbeat(
-                                 `type`: String = "PRICING_HEARTBEAT",
-                                 time: DateTime
-                               )
+    case class PricingHeartbeat(`type`: String = "PRICING_HEARTBEAT",
+                                time: DateTime)
 
   }
 
@@ -3901,20 +3779,18 @@ object ApiModel {
       * @param maximumOrderUnits           The maximum units allowed for an Order placed for this instrument. Specified in units.
       * @param marginRate                  The margin rate for this instrument.
       */
-    case class Instrument(
-                           name: InstrumentName,
-                           `type`: InstrumentType,
-                           displayName: String,
-                           pipLocation: Int,
-                           displayPrecision: Int,
-                           tradeUnitsPrecision: Int,
-                           minimumTradeSize: Double,
-                           maximumTrailingStopDistance: Double,
-                           minimumTrailingStopDistance: Double,
-                           maximumPositionSize: Double,
-                           maximumOrderUnits: Double,
-                           marginRate: Double
-                         )
+    case class Instrument(name: InstrumentName,
+                          `type`: InstrumentType,
+                          displayName: String,
+                          pipLocation: Int,
+                          displayPrecision: Int,
+                          tradeUnitsPrecision: Int,
+                          minimumTradeSize: Double,
+                          maximumTrailingStopDistance: Double,
+                          minimumTrailingStopDistance: Double,
+                          maximumPositionSize: Double,
+                          maximumOrderUnits: Double,
+                          marginRate: Double)
 
     /**
       * A date and time value using either RFC3339 or UNIX time representation.
