@@ -27,16 +27,13 @@ private[api] object OrderApiImpl extends OrderApi with ApiCommons {
   def createOrder(accountId: AccountID, order: CreateOrderRequest): \/[Error, CreateOrderResponse] = {
     val jsonBody = write(order)
 
-    println(jsonBody)
-
     val url = s"$baseUrl/accounts/${accountId.value}/orders"
     val content = Request
       .Post(url)
       .addHeader("Authorization", token)
       .bodyString(jsonBody, ContentType.APPLICATION_JSON)
       .execute()
-      .returnContent()
-      .toString
+      .returnResponse()
 
     handleRequest[CreateOrderResponse](content)
   }
@@ -66,8 +63,7 @@ private[api] object OrderApiImpl extends OrderApi with ApiCommons {
       .Get(url)
       .addHeader("Authorization", token)
       .execute()
-      .returnContent()
-      .toString
+      .returnResponse()
 
     handleRequest[OrdersResponse](content)
   }
@@ -85,8 +81,7 @@ private[api] object OrderApiImpl extends OrderApi with ApiCommons {
       .Put(url)
       .addHeader("Authorization", token)
       .execute()
-      .returnContent()
-      .toString
+      .returnResponse()
 
     handleRequest[CancelOrderResponse](content)
   }

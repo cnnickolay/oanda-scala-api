@@ -1,14 +1,18 @@
 package org.nikosoft.oanda.api.impl
 
+import org.apache.http.HttpResponse
+import org.apache.http.client.HttpResponseException
 import org.apache.http.client.fluent.Request
+import org.apache.http.util.EntityUtils
 import org.nikosoft.oanda.api.ApiModel.InstrumentModel.CandlestickGranularity._
 import org.nikosoft.oanda.api.ApiModel.InstrumentModel.WeeklyAlignment._
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.{DateTime, InstrumentName}
-import org.nikosoft.oanda.api.Errors.Error
+import org.nikosoft.oanda.api.Errors.{ApiErrorResponse, Error}
 import org.nikosoft.oanda.api.`def`.InstrumentApi.CandlesResponse
 import org.nikosoft.oanda.api.ApiCommons
 import org.nikosoft.oanda.api.`def`.InstrumentApi
 
+import scala.util.Try
 import scalaz.\/
 
 /**
@@ -38,9 +42,9 @@ private[api] object InstrumentApiImpl extends InstrumentApi with ApiCommons {
               to: Option[DateTime],
               smooth: Boolean,
               includeFirst: Boolean,
-              dailyAlignment: Int,
-              alignmentTimezone: String,
-              weeklyAlignment: WeeklyAlignment): \/[Error, CandlesResponse] = {
+              dailyAlignment: Option[Int],
+              alignmentTimezone: Option[String],
+              weeklyAlignment: Option[WeeklyAlignment]): \/[Error, CandlesResponse] = handleRequest[CandlesResponse] {
 
     val params = Seq(
       Option(s"price=$price"),
@@ -50,19 +54,17 @@ private[api] object InstrumentApiImpl extends InstrumentApi with ApiCommons {
       to.map(s"to=" + _.value),
       Option(s"smooth=${if (smooth) "True" else "False"}"),
       Option(s"includeFirst=${if (includeFirst) "True" else "False"}"),
-      Option(s"dailyAlignment=$dailyAlignment"),
-      Option(s"alignmentTimezone=$alignmentTimezone"),
-      Option(s"weeklyAlignment=$weeklyAlignment")
+      dailyAlignment.map(s"dailyAlignment=" + _),
+      alignmentTimezone.map(s"alignmentTimezone=" + _),
+      weeklyAlignment.map(s"weeklyAlignment=" + _)
     ).flatten.mkString("&")
 
     val url = s"$baseUrl/instruments/${instrument.value}/candles?$params"
-    val content = Request
+    Request
       .Get(url)
       .addHeader("Authorization", token)
       .execute()
-      .returnContent()
-      .toString
-
-    handleRequest[CandlesResponse](content)
+      .returnResponse()
   }
+
 }

@@ -3,6 +3,12 @@ package org.nikosoft.oanda.api.impl
 import java.io.{BufferedReader, InputStreamReader}
 import java.util.concurrent.{BlockingQueue, LinkedBlockingQueue}
 
+import akka.NotUsed
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.HttpRequest
+import akka.http.scaladsl.model.headers.RawHeader
+import akka.stream.{ActorMaterializer, OverflowStrategy, SourceShape}
+import akka.stream.scaladsl.{GraphDSL, Sink, Source}
 import org.apache.http.HttpResponse
 import org.apache.http.client.fluent.Request
 import org.nikosoft.oanda.api.ApiCommons
@@ -14,7 +20,7 @@ import org.nikosoft.oanda.api.`def`.PricingApi
 import org.nikosoft.oanda.api.`def`.PricingApi.{PricingOrHeartbeat, PricingResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Future, Promise}
 import scalaz.Scalaz._
 import scalaz.{-\/, \/, \/-}
 
@@ -39,8 +45,7 @@ private[api] object PricingApiImpl extends PricingApi with ApiCommons {
       .Get(url)
       .addHeader("Authorization", token)
       .execute()
-      .returnContent()
-      .toString
+      .returnResponse()
 
     handleRequest[PricingResponse](content)
   }

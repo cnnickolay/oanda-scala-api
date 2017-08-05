@@ -9,7 +9,7 @@ public class Examples {
   public static void main(String[] args) {
     AccountsApi accountsApi = Api.accounts();
 //    scalaz.$bslash$div<Errors.Error, AccountsApi.AccountsResponse> accounts = accountsApi.accounts();
-    // scalaz does not help Java integration... :-/
+    // scalaz does not help Java integration ... :-/
   }
 
 }

@@ -46,14 +46,14 @@ trait InstrumentApi {
   def candles(instrument: InstrumentName,
               price: String = "M",
               granularity: CandlestickGranularity = S5,
-              count: Option[Int] = 500.some,
+              count: Option[Int] = None,
               from: Option[DateTime] = None,
               to: Option[DateTime] = None,
               smooth: Boolean = false,
               includeFirst: Boolean = true,
-              dailyAlignment: Int = 17,
-              alignmentTimezone: String = "America/New_York",
-              weeklyAlignment: WeeklyAlignment = Friday
+              dailyAlignment: Option[Int] = None,
+              alignmentTimezone: Option[String] = None,
+              weeklyAlignment: Option[WeeklyAlignment] = None
              ): \/[Error, CandlesResponse]
 
 }

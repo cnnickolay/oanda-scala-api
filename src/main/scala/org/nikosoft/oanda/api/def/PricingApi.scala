@@ -2,6 +2,9 @@ package org.nikosoft.oanda.api.`def`
 
 import java.util.concurrent.BlockingQueue
 
+import akka.NotUsed
+import akka.stream.ActorMaterializer
+import akka.stream.scaladsl.Source
 import org.nikosoft.oanda.api.ApiModel.AccountModel.AccountID
 import org.nikosoft.oanda.api.ApiModel.PricingModel.{Price, PricingHeartbeat}
 import org.nikosoft.oanda.api.ApiModel.PrimitivesModel.{DateTime, InstrumentName}

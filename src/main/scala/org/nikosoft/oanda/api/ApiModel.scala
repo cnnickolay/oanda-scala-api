@@ -1678,8 +1678,8 @@ object ApiModel {
       */
     case class StopLossDetails(price: PriceValue,
                                timeInForce: TimeInForce,
-                               gtdTime: Option[DateTime],
-                               clientExtensions: Option[ClientExtensions])
+                               gtdTime: Option[DateTime] = None,
+                               clientExtensions: Option[ClientExtensions] = None)
 
     /**
       * TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade’s dependent Trailing Stop Loss Order is modified directly through the Trade.
@@ -1691,8 +1691,8 @@ object ApiModel {
       */
     case class TrailingStopLossDetails(distance: PriceValue,
                                        timeInForce: TimeInForce,
-                                       gtdTime: Option[DateTime],
-                                       clientExtensions: Option[ClientExtensions])
+                                       gtdTime: Option[DateTime] = None,
+                                       clientExtensions: Option[ClientExtensions] = None)
 
     /**
       * A TradeOpen object represents a Trade for an instrument that was opened in an Account. It is found embedded in Transactions that affect the position of an instrument in the Account, specifically the OrderFill Transaction.
@@ -3640,7 +3640,7 @@ object ApiModel {
     case class Price(`type`: String = "PRICE",
                      instrument: InstrumentName,
                      time: DateTime,
-                     status: PriceStatus,
+                     status: Option[PriceStatus] = None,
                      tradeable: Boolean,
                      bids: Seq[PriceBucket],
                      asks: Seq[PriceBucket],

@@ -13,7 +13,7 @@ class ApiImplUnitTest extends FunSuite {
   test("parse account json") {
 
     val json =
-      """{"account":{"id":"001-004-1442547-003","createdTime":"2017-05-30T07:11:30.656911765Z","currency":"EUR","createdByUserID":1442547,"alias":"MT4","marginRate":"0.02","hedgingEnabled":false,"lastTransactionID":"87","balance":"77.0033","openTradeCount":1,"openPositionCount":1,"pendingOrderCount":2,"pl":"-0.9954","resettablePL":"-0.9954","financing":"-0.0013","commission":"0.0000",
+      """{"account":{"id":"001-004-XXXXXXX-003","createdTime":"2017-05-30T07:11:30.656911765Z","currency":"EUR","createdByUserID":1442547,"alias":"MT4","marginRate":"0.02","hedgingEnabled":false,"lastTransactionID":"87","balance":"77.0033","openTradeCount":1,"openPositionCount":1,"pendingOrderCount":2,"pl":"-0.9954","resettablePL":"-0.9954","financing":"-0.0013","commission":"0.0000",
         |"orders":[
         |   {"id":"85","createTime":"2017-06-15T09:08:02.732786641Z","type":"STOP_LOSS","tradeID":"82","clientTradeID":"72179822","price":"1.11000","timeInForce":"GTC","triggerCondition":"DEFAULT","state":"PENDING"},
         |   {"id":"87","createTime":"2017-06-15T09:13:56.368495444Z","replacesOrderID":"84","type":"TAKE_PROFIT","tradeID":"82","clientTradeID":"72179822","price":"1.11850","timeInForce":"GTC","triggerCondition":"DEFAULT","state":"PENDING"}
